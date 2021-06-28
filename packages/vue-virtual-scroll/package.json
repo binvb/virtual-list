@@ -1,0 +1,10 @@
+{
+  "name": "vue-virtual-scroll",
+  "version": "1.0.0",
+  "main": "index.vue",
+  "author": "vb",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^3.1.2"
+  }
+}
