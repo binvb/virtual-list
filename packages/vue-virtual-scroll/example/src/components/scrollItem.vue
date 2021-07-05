@@ -1,5 +1,8 @@
 <template>
-    <div></div>
+    <div>
+        <p>测试测试</p>
+        <slot></slot>
+    </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'

@@ -300,13 +300,13 @@ export interface Params {
 }
 
 
-export default function getMock(page: number = 1) {
+export default function getMock(page: number = 1): Promise<Params[]> {
     return new Promise((resolve, reject) => {
-        let data: Params[] = []
+        const data: Params[] = []
         const SIZE = 100
 
         for(let i = 0; i < SIZE; i++) {
-            let id = page * SIZE + i
+            const id = page * SIZE + i
             data.push({
                 id,
                 name: pickRandom(NICKNAME),
