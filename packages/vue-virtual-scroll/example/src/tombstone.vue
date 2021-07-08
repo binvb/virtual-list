@@ -1,12 +1,14 @@
 <template>
-<li class="chat-item" v-for="(item, index) in dataSource" :key="index" :data-id="index">
-    <img class="avatar" :src="item.avatar" />
-    <div class="bubble">
-        <p>{{item.content}}</p>
+<li class="chat-item tombstone" v-for="(item, index) in dataSource" :key="index" :data-id="index">
+      <img class="avatar" width="48" height="48" src="images/unknown.jpg">
+      <div class="bubble">
+        <p></p>
+        <p></p>
+        <p></p>
         <div class="meta">
-        <time class="posted-date">{{item.time}}</time>
+          <time class="posted-date"></time>
         </div>
-    </div>
+      </div>
 </li>
 </template>
 <script lang="ts">

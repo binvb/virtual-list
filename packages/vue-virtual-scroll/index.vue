@@ -1,14 +1,41 @@
 <template>
-    <div class="scroll-wrap">
-        <slot name="scrollItem"></slot>
-    </div>
+    <ul ref="scrollArea" class="scroll-wrap">
+        <component :is="ScrollItem" :dataSource="dataSource"></component>
+    </ul>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, onMounted, Component, PropType } from 'vue'
+import { debounce } from 'lodash'
+import { getScrollHeight } from './scroll'
 
 export default defineComponent({
-    setup() {
+    props: {
+        timing: {
+            type: Number,
+            default: 20,
+        },
+        ScrollItem: {
+            type: Object as PropType<Component>,
+            required: true
+        },
+        dataSource: {
+            type: Object as PropType<any[]>,
+            required: true
+        }
+    },
+    setup(props) {
+        const scrollArea = ref<HTMLElement | null>(null)
         
+        onMounted(() => {
+            scrollArea.value?.addEventListener('scroll', debounce(() => {
+                getScrollHeight(<HTMLElement>scrollArea.value)
+            }, 20))
+        })
+
+        return {
+            scrollArea,
+            ...props
+        }
     },
 })
 </script>

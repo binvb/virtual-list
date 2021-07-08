@@ -1,9 +1,5 @@
 <template>
-  <Scroll>
-    <template v-slot:scrollItem>
-      <ScrollItem :dataSource="dataSource" />
-    </template>
-  </Scroll>
+  <Scroll :renderTiming="20" :ScrollItem="ScrollItem" :dataSource="dataSource" />
 </template>
 
 <script lang="ts">
@@ -14,8 +10,7 @@ import { Message, getMessage} from './../mock'
 
 export default defineComponent({
     components: {
-      Scroll,
-      ScrollItem
+      Scroll
     },
     setup() {
         let dataSource = ref<Message[]>([])
@@ -23,7 +18,8 @@ export default defineComponent({
         dataSource.value = getMessage(20, true)
 
         return {
-          dataSource
+          dataSource,
+          ScrollItem
         }
     },
 })
