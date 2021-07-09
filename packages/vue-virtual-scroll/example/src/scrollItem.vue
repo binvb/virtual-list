@@ -1,13 +1,11 @@
 <template>
-<li class="chat-item" v-for="(item, index) in dataSource" :key="index" :data-id="index">
-    <img class="avatar" :src="item.avatar" />
+    <img class="avatar" :src="itemData?.avatar" />
     <div class="bubble">
-        <p>{{item.content}}</p>
+        <p>{{itemData?.content}}</p>
         <div class="meta">
-        <time class="posted-date">{{item.time}}</time>
+        <time class="posted-date">{{itemData?.time}}</time>
         </div>
     </div>
-</li>
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
@@ -15,10 +13,10 @@ import { Message } from './../mock'
 
 export default defineComponent({
     props: {
-        dataSource: Object as PropType<Message[]>
+        itemData: Object as PropType<Message>
     },
     setup() {
-        
+        // console.log(props, '看看那看')
     },
 })
 </script>

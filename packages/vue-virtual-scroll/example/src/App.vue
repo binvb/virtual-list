@@ -1,5 +1,5 @@
 <template>
-  <Scroll :renderTiming="20" :ScrollItem="ScrollItem" :dataSource="dataSource" />
+  <Scroll :renderTiming="20" :ScrollItem="ScrollItem" :dataSource="dataSource" :getData="getData"/>
 </template>
 
 <script lang="ts">
@@ -15,11 +15,16 @@ export default defineComponent({
     setup() {
         let dataSource = ref<Message[]>([])
 
-        dataSource.value = getMessage(20, true)
+        dataSource.value = getMessage(40, true)
+
+        function getData(size:number) {
+          return getMessage(size, true)
+        }
 
         return {
           dataSource,
-          ScrollItem
+          ScrollItem,
+          getData
         }
     },
 })
