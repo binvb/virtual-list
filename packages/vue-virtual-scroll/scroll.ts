@@ -16,7 +16,7 @@ export function getScrollItemIndex(dataSource: DataSource[], direction: 'up' | '
         let _distance = current.transformY - scrollTop
 
         if((direction === 'down' && _distance > 0) || (direction === 'up' && _distance < 0)) {
-            _index  = index -1
+            _index  = index - 1
             arr.splice(1)
         }
         return current
