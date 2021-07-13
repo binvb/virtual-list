@@ -1,11 +1,12 @@
 <template>
-  <Scroll :renderTiming="20" :ScrollItem="ScrollItem" :dataSource="dataSource" :getData="getData"/>
+  <Scroll :renderTiming="20" :ScrollItem="ScrollItem" :Tombstone="Tombstone" :dataSource="dataSource" :getData="getData"/>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import Scroll from './../../index.vue'
 import ScrollItem from './scrollItem.vue'
+import Tombstone from './tombstone.vue'
 import { Message, getMessage} from './../mock'
 
 export default defineComponent({
@@ -17,6 +18,7 @@ export default defineComponent({
 
         dataSource.value = getMessage(40, true)
 
+        // also need diretion, startIndex, etc.
         function getData(size:number) {
           return getMessage(size, true)
         }
@@ -24,6 +26,7 @@ export default defineComponent({
         return {
           dataSource,
           ScrollItem,
+          Tombstone,
           getData
         }
     },
