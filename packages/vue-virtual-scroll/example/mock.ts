@@ -42,6 +42,7 @@ export interface Message {
     time: Date;
     name: string;
     visible?: boolean;
+    index?: number;
 }
 /**
  * 

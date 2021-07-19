@@ -25,6 +25,4 @@ export function getScrollItemIndex(dataSource: DataSource[], direction: 'up' | '
     return _index
 }
 
-export function getCurrentScrollTopItem() {
 
-}

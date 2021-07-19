@@ -1,9 +1,11 @@
 <template>
-    <img class="avatar" :src="itemData?.avatar" />
-    <div class="bubble">
-        <p>{{itemData?.content}}</p>
-        <div class="meta">
-        <time class="posted-date">{{itemData?.time}}</time>
+    <div class="chat-item">
+        <img class="avatar" :src="itemData?.avatar" />
+        <div class="bubble">
+            <p>{{itemData?.content}}</p>
+            <div class="meta">
+                <time class="posted-date">{{itemData?.time}}</time>
+            </div>
         </div>
     </div>
 </template>
@@ -16,7 +18,6 @@ export default defineComponent({
         itemData: Object as PropType<Message>
     },
     setup() {
-        // console.log(props, '看看那看')
     },
 })
 </script>
