@@ -3,9 +3,7 @@
         <img class="avatar" width="48" height="48" src="images/unknown.jpg">
         <div class="bubble">
         <p></p>
-        <div class="meta">
-            <time class="posted-date"></time>
-        </div>
+        <p></p>
         </div>
     </div>
 </template>
@@ -21,3 +19,16 @@ export default defineComponent({
     }
 })
 </script>
+<style lang="less" scoped>
+.chat-item {
+    p {
+        width: 100%;
+        height: 10px;
+        margin: 6px 0;
+        background: #999;
+    }
+    p:nth-child(2) {
+        width: 60%;
+    }
+}
+</style>

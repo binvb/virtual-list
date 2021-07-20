@@ -27,3 +27,18 @@ export function addIndexProperty(data) {
 
     return _data
 }
+
+export function addTransformProperty(data, transformY, initDataNum) {
+    let _data = cloneDeep(data)
+
+    _data.map((element, index) => {
+        element.index = index
+        element.transformY = index * transformY
+        element.isTombstone = true
+        if(index < initDataNum) {
+            element.isVisible = true
+        }
+    })
+
+    return _data
+}

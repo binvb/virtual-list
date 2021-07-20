@@ -19,7 +19,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, onMounted, Component, PropType } from 'vue'
-import { debounce, cloneDeep, isEmpty } from 'lodash'
+import { debounce, cloneDeep } from 'lodash'
 import { getScrollHeight, getScrollItemIndex } from './scroll'
 import * as utils from './utils'
 
@@ -58,8 +58,8 @@ export default defineComponent({
         const beforeScrollTop  = ref<number>(0)
         const scrollDirection = ref<'up' | 'down'>('down')
 
-        // add index
-        itemData.value = utils.addIndexProperty(props.sourceData)
+        // init add index
+        itemData.value = props.sourceData
         function renderTomstoneItem(showItemNum: number=props.initDataNum, showItemIndex: number = 0, direction?: string) {
             let _data = cloneDeep(itemData.value)
             let originDistance = 0
@@ -94,6 +94,27 @@ export default defineComponent({
                 itemData.value = data
             })
         }
+
+        function renderTomstoneItem2(direction: string, distance: number) {
+            let _data = cloneDeep(itemData.value)
+            let _dataLength = _data.length
+            let _effectData = _data.filter(element => element.isVisible)
+            let _originIndex = _effectData[_effectData.length - 1].index
+            let _scrollItemNum = 0
+
+            distance += _effectData[_effectData.length - 1].transformY
+            // scroll down, calculate the last visible item 
+            for(let i = _originIndex; i < _dataLength; i++) {
+                if(_data[i].transformY > distance) {
+                    _scrollItemNum = i - _originIndex
+                    break
+                }
+            }
+            for(let i = _originIndex; i < _scrollItemNum + _originIndex; i++) {
+                _data[i].isVisible = true
+            }
+            console.log(distance, '滚动距离')
+        }
         async function renderItem(): Promise<any[]> {
             let _originData = cloneDeep(itemData.value)
             let _originDataLength = _originData.length
@@ -120,14 +141,16 @@ export default defineComponent({
         }
         onMounted(async () => {
             tombstoneOffsetHeight.value = <number>tombstoneTemplate.value?.offsetHeight
-            renderTomstoneItem()
+            itemData.value = utils.addTransformProperty(itemData.value, tombstoneOffsetHeight.value, props.initDataNum)
+            itemData.value = await renderItem()
+
             scrollArea.value?.addEventListener('scroll', debounce( async() => {
                 let _distance = 0
                 let _currentScrollTop = getScrollHeight(<HTMLElement>scrollArea.value)
-                let _currentIndex = 0
-                let _beforeIndex = 0
-                let _scrollItemNum = 0
-                let _effectData = []
+                // let _currentIndex = 0
+                // let _beforeIndex = 0
+                // let _scrollItemNum = 0
+                // let _effectData = []
 
                 _distance = _currentScrollTop - beforeScrollTop.value
                 if(_distance > 0) {
@@ -135,22 +158,26 @@ export default defineComponent({
                 } else {
                     scrollDirection.value = 'up'
                 }
-                _currentIndex = getScrollItemIndex(itemData.value, scrollDirection.value, _currentScrollTop)
-                _beforeIndex = getScrollItemIndex(itemData.value, scrollDirection.value, beforeScrollTop.value)
-                _scrollItemNum = Math.abs(_currentIndex - _beforeIndex)
-                console.log(_scrollItemNum, '滚动数量')
-                if(!_scrollItemNum) {
-                    return 
-                }
-                _effectData = itemData.value.filter(element => element.isVisible)
-                if(scrollDirection.value === 'down') {
-                    if(_effectData.length === props.sourceData.length) {
-                        return false
-                    }
-                    renderTomstoneItem(_scrollItemNum, _effectData[_effectData.length - 1].index + 1, scrollDirection.value)
-                } else {
-                    // renderTomstoneItem(_scrollItemNum, _effectData[0].index - 1, scrollDirection.value)
-                }
+                // _currentIndex = getScrollItemIndex(itemData.value, scrollDirection.value, _currentScrollTop)
+                // _beforeIndex = getScrollItemIndex(itemData.value, scrollDirection.value, beforeScrollTop.value)
+                // _scrollItemNum = Math.abs(_currentIndex - _beforeIndex)
+                // console.log(_scrollItemNum, '滚动数量')
+                // if(!_scrollItemNum) {
+                //     return 
+                // }
+                // _effectData = itemData.value.filter(element => element.isVisible)
+                // if(scrollDirection.value === 'down') {
+                //     if(_effectData.length === props.sourceData.length) {
+                //         return false
+                //     }
+                //     renderTomstoneItem(_scrollItemNum, _effectData[_effectData.length - 1].index + 1, scrollDirection.value)
+                // } else {
+                //     renderTomstoneItem(_scrollItemNum, _effectData[0].index - 1, scrollDirection.value)
+                // }
+
+                // according to scrollTop calculate scrollitem
+                renderTomstoneItem2(scrollDirection.value, _distance)
+
                 beforeScrollTop.value = _currentScrollTop
             }, 30))
         })
