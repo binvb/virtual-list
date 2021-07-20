@@ -41,7 +41,7 @@ export interface Message {
     avatar: string;
     time: Date;
     name: string;
-    visible?: boolean;
+    isVisible?: boolean;
     index?: number;
 }
 /**
@@ -50,7 +50,7 @@ export interface Message {
  * @param visible 是否可见，透传字段
  * @returns 
  */
-export function getMessage(size: number = 1, visible: boolean):Message[] {
+export function getMessage(size: number = 1):Message[] {
     const msgList = []
 
     for(let i = 0; i < size; i++) {
@@ -59,8 +59,7 @@ export function getMessage(size: number = 1, visible: boolean):Message[] {
                 content: MESSAGES[utils.getRandom(0, MESSAGES.length)],
                 avatar: `./images/avatar${utils.getRandom(0, 3)}.jpg`,
                 time: new Date(),
-                name: NAME[utils.getRandom(0, NAME.length)],
-                visible
+                name: NAME[utils.getRandom(0, NAME.length)]
             }
         )
     }

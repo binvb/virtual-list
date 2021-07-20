@@ -1,9 +1,11 @@
 <template>
     <ul ref="scrollArea" class="scroll-wrap">
-        <li v-for="item in currentData" :key="item.index" :data-scrollId="item.index" :style="{position: 'absolute', transform: `translateY(${item.transformY || 0}px)`}">
-            <component v-if="item.isTombstone" :is="Tombstone" :itemData="item" :key="item.index"></component>
-            <component v-else :is="ScrollItem" :itemData="item" :key="item.index"></component>
-        </li>
+        <template v-for="item in itemData" :key="item.index">
+            <li :data-scrollId="item.index" v-if="item.isVisible" :style="{position: 'absolute', transform: `translateY(${item.transformY || 0}px)`}">
+                <component v-if="item.isTombstone && item.isVisible" :is="Tombstone" :itemData="item" :key="item.index"></component>
+                <component v-if="!item.isTombstone && item.isVisible" :is="ScrollItem" :itemData="item" :key="item.index"></component>
+            </li>
+        </template>
     </ul>
     <!-- 用于渲染进行高度计算，无需显示 -->
     <ul style="visibility: hidden;position:absolute;transform: translateY(100px)">
@@ -24,9 +26,9 @@ import * as utils from './utils'
 export default defineComponent({
     inheritAttrs: false,
     props: {
-        timing: {
+        initDataNum: {
             type: Number,
-            default: 20,
+            default: 50,
         },
         ScrollItem: {
             type: Object as PropType<Component>,
@@ -36,7 +38,7 @@ export default defineComponent({
             type: Object as PropType<Component>,
             required: true
         },
-        dataSource: {
+        sourceData: {
             type: Object as PropType<any[]>,
             required: true
         },
@@ -49,40 +51,53 @@ export default defineComponent({
         const scrollArea = ref<HTMLElement | null>(null)
         const itemTemplate = ref<HTMLElement | null>(null)
         const tombstoneTemplate = ref<HTMLElement | null>(null)
+        const itemData = ref<any[]>([])
         const tombstoneOffsetHeight = ref<number>(0)
         const templateClass = ref<string>('invisible')
         const templateData = ref<{}>({})
-        const currentData = ref<any[]>([])
         const beforeScrollTop  = ref<number>(0)
         const scrollDirection = ref<'up' | 'down'>('down')
 
-        function getTomstoneItem(source: any[], originData: any={}, direction: string='down') {
-            let _source = cloneDeep(source)
-            let _length = _source.length
-            let originIndex = 0
+        // add index
+        itemData.value = utils.addIndexProperty(props.sourceData)
+        function renderTomstoneItem(showItemNum: number=props.initDataNum, showItemIndex: number = 0, direction?: string) {
+            let _data = cloneDeep(itemData.value)
             let originDistance = 0
+            let countLength = showItemIndex + showItemNum
 
-            for(let i = 0; i < _length; i++) {
-                if(!isEmpty(originData) && i === 0) {
-                    originDistance = originData.transformY
-                }
-                originIndex = ((originData.index || -1) + 1) + i
-                originDistance += tombstoneOffsetHeight.value
-                if(originIndex === 0) {
-                    originDistance = 0
-                }
-                _source[i].index = originIndex
-                _source[i].transformY = originDistance
-                _source[i].isTombstone = true
+            // done
+            if(countLength > _data.length) {
+                countLength = _data.length
             }
-
-            return _source
+            for(let i = showItemIndex; i < countLength; i++) {
+                // originIndex = ((originData.index || -1) + 1) + i
+                if(showItemIndex === 0 && i === 0) {
+                    _data[i].transformY = 0
+                } else {
+                    originDistance = _data[i-1].transformY
+                    originDistance += tombstoneOffsetHeight.value
+                    _data[i].transformY = originDistance
+                }
+                _data[i].isTombstone = true
+                _data[i].isVisible = true
+                console.log(direction, '看看方向')
+                // if(direction === 'down') {
+                //     _data[i - 20].isVisible = false
+                // }
+                // if(direction === 'up') {
+                //     _data[i + 20].isVisible = false
+                // }
+            }
+            itemData.value = _data
+            renderItem()
+            .then(data => {
+                itemData.value = data
+            })
         }
-        async function render(renderSource: any[]): Promise<any[]> {
-            let _originData = cloneDeep(renderSource)
+        async function renderItem(): Promise<any[]> {
+            let _originData = cloneDeep(itemData.value)
             let _originDataLength = _originData.length
 
-            currentData.value = renderSource
             for(let i = 0; i < _originDataLength; i++) {
                 if(_originData[i].isTombstone) {
                     templateData.value = _originData[i]
@@ -94,8 +109,6 @@ export default defineComponent({
                     } else {
                         _originData[i].transformY = _originData[i-1].offsetHeight + _originData[i - 1].transformY
                     }
-                } else {
-                    break
                 }
             }
 
@@ -107,64 +120,49 @@ export default defineComponent({
         }
         onMounted(async () => {
             tombstoneOffsetHeight.value = <number>tombstoneTemplate.value?.offsetHeight
-            // init data
-            currentData.value = await render(getTomstoneItem(props.dataSource))
+            renderTomstoneItem()
             scrollArea.value?.addEventListener('scroll', debounce( async() => {
                 let _distance = 0
                 let _currentScrollTop = getScrollHeight(<HTMLElement>scrollArea.value)
                 let _currentIndex = 0
                 let _beforeIndex = 0
                 let _scrollItemNum = 0
-                let _newData: any[] = []
+                let _effectData = []
 
                 _distance = _currentScrollTop - beforeScrollTop.value
-                if(_distance) {
+                if(_distance > 0) {
                     scrollDirection.value = 'down'
                 } else {
                     scrollDirection.value = 'up'
                 }
-                _currentIndex = getScrollItemIndex(currentData.value, scrollDirection.value, _currentScrollTop)
-                _beforeIndex = getScrollItemIndex(currentData.value, scrollDirection.value, beforeScrollTop.value)
+                _currentIndex = getScrollItemIndex(itemData.value, scrollDirection.value, _currentScrollTop)
+                _beforeIndex = getScrollItemIndex(itemData.value, scrollDirection.value, beforeScrollTop.value)
                 _scrollItemNum = Math.abs(_currentIndex - _beforeIndex)
+                console.log(_scrollItemNum, '滚动数量')
                 if(!_scrollItemNum) {
                     return 
                 }
+                _effectData = itemData.value.filter(element => element.isVisible)
                 if(scrollDirection.value === 'down') {
-                    await render(getTomstoneItem(props.dataSource))
-                    currentData.value.push(getTomstoneItem(props.getData(_scrollItemNum)))
-                    // getTomstoneItem(_newData, currentData.value[currentData.value.length - 1], 'down')
-                    // .then(data => {
-                    //     currentData.value.splice(0, _scrollItemNum)
-                    //     currentData.value = [...currentData.value, ...data]
-                    // })
-                    // .then(() => {
-                    //     setTimeout(() => {
-                    //         currentData.value.splice(currentData.value.length - _scrollItemNum, currentData.value.length)
-                    //         getScrollItemHeight(_newData, currentData.value[currentData.value.length - 1], 'down', 'scrollitem')
-                    //         .then(_itemData => {
-                    //             currentData.value = [...currentData.value, ..._itemData]
-                    //         })
-                    //     }, 1000)
-                    // })
+                    if(_effectData.length === props.sourceData.length) {
+                        return false
+                    }
+                    renderTomstoneItem(_scrollItemNum, _effectData[_effectData.length - 1].index + 1, scrollDirection.value)
                 } else {
-                    // getScrollItemHeight(_newData, currentData.value[0])
-                    // .then(data => {
-                    //     currentData.value.splice(0, 0, data)
-                    //     currentData.value.splice(currentData.value.length - _scrollItemNum, _scrollItemNum)
-                    // })
+                    // renderTomstoneItem(_scrollItemNum, _effectData[0].index - 1, scrollDirection.value)
                 }
                 beforeScrollTop.value = _currentScrollTop
             }, 30))
         })
 
         return {
+            itemData,
             tombstoneTemplate,
             templateData,
             templateClass,
             itemTemplate,
             scrollArea,
             ...props,
-            currentData,
         }
     },
 })
@@ -182,6 +180,9 @@ export default defineComponent({
   box-sizing: border-box;
   contain: layout;
   will-change: transform;
+}
+.scroll-wrap li {
+    transition: transform .2s ease-in-out;
 }
 .invisible {
     display: none;

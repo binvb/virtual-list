@@ -12,6 +12,9 @@ export function getScrollItemIndex(dataSource: DataSource[], direction: 'up' | '
     let _data = cloneDeep(dataSource)
     let _index: number = 0
 
+    if(direction === 'up') {
+        _data.reverse()
+    }
     _data.reduce((pre, current, index, arr) => {
         let _distance = current.transformY - scrollTop
 

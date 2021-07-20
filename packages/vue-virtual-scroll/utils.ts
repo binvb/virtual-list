@@ -17,3 +17,13 @@ export async function sleep(period:number): Promise<void> {
         }, period)
     })
 }
+
+export function addIndexProperty(data) {
+    let _data = cloneDeep(data)
+
+    _data.map((element, index) => {
+        element.index = index
+    })
+
+    return _data
+}

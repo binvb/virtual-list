@@ -1,5 +1,5 @@
 <template>
-  <Scroll :renderTiming="20" :ScrollItem="ScrollItem" :Tombstone="Tombstone" :dataSource="dataSource" :getData="getData"/>
+  <Scroll :initDataNum="50" :ScrollItem="ScrollItem" :Tombstone="Tombstone" :sourceData="sourceData" :getData="getData"/>
 </template>
 
 <script lang="ts">
@@ -14,17 +14,17 @@ export default defineComponent({
       Scroll
     },
     setup() {
-        let dataSource = ref<Message[]>([])
+        let sourceData = ref<Message[]>([])
 
-        dataSource.value = getMessage(40, true)
+        sourceData.value = getMessage(2000)
 
         // also need diretion, startIndex, etc.
         function getData(size:number) {
-          return getMessage(size, true)
+          return getMessage(size)
         }
 
         return {
-          dataSource,
+          sourceData,
           ScrollItem,
           Tombstone,
           getData
