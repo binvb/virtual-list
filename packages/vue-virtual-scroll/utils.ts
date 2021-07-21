@@ -18,22 +18,13 @@ export async function sleep(period:number): Promise<void> {
     })
 }
 
-export function addIndexProperty(data) {
-    let _data = cloneDeep(data)
-
-    _data.map((element, index) => {
-        element.index = index
-    })
-
-    return _data
-}
-
-export function addTransformProperty(data, transformY, initDataNum) {
+export function addTransformProperty(data, transformY, offsetHeight, initDataNum) {
     let _data = cloneDeep(data)
 
     _data.map((element, index) => {
         element.index = index
         element.transformY = index * transformY
+        element.offsetHeight = offsetHeight
         element.isTombstone = true
         if(index < initDataNum) {
             element.isVisible = true
@@ -41,4 +32,10 @@ export function addTransformProperty(data, transformY, initDataNum) {
     })
 
     return _data
+}
+
+export function replaceArrayFragment(data: any[], replaceData: any[], startIndex: number, endIndex: number) {
+    for(let i = startIndex; i < endIndex + 1; i++) {
+        data[i] = replaceData[i]
+    }
 }
