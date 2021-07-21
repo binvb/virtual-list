@@ -1,7 +1,7 @@
 <template>
     <ul ref="scrollArea" class="scroll-wrap">
         <template v-for="item in currentData" :key="item.index">
-            <li :data-scrollId="item.index" :data-offsetHeight="item.offsetHeight" :style="{position: 'absolute', transform: `translateY(${item.transformY || 0}px)`}">
+            <li :data-scrollId="item.index" :style="{position: 'absolute', transform: `translateY(${item.transformY || 0}px)`}">
                 <component v-if="item.isTombstone" :is="Tombstone" :itemData="item" :key="item.index"></component>
                 <component v-if="!item.isTombstone" :is="ScrollItem" :itemData="item" :key="item.index"></component>
             </li>
@@ -86,12 +86,11 @@ export default defineComponent({
                     }
                 }
                 itemData.value = _data
-                addQueue(new Promise(async (resolve, reject) => {
+                addQueue(async() => {
                     let data = await renderItem(_data[_originIndex + 1].index, _data[_originIndex + scrollItemNum].index)
-
+                    console.log(_data[_originIndex + 1].index, _data[_originIndex + scrollItemNum].index, '看参数')
                     utils.replaceArrayFragment(itemData.value, data, _data[_originIndex + 1].index, _data[_originIndex + scrollItemNum].index)
-                    resolve()
-                }))
+                })
             }
             if(direction === 'up') {
                 _originIndex = _effectData[0].index
@@ -127,7 +126,7 @@ export default defineComponent({
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve(_originData)
-                }, 200)
+                }, 20)
             })
         }
         watchEffect(() => {
@@ -154,6 +153,7 @@ export default defineComponent({
                     scrollDirection.value = 'down'
                     _currentTransformY = _distance + _effectData[_effectData.length - 1].transformY
                 } else {
+                    console.log(11111111)
                     scrollDirection.value = 'up'
                     _currentTransformY = _distance + _effectData[0].transformY
                 }
@@ -167,6 +167,8 @@ export default defineComponent({
                 if(!_scrollItemNum) {
                     return false
                 }
+                console.log(_currentTransformY, '看看y值')
+                console.log(_currentScrollTop, '看看当前滚动高度')
                 beforeScrollTop.value = _currentScrollTop
                 renderTomstoneItem(scrollDirection.value, _scrollItemNum)
             }, 30))
@@ -187,6 +189,7 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .scroll-wrap {
+  position: absolute;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -194,10 +197,6 @@ export default defineComponent({
   -webkit-overflow-scrolling: touch;
   width: 100%;
   height: 100%;
-  position: absolute;
-  box-sizing: border-box;
-  contain: layout;
-  will-change: transform;
 }
 .scroll-wrap li {
     transition: transform .2s ease-in-out;

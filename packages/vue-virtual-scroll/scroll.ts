@@ -9,6 +9,7 @@ export function getScrollHeight(el: HTMLElement):number {
 
 
 export function getScrollItemIndex(dataSource: DataSource[], direction: string = 'down', transformY:number):number {
+    // dataSource may change by last or last... render #TODO
     let _data = cloneDeep(dataSource)
     let _dataLength = _data.length
     let _index: number = 0

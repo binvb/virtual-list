@@ -1,7 +1,7 @@
-const EventQueue: Promise<void>[] = []
+const EventQueue: Function[] = []
 let pending: boolean = false
 
-function addQueue(event: Promise<void>) {
+function addQueue(event: Function) {
     EventQueue.push(event)
     if(!pending) {
         executionQueue(event)
@@ -10,7 +10,7 @@ function addQueue(event: Promise<void>) {
 
 async function executionQueue(event) {
     pending = true
-    await event
+    await event()
     EventQueue.shift()
     pending = false
     if(EventQueue.length) {
