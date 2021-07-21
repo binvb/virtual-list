@@ -69,7 +69,7 @@ export default defineComponent({
             let _effectDataLength = _effectData.length
             let _originIndex = 0
             let limit = 2 * props.initDataNum
-
+            console.log(new Date().getTime(), '开始渲染tomstone')
             // scroll down, calculate the last visible item 
             _effectDataLength = _effectDataLength + scrollItemNum
             if(direction === 'down') {
@@ -86,9 +86,11 @@ export default defineComponent({
                     }
                 }
                 itemData.value = _data
+                console.log(new Date().getTime(), 'tomstone渲染完毕')
                 addQueue(async() => {
+                    console.log(new Date().getTime(), '进入队列')
                     let data = await renderItem(_data[_originIndex + 1].index, _data[_originIndex + scrollItemNum].index)
-                    console.log(_data[_originIndex + 1].index, _data[_originIndex + scrollItemNum].index, '看参数')
+                    console.log(new Date().getTime(), '开始渲染scrollitem')
                     utils.replaceArrayFragment(itemData.value, data, _data[_originIndex + 1].index, _data[_originIndex + scrollItemNum].index)
                 })
             }
@@ -109,7 +111,7 @@ export default defineComponent({
         }
         async function renderItem(startIndex: number, endIndex: number): Promise<any[]> {
             let _originData = cloneDeep(itemData.value)
-
+            console.log(new Date().getTime(), '开始获取scrollitem')
             for(let i = startIndex; i < endIndex + 1; i++) {
                 if(_originData[i].isTombstone) {
                     templateData.value = _originData[i]
@@ -123,6 +125,7 @@ export default defineComponent({
                     }
                 }
             }
+            console.log(new Date().getTime(), '获取scrollitem完毕')
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve(_originData)
@@ -147,17 +150,18 @@ export default defineComponent({
                 let _currentTransformY
                 let _effectData = itemData.value.filter(element => element.isVisible)
                 let _scrollItemNum
-
+                console.log(new Date().getTime(), '开始滚动')
                 _distance = _currentScrollTop - beforeScrollTop.value
                 if(_distance > 0) {
                     scrollDirection.value = 'down'
                     _currentTransformY = _distance + _effectData[_effectData.length - 1].transformY
                 } else {
-                    console.log(11111111)
                     scrollDirection.value = 'up'
                     _currentTransformY = _distance + _effectData[0].transformY
                 }
+                console.log(new Date().getTime(), '性能1')
                 _currentItemIndex = getScrollItemIndex(itemData.value, scrollDirection.value, _currentTransformY)
+                console.log(new Date().getTime(), '性能2')
                 if(scrollDirection.value === 'down') {
                     _scrollItemNum = _currentItemIndex - _effectData[_effectData.length - 1].index
                 } else {
@@ -167,8 +171,7 @@ export default defineComponent({
                 if(!_scrollItemNum) {
                     return false
                 }
-                console.log(_currentTransformY, '看看y值')
-                console.log(_currentScrollTop, '看看当前滚动高度')
+                console.log(new Date().getTime(), '开始进入渲染')
                 beforeScrollTop.value = _currentScrollTop
                 renderTomstoneItem(scrollDirection.value, _scrollItemNum)
             }, 30))

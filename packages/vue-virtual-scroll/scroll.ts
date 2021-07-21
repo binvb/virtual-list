@@ -14,6 +14,7 @@ export function getScrollItemIndex(dataSource: DataSource[], direction: string =
     let _dataLength = _data.length
     let _index: number = 0
 
+    // distinguish up & down do more performance #TODO
     for(let i = 0; i < _dataLength; i++) {
         if(direction === 'up') {
             if(_data[i].transformY < transformY && _data[i+1].transformY > transformY) {
