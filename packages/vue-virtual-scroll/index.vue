@@ -75,7 +75,11 @@ export default defineComponent({
             if(direction === 'down') {
                 _originIndex = _effectData[_effectData.length - 1].index
                 for(let i = 0; i < scrollItemNum; i++) {
-                    _item = Object.assign(itemData.value[_originIndex + 1 + i], {isVisible: true, transformY: itemData.value[_originIndex + i].transformY + tombstoneOffsetHeight.value, isTombstone: itemData.value[_originIndex + 1 + i].isTombstone === false ? false : true})
+                    _item = Object.assign(itemData.value[_originIndex + 1 + i], {
+                        isVisible: true, 
+                        transformY: itemData.value[_originIndex + i].transformY + itemData.value[_originIndex + i].offsetHeight, 
+                        isTombstone: itemData.value[_originIndex + 1 + i].isTombstone === false ? false : true
+                    })
                     itemData.value.splice(_originIndex + 1 + i, 1, _item)
                 }
                 addQueue(() => {
@@ -168,7 +172,7 @@ export default defineComponent({
                 }
                 beforeScrollTop.value = _currentScrollTop
                 renderTomstoneItem(scrollDirection.value, _scrollItemNum)
-            }, 30))
+            }, 20))
         })
 
         return {
