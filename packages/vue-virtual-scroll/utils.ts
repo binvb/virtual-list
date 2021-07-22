@@ -1,5 +1,10 @@
 import { cloneDeep } from 'lodash'
 
+interface DataSource {
+    [key: string]: any;
+    transformY: number;
+}
+
 export function addTombStoneProperty(items: any[], offsetHeight: any) {
     let _result = cloneDeep(items)
 
@@ -18,7 +23,7 @@ export async function sleep(period:number): Promise<void> {
     })
 }
 
-export function addTransformProperty(data, transformY, offsetHeight, initDataNum) {
+export function addTransformProperty(data:DataSource[], transformY: number, offsetHeight: number, initDataNum: number) {
     let _data = cloneDeep(data)
 
     _data.map((element, index) => {

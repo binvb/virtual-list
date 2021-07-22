@@ -8,7 +8,7 @@ function addQueue(event: Function) {
     }
 }
 
-async function executionQueue(event) {
+async function executionQueue(event: Function) {
     pending = true
     await event()
     EventQueue.shift()
