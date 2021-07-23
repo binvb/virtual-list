@@ -144,7 +144,7 @@ export default defineComponent({
             itemData.value = utils.addTransformProperty(itemData.value, tombstoneOffsetHeight.value, tombstoneOffsetHeight.value, props.initDataNum)
             renderItem(0, props.initDataNum - 1)
 
-            scrollArea.value?.addEventListener('scroll', () => {
+            scrollArea.value?.addEventListener('scroll', debounce(() => {
                 let _distance = 0
                 let _currentScrollTop = getScrollHeight(<HTMLElement>scrollArea.value)
                 let _currentTransformY
@@ -170,7 +170,7 @@ export default defineComponent({
                 }
                 beforeScrollTop.value = _currentScrollTop
                 renderTomstoneItem(scrollDirection.value, _scrollItemNum)
-            })
+            }, 20))
         })
 
         return {

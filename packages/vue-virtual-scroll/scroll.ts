@@ -34,8 +34,6 @@ export function getScrollItemIndex(dataSource: DataSource[], direction: string =
 }
 
 export function getCurrentTopItemIndex(dataSource: DataSource[], scrollTop: number):number {
-    // 这里有问题，dataSource是在不断改变的
-    // let _data = cloneDeep(dataSource)
     let _dataLength = dataSource.length
     let _index: number = 0
 
