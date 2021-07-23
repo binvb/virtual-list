@@ -16,7 +16,7 @@ export default defineComponent({
     setup() {
         let sourceData = ref<Message[]>([])
 
-        sourceData.value = getMessage(20000)
+        sourceData.value = getMessage(1000)
 
         // also need diretion, startIndex, etc.
         function getData(size:number) {

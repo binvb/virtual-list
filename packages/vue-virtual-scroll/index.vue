@@ -119,13 +119,14 @@ export default defineComponent({
             _currentItemIndex = getCurrentTopItemIndex(itemData.value, getScrollHeight(<HTMLElement>scrollArea.value))
             _beforCurrentData = currentData.value.filter(element => element.index < _currentItemIndex)
             _afterCurrentData = currentData.value.filter(element => element.index >= _currentItemIndex)
-            if(_beforCurrentData.length > _limitNum && scrollDirection.value === 'down') {
+            console.log(_currentItemIndex, scrollDirection.value, getScrollHeight(<HTMLElement>scrollArea.value), '看下currentIndex')
+            if(_beforCurrentData.length > _limitNum) {
                 for(let i = 0; i < _beforCurrentData.length - _limitNum; i++) {
                     _item = Object.assign(itemData.value[currentData.value[i].index], {isVisible: false})
                     itemData.value.splice(currentData.value[i].index, 1, _item)
                 }
             }
-            if(_afterCurrentData.length > _limitNum &&  scrollDirection.value === 'up') {
+            if(_afterCurrentData.length > _limitNum) {
                 for(let i = 0; i < _afterCurrentData.length - _limitNum; i++) {
                     _item = Object.assign(itemData.value[currentData.value[currentData.value.length - 1 - i].index], {isVisible: false})
                     itemData.value.splice(currentData.value[currentData.value.length - 1 - i].index, 1, _item)
