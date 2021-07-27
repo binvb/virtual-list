@@ -1,5 +1,5 @@
 <template>
-  <Scroll :initDataNum="20" :ScrollItem="ScrollItem" :Tombstone="Tombstone" :sourceData="sourceData" :getData="getData"/>
+  <Scroll :initDataNum="initDataNum" :ScrollItem="ScrollItem" :Tombstone="Tombstone" :sourceData="sourceData" :getData="getData"/>
 </template>
 
 <script lang="ts">
@@ -13,17 +13,23 @@ export default defineComponent({
     components: {
       Scroll
     },
-    setup() {
+    props: {
+        initDataNum: {
+            type: Number,
+            default: 20,
+        },
+    },
+    setup(props) {
         let sourceData = ref<Message[]>([])
 
-        sourceData.value = getMessage(1000)
-
+        sourceData.value = getMessage(200)
         // also need diretion, startIndex, etc.
         function getData(size:number) {
           return getMessage(size)
         }
 
         return {
+          ...props,
           sourceData,
           ScrollItem,
           Tombstone,

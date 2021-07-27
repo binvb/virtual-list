@@ -1,5 +1,5 @@
 <template>
-    <ul ref="scrollArea" class="scroll-wrap">
+    <ul ref="scrollArea" class="scroll-wrap" data-testid="scroll-wrap">
         <template v-for="item in currentData" :key="item.index">
             <li :data-scrollId="item.index" :style="{position: 'absolute', transform: `translateY(${item.transformY || 0}px)`}">
                 <component v-if="item.isTombstone" :is="Tombstone" :itemData="item" :key="item.index"></component>
