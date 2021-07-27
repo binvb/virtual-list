@@ -1,5 +1,5 @@
 <template>
-    <ul ref="scrollArea" class="scroll-wrap" data-testid="scroll-wrap">
+    <ul ref="scrollArea" class="scroll-wrapper" data-testid="scroll-wrapper">
         <template v-for="item in currentData" :key="item.index">
             <li :data-scrollId="item.index" :style="{position: 'absolute', transform: `translateY(${item.transformY || 0}px)`}">
                 <component v-if="item.isTombstone" :is="Tombstone" :itemData="item" :key="item.index"></component>
@@ -163,8 +163,7 @@ export default defineComponent({
                 } else {
                     _scrollItemNum = currentData.value[0].index - currentItemIndex.value
                 }
-                if(_scrollItemNum <= 0) {
-                    beforeScrollTop.value = _currentScrollTop
+                if(_scrollItemNum < 1) {
                     return false
                 }
                 beforeScrollTop.value = _currentScrollTop
@@ -186,7 +185,7 @@ export default defineComponent({
 })
 </script>
 <style lang="less" scoped>
-.scroll-wrap {
+.scroll-wrapper {
   position: absolute;
   margin: 0;
   padding: 0;
@@ -196,7 +195,7 @@ export default defineComponent({
   width: 100%;
   height: 100%;
 }
-.scroll-wrap li {
+.scroll-wrapper li {
     transition: transform .2s ease-in-out;
 }
 .invisible {
