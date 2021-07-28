@@ -5,18 +5,26 @@ interface DataSource {
 export function getScrollHeight(el: HTMLElement):number {
     return el.scrollTop
 }
-
+export function getOffsetHeight(el: HTMLElement):number {
+    return el.offsetHeight
+}
 
 export function getScrollItemIndex(dataSource: DataSource[], direction: string = 'down', transformY:number, startIndex: number):number {
     // dataSource may change by last or last... render #TODO
     let _dataLength = dataSource.length
     let _index: number = 0
-
+    if(startIndex >= _dataLength) {
+        startIndex = _dataLength - 1
+    }
     if(direction === 'down') {
         for(let i = startIndex; i < _dataLength; i++) {
-            if(dataSource[i].transformY < transformY && dataSource[i+1].transformY > transformY) {
-                _index = i
-                break
+            try {
+                if(dataSource[i].transformY < transformY && (dataSource[i+1] ? dataSource[i+1].transformY > transformY : true)) {
+                    _index = i
+                    break
+                }
+            } catch(err) {
+                console.log(i, dataSource[i], '出错的i是多少')
             }
         }       
     }

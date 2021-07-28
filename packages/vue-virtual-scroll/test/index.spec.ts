@@ -22,7 +22,7 @@ beforeEach(async () => {
 describe('🎏 scroll component init data', () => {
     it('init data render', async function () {
         document.body.innerHTML = ''
-        _mount(App, {
+        const wrapper = _mount(App, {
             props: {
                 initDataNum: 18
             }
@@ -31,7 +31,6 @@ describe('🎏 scroll component init data', () => {
         expect(document.querySelectorAll('ul[data-testid="scroll-wrapper"] li')).toHaveLength(18)
     })
 })
-
 describe('🎏 scroll component init property', () => {
     let _preItemStyleTransform = 0
 

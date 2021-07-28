@@ -14,9 +14,7 @@ export async function sleep(period:number): Promise<void> {
 }
 
 export function addTransformProperty(data:DataSource[], transformY: number, offsetHeight: number, initDataNum: number) {
-    let _data = cloneDeep(data)
-
-    _data.map((element, index) => {
+    data.map((element, index) => {
         element.index = index
         element.transformY = index * transformY
         element.offsetHeight = offsetHeight
@@ -25,8 +23,6 @@ export function addTransformProperty(data:DataSource[], transformY: number, offs
             element.isVisible = true
         }
     })
-
-    return _data
 }
 
 export function replaceArrayFragment(data: any[], replaceData: any[], startIndex: number, endIndex: number) {

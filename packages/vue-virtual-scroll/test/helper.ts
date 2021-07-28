@@ -5,3 +5,10 @@ export function sleep(period):Promise<void> {
         }, period)
     })
 }
+
+export function setElProperty(El, type, value) {
+    Object.defineProperty(<HTMLElement>El, type, {
+        configurable: true,
+        value: value,
+    })
+}

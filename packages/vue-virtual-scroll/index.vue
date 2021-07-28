@@ -12,15 +12,15 @@
         <li ref="itemTemplate">
             <component :is="ScrollItem" :itemData="templateData"></component>
         </li>
-        <li ref="tombstoneTemplate">
+        <li ref="tombstoneTemplate" data-testid="tombstoneTemplate">
             <component :is="Tombstone"></component>
         </li>
     </ul>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onMounted, Component, PropType, watchEffect, watch } from 'vue'
+import { defineComponent, ref, onMounted, Component, PropType, watchEffect } from 'vue'
 import { debounce } from 'lodash'
-import { getScrollHeight, getScrollItemIndex, getCurrentTopItemIndex} from './scroll'
+import { getScrollHeight, getOffsetHeight, getScrollItemIndex, getCurrentTopItemIndex} from './scroll'
 import * as utils from './utils'
 import addQueue from './queue'
 
@@ -61,22 +61,18 @@ export default defineComponent({
         const scrollDirection = ref<'up' | 'down'>('down')
         const currentItemIndex = ref<number>(0)
 
-        // init
         itemData.value = props.sourceData
-        // method
         function renderTomstoneItem(direction: string, scrollItemNum: number) {
             let _effectData = itemData.value.filter(element => element.isVisible)
-            let _effectDataLength = _effectData.length
             let _originIndex = 0
             let _item 
 
-            _effectDataLength = _effectDataLength + scrollItemNum
             if(direction === 'down') {
                 _originIndex = _effectData[_effectData.length - 1].index
                 for(let i = 0; i < scrollItemNum; i++) {
                     _item = Object.assign(itemData.value[_originIndex + 1 + i], {
                         isVisible: true, 
-                        transformY: itemData.value[_originIndex + i].transformY + itemData.value[_originIndex + i].offsetHeight, 
+                        transformY: itemData.value[_originIndex + i].transformY + getOffsetHeight(itemData.value[_originIndex + i]), 
                         isTombstone: itemData.value[_originIndex + 1 + i].isTombstone === false ? false : true
                     })
                     itemData.value.splice(_originIndex + 1 + i, 1, _item)
@@ -99,15 +95,14 @@ export default defineComponent({
 
                 templateData.value = itemData.value[i]
                 await utils.sleep(0)
-                _item = Object.assign(itemData.value[i], {isTombstone: false, offsetHeight: itemTemplate.value?.offsetHeight})
+                _item = Object.assign(itemData.value[i], {isTombstone: false, offsetHeight: getOffsetHeight(<HTMLElement>itemTemplate.value)})
                 if(i === 0) {
                     _item.transformY = 0
                 } else {
-                    _item.transformY = itemData.value[i-1].offsetHeight + itemData.value[i-1].transformY
+                    _item.transformY = getOffsetHeight(itemData.value[i-1]) + itemData.value[i-1].transformY
                 }
                 itemData.value.splice(i, 1, _item)
             }
-            await utils.sleep(0)
         }
         function recycle() {
             let _limitNum = 2 * props.initDataNum
@@ -139,29 +134,32 @@ export default defineComponent({
             }
         })
         onMounted(async () => {
-            tombstoneOffsetHeight.value = <number>tombstoneTemplate.value?.offsetHeight
-            itemData.value = utils.addTransformProperty(itemData.value, tombstoneOffsetHeight.value, tombstoneOffsetHeight.value, props.initDataNum)
+            tombstoneOffsetHeight.value = getOffsetHeight(<HTMLElement>tombstoneTemplate.value)
+            utils.addTransformProperty(itemData.value, tombstoneOffsetHeight.value, tombstoneOffsetHeight.value, props.initDataNum)
             renderItem(0, props.initDataNum - 1)
-
             scrollArea.value?.addEventListener('scroll', debounce(() => {
                 let _distance = 0
                 let _currentScrollTop = getScrollHeight(<HTMLElement>scrollArea.value)
                 let _currentTransformY
                 let _scrollItemNum
+                let _currentDataLastItem = currentData.value[currentData.value.length - 1]
 
                 _distance = _currentScrollTop - beforeScrollTop.value
                 if(_distance > 0) {
                     scrollDirection.value = 'down'
-                    _currentTransformY = _distance + currentData.value[currentData.value.length - 1].transformY
+                    _currentTransformY = _distance + _currentDataLastItem.transformY
                 } else {
                     scrollDirection.value = 'up'
                     _currentTransformY = _distance + currentData.value[0].transformY
                 }
-                currentItemIndex.value = getScrollItemIndex(itemData.value, scrollDirection.value, _currentTransformY, scrollDirection.value === 'down' ? currentData.value[currentData.value.length - 1].index : currentData.value[0].index)
+                currentItemIndex.value = getScrollItemIndex(itemData.value, scrollDirection.value, _currentTransformY, scrollDirection.value === 'down' ? _currentDataLastItem.index : currentData.value[0].index)
                 if(scrollDirection.value === 'down') {
-                    _scrollItemNum = currentItemIndex.value - currentData.value[currentData.value.length - 1].index
+                    _scrollItemNum = currentItemIndex.value - _currentDataLastItem.index
                 } else {
                     _scrollItemNum = currentData.value[0].index - currentItemIndex.value
+                }
+                if(_currentDataLastItem.index + _scrollItemNum > itemData.value.length) {
+                    _scrollItemNum = itemData.value.length - _currentDataLastItem.index
                 }
                 if(_scrollItemNum < 1) {
                     return false
