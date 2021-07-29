@@ -22,12 +22,21 @@ beforeEach(async () => {
 describe('🎏 scroll component init data', () => {
     it('init data render', async function () {
         document.body.innerHTML = ''
+        App.mounted.call(() => {
+            debugger
+            console.log(1)
+        })
+        App.created.call(() => {
+            console.log(2)
+            debugger
+        })
         const wrapper = _mount(App, {
             props: {
                 initDataNum: 18
             }
         })
         await nextTick()
+        debugger
         expect(document.querySelectorAll('ul[data-testid="scroll-wrapper"] li')).toHaveLength(18)
     })
 })

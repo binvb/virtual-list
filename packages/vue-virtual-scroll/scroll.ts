@@ -10,7 +10,6 @@ export function getOffsetHeight(el: HTMLElement):number {
 }
 
 export function getScrollItemIndex(dataSource: DataSource[], direction: string = 'down', transformY:number, startIndex: number):number {
-    // dataSource may change by last or last... render #TODO
     let _dataLength = dataSource.length
     let _index: number = 0
     if(startIndex >= _dataLength) {

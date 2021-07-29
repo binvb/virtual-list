@@ -1,5 +1,3 @@
-import { cloneDeep } from 'lodash'
-
 interface DataSource {
     [key: string]: any;
     transformY: number;

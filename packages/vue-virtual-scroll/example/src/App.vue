@@ -23,7 +23,6 @@ export default defineComponent({
         let sourceData = ref<Message[]>([])
 
         sourceData.value = getMessage(2000)
-        // also need diretion, startIndex, etc.
         function getData(size:number) {
           return getMessage(size)
         }
