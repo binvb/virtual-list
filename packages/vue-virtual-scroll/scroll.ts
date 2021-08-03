@@ -17,13 +17,9 @@ export function getScrollItemIndex(dataSource: DataSource[], direction: string =
     }
     if(direction === 'down') {
         for(let i = startIndex; i < _dataLength; i++) {
-            try {
-                if(dataSource[i].transformY < transformY && (dataSource[i+1] ? dataSource[i+1].transformY > transformY : true)) {
-                    _index = i
-                    break
-                }
-            } catch(err) {
-                console.log(i, dataSource[i], '出错的i是多少')
+            if(dataSource[i].transformY < transformY && (dataSource[i+1] ? dataSource[i+1].transformY > transformY : true)) {
+                _index = i
+                break
             }
         }       
     }
