@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "create-react-app": "4.0.3"
+    "create-react-app": "4.0.1"
   }
 }

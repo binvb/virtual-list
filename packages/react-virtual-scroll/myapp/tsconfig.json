@@ -18,14 +18,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "baseUrl": ".",
-    "paths": {
-      "@VirtualList":["./../index.tsx"]
-    }
+    "jsx": "react-jsx"
   },
   "include": [
-    "src",
-    "./../index.tsx"
+    "src"
   ]
 }

@@ -1469,7 +1469,7 @@
 
 "@jest/types@^27.0.6":
   version "27.0.6"
-  resolved "https://registry.nlark.com/@jest/types/download/@jest/types-27.0.6.tgz#9a992bc517e0c49f035938b8549719c2de40706b"
+  resolved "https://registry.nlark.com/@jest/types/download/@jest/types-27.0.6.tgz?cache=0&sync_timestamp=1624900057884&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jest%2Ftypes%2Fdownload%2F%40jest%2Ftypes-27.0.6.tgz#9a992bc517e0c49f035938b8549719c2de40706b"
   integrity sha1-mpkrxRfgxJ8DWTi4VJcZwt5AcGs=
   dependencies:
     "@types/istanbul-lib-coverage" "^2.0.0"
@@ -1703,7 +1703,7 @@
 
 "@testing-library/react@^11.1.0":
   version "11.2.7"
-  resolved "https://registry.nlark.com/@testing-library/react/download/@testing-library/react-11.2.7.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40testing-library%2Freact%2Fdownload%2F%40testing-library%2Freact-11.2.7.tgz#b29e2e95c6765c815786c0bc1d5aed9cb2bf7818"
+  resolved "https://registry.nlark.com/@testing-library/react/download/@testing-library/react-11.2.7.tgz#b29e2e95c6765c815786c0bc1d5aed9cb2bf7818"
   integrity sha1-sp4ulcZ2XIFXhsC8HVrtnLK/eBg=
   dependencies:
     "@babel/runtime" "^7.12.5"
@@ -1711,7 +1711,7 @@
 
 "@testing-library/user-event@^12.1.10":
   version "12.8.3"
-  resolved "https://registry.nlark.com/@testing-library/user-event/download/@testing-library/user-event-12.8.3.tgz?cache=0&sync_timestamp=1627221698438&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40testing-library%2Fuser-event%2Fdownload%2F%40testing-library%2Fuser-event-12.8.3.tgz#1aa3ed4b9f79340a1e1836bc7f57c501e838704a"
+  resolved "https://registry.nlark.com/@testing-library/user-event/download/@testing-library/user-event-12.8.3.tgz?cache=0&sync_timestamp=1627221816597&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40testing-library%2Fuser-event%2Fdownload%2F%40testing-library%2Fuser-event-12.8.3.tgz#1aa3ed4b9f79340a1e1836bc7f57c501e838704a"
   integrity sha1-GqPtS595NAoeGDa8f1fFAeg4cEo=
   dependencies:
     "@babel/runtime" "^7.12.5"
@@ -1849,7 +1849,7 @@
 
 "@types/node@^12.0.0":
   version "12.20.20"
-  resolved "https://registry.nlark.com/@types/node/download/@types/node-12.20.20.tgz#ce3d6c13c15c5e622a85efcd3a1cb2d9c7fa43a6"
+  resolved "https://registry.nlark.com/@types/node/download/@types/node-12.20.20.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-12.20.20.tgz#ce3d6c13c15c5e622a85efcd3a1cb2d9c7fa43a6"
   integrity sha1-zj1sE8FcXmIqhe/NOhyy2cf6Q6Y=
 
 "@types/normalize-package-data@^2.4.0":
@@ -1869,7 +1869,7 @@
 
 "@types/prop-types@*":
   version "15.7.4"
-  resolved "https://registry.nlark.com/@types/prop-types/download/@types/prop-types-15.7.4.tgz?cache=0&sync_timestamp=1625678050061&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fprop-types%2Fdownload%2F%40types%2Fprop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
+  resolved "https://registry.nlark.com/@types/prop-types/download/@types/prop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
   integrity sha1-/PcgXCXf95Xuea8eMNosl5CAjxE=
 
 "@types/q@^1.5.1":
@@ -1886,7 +1886,7 @@
 
 "@types/react@*", "@types/react@^17.0.0":
   version "17.0.19"
-  resolved "https://registry.nlark.com/@types/react/download/@types/react-17.0.19.tgz?cache=0&sync_timestamp=1629349476376&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Freact%2Fdownload%2F%40types%2Freact-17.0.19.tgz#8f2a85e8180a43b57966b237d26a29481dacc991"
+  resolved "https://registry.nlark.com/@types/react/download/@types/react-17.0.19.tgz#8f2a85e8180a43b57966b237d26a29481dacc991"
   integrity sha1-jyqF6BgKQ7V5ZrI30mopSB2syZE=
   dependencies:
     "@types/prop-types" "*"
@@ -3843,7 +3843,7 @@ css@^2.0.0:
 
 css@^3.0.0:
   version "3.0.0"
-  resolved "https://registry.nlark.com/css/download/css-3.0.0.tgz#4447a4d58fdd03367c516ca9f64ae365cee4aa5d"
+  resolved "https://registry.npm.taobao.org/css/download/css-3.0.0.tgz#4447a4d58fdd03367c516ca9f64ae365cee4aa5d"
   integrity sha1-REek1Y/dAzZ8UWyp9krjZc7kql0=
   dependencies:
     inherits "^2.0.4"
@@ -3959,7 +3959,7 @@ cssstyle@^2.3.0:
 
 csstype@^3.0.2:
   version "3.0.8"
-  resolved "https://registry.nlark.com/csstype/download/csstype-3.0.8.tgz?cache=0&sync_timestamp=1618818466657&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcsstype%2Fdownload%2Fcsstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
+  resolved "https://registry.nlark.com/csstype/download/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
   integrity sha1-0iZqeScp+yJ80hb7Vy9Dco4a00A=
 
 cyclist@^1.0.1:
@@ -4150,7 +4150,7 @@ diff-sequences@^26.6.2:
 
 diff-sequences@^27.0.6:
   version "27.0.6"
-  resolved "https://registry.nlark.com/diff-sequences/download/diff-sequences-27.0.6.tgz#3305cb2e55a033924054695cc66019fd7f8e5723"
+  resolved "https://registry.nlark.com/diff-sequences/download/diff-sequences-27.0.6.tgz?cache=0&sync_timestamp=1624900057366&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdiff-sequences%2Fdownload%2Fdiff-sequences-27.0.6.tgz#3305cb2e55a033924054695cc66019fd7f8e5723"
   integrity sha1-MwXLLlWgM5JAVGlcxmAZ/X+OVyM=
 
 diffie-hellman@^5.0.0:
@@ -5235,7 +5235,7 @@ fsevents@^1.2.7:
     bindings "^1.5.0"
     nan "^2.12.1"
 
-fsevents@^2.1.2, fsevents@~2.3.2:
+fsevents@^2.1.2, fsevents@^2.1.3, fsevents@~2.3.2:
   version "2.3.2"
   resolved "https://registry.npm.taobao.org/fsevents/download/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha1-ilJveLj99GI7cJ4Ll1xSwkwC/Ro=
@@ -6362,7 +6362,7 @@ jest-diff@^26.0.0, jest-diff@^26.6.2:
 
 jest-diff@^27.0.0:
   version "27.0.6"
-  resolved "https://registry.nlark.com/jest-diff/download/jest-diff-27.0.6.tgz?cache=0&sync_timestamp=1624900066336&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjest-diff%2Fdownload%2Fjest-diff-27.0.6.tgz#4a7a19ee6f04ad70e0e3388f35829394a44c7b5e"
+  resolved "https://registry.nlark.com/jest-diff/download/jest-diff-27.0.6.tgz#4a7a19ee6f04ad70e0e3388f35829394a44c7b5e"
   integrity sha1-SnoZ7m8ErXDg4ziPNYKTlKRMe14=
   dependencies:
     chalk "^4.0.0"
@@ -6420,7 +6420,7 @@ jest-get-type@^26.3.0:
 
 jest-get-type@^27.0.6:
   version "27.0.6"
-  resolved "https://registry.nlark.com/jest-get-type/download/jest-get-type-27.0.6.tgz#0eb5c7f755854279ce9b68a9f1a4122f69047cfe"
+  resolved "https://registry.nlark.com/jest-get-type/download/jest-get-type-27.0.6.tgz?cache=0&sync_timestamp=1624900056951&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjest-get-type%2Fdownload%2Fjest-get-type-27.0.6.tgz#0eb5c7f755854279ce9b68a9f1a4122f69047cfe"
   integrity sha1-DrXH91WFQnnOm2ip8aQSL2kEfP4=
 
 jest-haste-map@^26.6.2:
@@ -7258,7 +7258,7 @@ mimic-fn@^2.1.0:
 
 min-indent@^1.0.0:
   version "1.0.1"
-  resolved "https://registry.nlark.com/min-indent/download/min-indent-1.0.1.tgz#a63f681673b30571fbe8bc25686ae746eefa9869"
+  resolved "https://registry.npm.taobao.org/min-indent/download/min-indent-1.0.1.tgz#a63f681673b30571fbe8bc25686ae746eefa9869"
   integrity sha1-pj9oFnOzBXH76LwlaGrnRu76mGk=
 
 mini-css-extract-plugin@0.11.3:
@@ -9088,7 +9088,7 @@ react-dev-utils@^11.0.3:
 
 react-dom@^17.0.2:
   version "17.0.2"
-  resolved "https://registry.nlark.com/react-dom/download/react-dom-17.0.2.tgz?cache=0&sync_timestamp=1629476255044&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact-dom%2Fdownload%2Freact-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
+  resolved "https://registry.nlark.com/react-dom/download/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
   integrity sha1-7P+2hF462Nv83EmPDQqTlzZQLCM=
   dependencies:
     loose-envify "^1.1.0"
@@ -9115,9 +9115,75 @@ react-refresh@^0.8.3:
   resolved "https://registry.nlark.com/react-refresh/download/react-refresh-0.8.3.tgz?cache=0&sync_timestamp=1629476246701&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact-refresh%2Fdownload%2Freact-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
   integrity sha1-ch1GV2ctQAxePHXQY8SoX7LV1o8=
 
+react-scripts@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.nlark.com/react-scripts/download/react-scripts-4.0.3.tgz#b1cafed7c3fa603e7628ba0f187787964cb5d345"
+  integrity sha1-scr+18P6YD52KLoPGHeHlky100U=
+  dependencies:
+    "@babel/core" "7.12.3"
+    "@pmmmwh/react-refresh-webpack-plugin" "0.4.3"
+    "@svgr/webpack" "5.5.0"
+    "@typescript-eslint/eslint-plugin" "^4.5.0"
+    "@typescript-eslint/parser" "^4.5.0"
+    babel-eslint "^10.1.0"
+    babel-jest "^26.6.0"
+    babel-loader "8.1.0"
+    babel-plugin-named-asset-import "^0.3.7"
+    babel-preset-react-app "^10.0.0"
+    bfj "^7.0.2"
+    camelcase "^6.1.0"
+    case-sensitive-paths-webpack-plugin "2.3.0"
+    css-loader "4.3.0"
+    dotenv "8.2.0"
+    dotenv-expand "5.1.0"
+    eslint "^7.11.0"
+    eslint-config-react-app "^6.0.0"
+    eslint-plugin-flowtype "^5.2.0"
+    eslint-plugin-import "^2.22.1"
+    eslint-plugin-jest "^24.1.0"
+    eslint-plugin-jsx-a11y "^6.3.1"
+    eslint-plugin-react "^7.21.5"
+    eslint-plugin-react-hooks "^4.2.0"
+    eslint-plugin-testing-library "^3.9.2"
+    eslint-webpack-plugin "^2.5.2"
+    file-loader "6.1.1"
+    fs-extra "^9.0.1"
+    html-webpack-plugin "4.5.0"
+    identity-obj-proxy "3.0.0"
+    jest "26.6.0"
+    jest-circus "26.6.0"
+    jest-resolve "26.6.0"
+    jest-watch-typeahead "0.6.1"
+    mini-css-extract-plugin "0.11.3"
+    optimize-css-assets-webpack-plugin "5.0.4"
+    pnp-webpack-plugin "1.6.4"
+    postcss-flexbugs-fixes "4.2.1"
+    postcss-loader "3.0.0"
+    postcss-normalize "8.0.1"
+    postcss-preset-env "6.7.0"
+    postcss-safe-parser "5.0.2"
+    prompts "2.4.0"
+    react-app-polyfill "^2.0.0"
+    react-dev-utils "^11.0.3"
+    react-refresh "^0.8.3"
+    resolve "1.18.1"
+    resolve-url-loader "^3.1.2"
+    sass-loader "^10.0.5"
+    semver "7.3.2"
+    style-loader "1.3.0"
+    terser-webpack-plugin "4.2.3"
+    ts-pnp "1.2.0"
+    url-loader "4.1.1"
+    webpack "4.44.2"
+    webpack-dev-server "3.11.1"
+    webpack-manifest-plugin "2.2.0"
+    workbox-webpack-plugin "5.1.4"
+  optionalDependencies:
+    fsevents "^2.1.3"
+
 react@^17.0.2:
   version "17.0.2"
-  resolved "https://registry.nlark.com/react/download/react-17.0.2.tgz?cache=0&sync_timestamp=1629476260610&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact%2Fdownload%2Freact-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
+  resolved "https://registry.nlark.com/react/download/react-17.0.2.tgz?cache=0&sync_timestamp=1629476302835&other_urls=https%3A%2F%2Fregistry.nlark.com%2Freact%2Fdownload%2Freact-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
   integrity sha1-0LXMUW0p6z7uOD91tihkz7aAADc=
   dependencies:
     loose-envify "^1.1.0"
@@ -10647,7 +10713,7 @@ typedarray@^0.0.6:
 
 typescript@^4.1.2:
   version "4.3.5"
-  resolved "https://registry.nlark.com/typescript/download/typescript-4.3.5.tgz?cache=0&sync_timestamp=1629616783323&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftypescript%2Fdownload%2Ftypescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
+  resolved "https://registry.nlark.com/typescript/download/typescript-4.3.5.tgz?cache=0&sync_timestamp=1629616856464&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftypescript%2Fdownload%2Ftypescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
   integrity sha1-TRw3zBbok5c8RaBohrcRMjTxGfQ=
 
 unbox-primitive@^1.0.1:
