@@ -1,5 +1,6 @@
 import * as utils from './utils'
 
+
 const MESSAGES = [
 "when you popState and actually being well, we expect it further",
 "But I'm going to take care of ripping out my code in the fact that just something like that",
@@ -52,12 +53,12 @@ export interface Message {
  */
 export function getMessage(size: number = 1):Message[] {
     const msgList = []
-
+    const avatarList = [require('./images/avatar0.jpg'), require('./images/avatar1.jpg'), require('./images/avatar2.jpg')]
     for(let i = 0; i < size; i++) {
         msgList.push(
             {
                 content: MESSAGES[utils.getRandom(0, MESSAGES.length)],
-                avatar: `./images/avatar${utils.getRandom(0, 3)}.jpg`,
+                avatar: avatarList[utils.getRandom(0, 3)],
                 time: new Date(),
                 name: NAME[utils.getRandom(0, NAME.length)]
             }

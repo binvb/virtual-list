@@ -1,17 +1,18 @@
 import * as React from 'react'
+import { Message } from './mock'
 
-const scrollItem: React.FC = () => {
+const ScrollItem: React.FC<Message> = (props) => {
     return (
         <div className="chat-item">
-            <img className="avatar" />
+            <img className="avatar" src={props.avatar} />
             <div className="bubble">
-                <p></p>
+                <p>{props.content}</p>
                 <div className="meta">
-                    <time className="posted-date"></time>
+                    <time className="posted-date">{props.time.toString()}</time>
                 </div>
             </div>
         </div>       
     )
 }
 
-export default scrollItem
+export default ScrollItem

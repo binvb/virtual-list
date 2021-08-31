@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-const tombstone:React.FC = () => {
+const Tombstone:React.FC = () => {
     return (
         <div className="chat-item">
             <img className="avatar" width="48" height="48" />
@@ -12,4 +12,4 @@ const tombstone:React.FC = () => {
     )
 }
 
-export default tombstone
+export default Tombstone

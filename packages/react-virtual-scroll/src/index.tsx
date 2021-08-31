@@ -2,23 +2,20 @@ import * as React from 'react'
 
 interface VirtualListProps {
   sourceData: any[],
-  scrollItemComponent: React.FC,
-  tombstoneComponent: React.FC
+  ScrollItemComponent: React.FC<any>,
+  TombstoneComponent: React.FC
 }
 
 const VirtualList: React.FC<VirtualListProps> = (props) => {
-  console.log(props)
   return (
     <>
       <ul className="scroll-wrapper" data-testid="scroll-wrapper">
-        {props.sourceData.length && props.sourceData.reduce((acc, curr) => {
-          return (
-            acc + <li>测试{props.scrollItemComponent}</li>
-          )
-        })}
+        {props.sourceData.length && props.sourceData.map((element, index) => (
+          <props.ScrollItemComponent {...element} key={index} />
+        ))}
       </ul>
     </>
   )
 }
 
-export default VirtualList
+export default React.memo(VirtualList)

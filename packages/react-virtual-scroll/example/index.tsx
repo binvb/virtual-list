@@ -1,27 +1,25 @@
 import './index.less'
 
-import 'react-app-polyfill/ie11'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import VirtualList from '../.'
-import { Message, getMessage } from './mock'
+import VirtualList from './../src/index'
 import scrollItem from './scrollItem'
-import tombstone from './tombstone'
+import Tombstone from './tombstone'
+import { getMessage, Message } from './mock'
 
-interface Mytest {
-  name: string
-}
-function App() {
-  let test:Mytest[] = [{name: 'vb'}]
-  const [name, setName] = React.useState<Mytest[]>(test)
-  const [age, setAge] = React.useState<number>(0)
+const App: React.FC = () => {
+  const [sourceData, setSource] = React.useState<Message[]>([])
 
   React.useEffect(() => {
-    setName(test)
-  })
+    setSource(getMessage(200))
+  },[])
 
   return (
-    <div>my name is {age}</div>
+    <VirtualList 
+    ScrollItemComponent={scrollItem} 
+    TombstoneComponent={Tombstone}
+    sourceData={sourceData}
+    />
   )
 }
 
