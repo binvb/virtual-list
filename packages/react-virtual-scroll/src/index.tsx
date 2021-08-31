@@ -3,7 +3,7 @@ import * as React from 'react'
 interface VirtualListProps {
   sourceData: any[],
   ScrollItemComponent: React.FC<any>,
-  TombstoneComponent: React.FC
+  TombstoneComponent: React.FC<any>
 }
 
 const VirtualList: React.FC<VirtualListProps> = (props) => {
