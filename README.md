@@ -97,10 +97,6 @@ vue 无法监听到通过下标修改的数组元素变化，只能通过一些t
 3 回收按顺序进行，如果低于已回收数据的数值，则不再进行回收。  
 事实上，这三种方案我都尝试了。  
 
-### 待处理事项
-1 左右滚动;  
-2 resize的处理；  
-
 
 ### 参考
 1 Complexities of an Infinite Scroller：https://developers.google.com/web/updates/2016/07/infinite-scroller      
