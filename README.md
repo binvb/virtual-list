@@ -1,2 +1,3 @@
-# virtual-scroll
-here has a virtual scroll component for reac/vue/angular.
+### example
+yarn && cd example && yarn && yarn serve
+

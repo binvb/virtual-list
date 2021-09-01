@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1627379763479" clover="3.2.0">
+  <project timestamp="1627379763480" name="All files">
+    <metrics statements="163" coveredstatements="76" conditionals="58" coveredconditionals="10" methods="29" coveredmethods="14" elements="250" coveredelements="100" complexity="0" loc="163" ncloc="163" packages="3" files="9" classes="9"/>
+    <package name="vue-virtual-scroll">
+      <metrics statements="139" coveredstatements="53" conditionals="57" coveredconditionals="10" methods="23" coveredmethods="9"/>
+      <file name="index.vue" path="/Users/vb/openSource/virtual-scroll/packages/vue-virtual-scroll/index.vue">
+        <metrics statements="85" coveredstatements="32" conditionals="36" coveredconditionals="8" methods="12" coveredmethods="5"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="51" count="22" type="stmt"/>
+        <line num="52" count="22" type="stmt"/>
+        <line num="53" count="22" type="stmt"/>
+        <line num="54" count="22" type="stmt"/>
+        <line num="55" count="22" type="stmt"/>
+        <line num="56" count="22" type="stmt"/>
+        <line num="57" count="22" type="stmt"/>
+        <line num="58" count="22" type="stmt"/>
+        <line num="59" count="22" type="stmt"/>
+        <line num="60" count="22" type="stmt"/>
+        <line num="61" count="22" type="stmt"/>
+        <line num="62" count="22" type="stmt"/>
+        <line num="65" count="22" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="74" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="75" count="0" type="stmt"/>
+        <line num="76" count="0" type="stmt"/>
+        <line num="77" count="0" type="stmt"/>
+        <line num="82" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="88" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="89" count="0" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="91" count="0" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="97" count="22" type="cond" truecount="1" falsecount="1"/>
+        <line num="98" count="22" type="stmt"/>
+        <line num="100" count="22" type="stmt"/>
+        <line num="101" count="22" type="stmt"/>
+        <line num="102" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="103" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="106" count="0" type="stmt"/>
+        <line num="108" count="0" type="stmt"/>
+        <line num="110" count="0" type="stmt"/>
+        <line num="113" count="0" type="stmt"/>
+        <line num="117" count="0" type="stmt"/>
+        <line num="119" count="0" type="stmt"/>
+        <line num="120" count="0" type="stmt"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="122" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="124" count="0" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
+        <line num="128" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="135" count="22" type="stmt"/>
+        <line num="136" count="8800" type="stmt"/>
+        <line num="137" count="44" type="cond" truecount="1" falsecount="1"/>
+        <line num="138" count="0" type="stmt"/>
+        <line num="141" count="22" type="stmt"/>
+        <line num="142" count="22" type="cond" truecount="3" falsecount="1"/>
+        <line num="143" count="22" type="stmt"/>
+        <line num="144" count="22" type="stmt"/>
+        <line num="146" count="22" type="cond" truecount="3" falsecount="1"/>
+        <line num="147" count="0" type="stmt"/>
+        <line num="148" count="0" type="stmt"/>
+        <line num="152" count="0" type="stmt"/>
+        <line num="153" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="154" count="0" type="stmt"/>
+        <line num="155" count="0" type="stmt"/>
+        <line num="157" count="0" type="stmt"/>
+        <line num="158" count="0" type="stmt"/>
+        <line num="160" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="161" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="162" count="0" type="stmt"/>
+        <line num="164" count="0" type="stmt"/>
+        <line num="166" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="167" count="0" type="stmt"/>
+        <line num="168" count="0" type="stmt"/>
+        <line num="170" count="0" type="stmt"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="175" count="22" type="stmt"/>
+      </file>
+      <file name="queue.ts" path="/Users/vb/openSource/virtual-scroll/packages/vue-virtual-scroll/queue.ts">
+        <metrics statements="12" coveredstatements="3" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+      </file>
+      <file name="scroll.ts" path="/Users/vb/openSource/virtual-scroll/packages/vue-virtual-scroll/scroll.ts">
+        <metrics statements="24" coveredstatements="3" conditionals="15" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="10" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+      </file>
+      <file name="utils.ts" path="/Users/vb/openSource/virtual-scroll/packages/vue-virtual-scroll/utils.ts">
+        <metrics statements="18" coveredstatements="15" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="4"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="22" type="stmt"/>
+        <line num="10" count="22" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="22" type="stmt"/>
+        <line num="19" count="22" type="stmt"/>
+        <line num="20" count="4400" type="stmt"/>
+        <line num="21" count="4400" type="stmt"/>
+        <line num="22" count="4400" type="stmt"/>
+        <line num="23" count="4400" type="stmt"/>
+        <line num="24" count="4400" type="cond" truecount="2" falsecount="0"/>
+        <line num="25" count="438" type="stmt"/>
+        <line num="29" count="22" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="vue-virtual-scroll.example">
+      <metrics statements="10" coveredstatements="10" conditionals="1" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <file name="mock.ts" path="/Users/vb/openSource/virtual-scroll/packages/vue-virtual-scroll/example/mock.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="53" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="54" count="22" type="stmt"/>
+        <line num="56" count="22" type="stmt"/>
+        <line num="57" count="4400" type="stmt"/>
+        <line num="67" count="22" type="stmt"/>
+      </file>
+      <file name="utils.ts" path="/Users/vb/openSource/virtual-scroll/packages/vue-virtual-scroll/example/utils.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="13200" type="stmt"/>
+      </file>
+    </package>
+    <package name="vue-virtual-scroll.example.src">
+      <metrics statements="14" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="3"/>
+      <file name="App.vue" path="/Users/vb/openSource/virtual-scroll/packages/vue-virtual-scroll/example/src/App.vue">
+        <metrics statements="10" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="23" count="22" type="stmt"/>
+        <line num="25" count="22" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="31" count="22" type="stmt"/>
+      </file>
+      <file name="scrollItem.vue" path="/Users/vb/openSource/virtual-scroll/packages/vue-virtual-scroll/example/src/scrollItem.vue">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+      </file>
+      <file name="tombstone.vue" path="/Users/vb/openSource/virtual-scroll/packages/vue-virtual-scroll/example/src/tombstone.vue">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

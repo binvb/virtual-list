@@ -1,13 +1,22 @@
 {
-    "compilerOptions": {
-      "target": "esnext",
-      "module": "esnext",
-      // 这样就可以对 `this` 上的数据属性进行更严格的推断`
-      "strict": true,
-      "jsx": "preserve",
-      "moduleResolution": "node",
-    },
-    "rules": {
-      "no-unused-vars": "off"
-    }
-  }
+  "compilerOptions": {
+    "module": "ESNext",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "noLib": false,
+    "target": "es6",
+    "sourceMap": true,
+    "lib": [
+      "ESNext", "DOM"
+    ],
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+ }
+ 
