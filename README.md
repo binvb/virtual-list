@@ -5,7 +5,7 @@ yarn && cd example && yarn && yarn serve
 有一句话印象很深刻，如果你觉得前端简单，写一个无限滚动的组件来看一下。  
 由于dom渲染性能问题，但需要渲染大量列表时候页面就会变得卡顿，无限滚动就是解决这个问题的其中一个方案。  
 目前无限滚动的插件基本上都有各种各样的问题，性能不佳,体验不好,或者是只能应用在某些固定场景。  
-最近看到google一个无限滚动的实践文章，体验了一下感觉很好(仍会有问题，例如滚动过快会出现空白背景).所以参考这个实践，写了一个react/vue/angular的无限滚动插件。  
+最近看到google一个无限滚动的实践文章，体验了一下感觉很好(仍会有问题，例如滚动过快会出现空白背景).所以参考这个实践，写了一个vue的无限滚动插件。  
 ```
 It’s still not perfect
 Our current implementation of DOM recycling is not ideal as it adds all elements that pass through the viewport, instead of just caring about the ones that are actually on screen. This means, that when you scroll reaaally fast, you put so much work for layout and paint on Chrome that it can’t keep up. You will end up seeing nothing but the background. It’s not the end of the world but definitely something to improve on.
@@ -69,8 +69,6 @@ Our current implementation of DOM recycling is not ideal as it adds all elements
 
 
 
-
-
 ### 性能问题记录
 1 深拷贝；  
 一直没留意深拷贝的性能问题，但这次数据量比较大，问题就凸显了。当用lodash的cloneDeep拷贝一个两万条数据的数组时候(不只是简单类型的数组元素)，耗时大概是220ms，即使用JOSN.parse(JSON.stringify())也需要180ms左右(称赞下lodash优化做的很好了).
@@ -79,24 +77,9 @@ vue 无法监听到通过下标修改的数组元素变化，只能通过一些t
 结论是当数据量很大而且对性能要求比较高的时候，尽量不要使用深拷贝。  
 
 
-### 设计模式
-由于设计链条中，显示的数据是在不断变化且无序的，e.g.
-```
-1 向下滚动10个item距离；  
-2 进入渲染10个item周期；  
-3 又向下滚动2个item距离；  
-4 进入渲染2个item周期；
-5 4先渲染完毕；  
-2 2渲染完毕；
-```
-事实上比这个要复杂很多，有可能多个item渲染周期在同时渲染，快速切换导致中间部分item未渲染即开始下一轮渲染，tomstone和scrollitem的切换及切换的过渡状态，反方向滚动渲染等。
-这些问题会出现两种结果：回收数据不正确(滚动无法继续)，部分item定位异常；  
-为什么要提升到设计模式上？因为有一种设计模式是比较符合这种情况的，就是中介者模式，但仍不能完美的解决问题。下面是我想到的解决方案：  
-1 中介者模式，每个item渲染完毕后都需要重新修改其他item的位置，通过中介者进行处理，解耦不同item之间的依赖关系；  
-2 通过队列将无序改为有序，在监听滚动事件时，触发后将渲染时间丢进有序队列处理；   
-3 回收按顺序进行，如果低于已回收数据的数值，则不再进行回收。  
-事实上，这三种方案我都尝试了。  
 
+### 更新记录
+21/10/07: 缓存tombstone模块，增加渲染速度;  
 
 ### 参考
 1 Complexities of an Infinite Scroller：https://developers.google.com/web/updates/2016/07/infinite-scroller      
