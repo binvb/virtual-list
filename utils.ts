@@ -1,30 +1,17 @@
-interface DataSource {
-    [key: string]: any;
-    transformY: number;
+interface ItemProps {
+  [key: string]: any,
+  index: number,
+  transformY: number
 }
 
-export async function sleep(period:number): Promise<void> {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve()
-        }, period)
-    })
-}
+export function getInitData(arg: any[], max) {
+  let _initData:ItemProps[] = []
 
-export function addTransformProperty(data:DataSource[], transformY: number, offsetHeight: number, initDataNum: number) {
-    data.map((element, index) => {
-        element.index = index
-        element.transformY = index * transformY
-        element.offsetHeight = offsetHeight
-        element.isTombstone = true
-        if(index < initDataNum) {
-            element.isVisible = true
-        }
-    })
-}
-
-export function replaceArrayFragment(data: any[], replaceData: any[], startIndex: number, endIndex: number) {
-    for(let i = startIndex; i < endIndex + 1; i++) {
-        data[i] = replaceData[i]
+  for(let i = 0, len = max; i < len; i++) {
+    if(arg[i]) {
+      _initData.push({...arg[i], index: i, transformY: 0})
     }
+  }
+
+  return _initData
 }

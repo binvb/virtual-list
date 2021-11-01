@@ -1,22 +1,15 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "declaration": true,
-    "noImplicitAny": false,
-    "removeComments": true,
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
     "moduleResolution": "node",
-    "esModuleInterop": true,
+    "strict": true,
     "jsx": "preserve",
-    "noLib": false,
-    "target": "es6",
     "sourceMap": true,
-    "lib": [
-      "ESNext", "DOM"
-    ],
-    "allowSyntheticDefaultImports": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"]
   },
-  "exclude": [
-    "node_modules"
-  ]
- }
- 
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "index.vue"]
+}
