@@ -1,17 +1,15 @@
-interface ItemProps {
-  [key: string]: any,
-  index: number,
-  transformY: number
+export function sleep(period = 0):Promise<void> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, period)
+  })
 }
 
-export function getInitData(arg: any[], max) {
-  let _initData:ItemProps[] = []
+export function getOffsetHeight(el:HTMLElement) {
+  return el.offsetHeight
+}
 
-  for(let i = 0, len = max; i < len; i++) {
-    if(arg[i]) {
-      _initData.push({...arg[i], index: i, transformY: 0})
-    }
-  }
-
-  return _initData
+export function ArrayToArrayLike() {
+  
 }

@@ -24,6 +24,7 @@ module.exports = {
 	},
 	rules: {
 		'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+		'vue/no-v-for-template-key': 'off'
 	},
 	ignorePatterns: ['src/env.d.ts', 'node_modules']
 }
