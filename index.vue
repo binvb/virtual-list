@@ -71,18 +71,18 @@ function scrollHandler() {
 </script>
     
 <template>
-<ul ref="scrollArea" class="scroll-wrapper" data-testid="scroll-wrapper">
-    <template v-for="item in data.currentData" :key="item.index">
-      <li :data-scrollId="item.index" :data-offsetHeight="item.offsetHeight" :style="{position: 'absolute', transform: `translateY(${item.transformY || 0}px)`}">
-          <component :is="props.ScrollItemComponent" :itemData="item" />
+  <ul ref="scrollArea" class="scroll-wrapper" data-testid="scroll-wrapper">
+      <template v-for="item in data.currentData" :key="item.index">
+        <li :data-scrollId="item.index" :data-offsetHeight="item.offsetHeight" :style="{position: 'absolute', transform: `translateY(${item.transformY || 0}px)`}">
+            <component :is="props.ScrollItemComponent" :itemData="item" />
+        </li>
+      </template>
+  </ul>
+  <ul class="scroll-wrapper" style="visibility: hidden;position:absolute;transform: translateY(-1000px)">
+      <li ref="itemTemplate">
+          <component :is="props.ScrollItemComponent" :itemData="data.templateData" />
       </li>
-    </template>
-</ul>
-<ul class="scroll-wrapper" style="visibility: hidden;position:absolute;transform: translateY(-1000px)">
-    <li ref="itemTemplate">
-        <component :is="props.ScrollItemComponent" :itemData="data.templateData" />
-    </li>
-</ul>
+  </ul>
 </template>
 <style lang='less' scoped>
 .scroll-wrapper {

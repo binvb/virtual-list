@@ -1,6 +1,8 @@
 {
-  "name": "vue-scroll",
-  "version": "0.0.0",
+  "name": "@vb_he/vue-virtual-scroll",
+  "version": "0.1.0",
+  "main": "index.vue",
+  "author": "vb",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
