@@ -10,7 +10,9 @@
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@babel/eslint-parser": "^7.16.0",
+    "@types/lodash": "^4.14.176",
     "less": "^4.1.2",
+    "lodash": "^4.17.21",
     "vue": "^3.2.16",
     "vue-eslint-parser": "^8.0.1"
   },
