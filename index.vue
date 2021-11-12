@@ -20,6 +20,7 @@ const data = reactive<ReactiveData>({
   currentScrollTop: 0
 })
 const itemTemplate = ref()
+let test = ref<number>(0)
 
 // init data
 initData()
@@ -44,32 +45,32 @@ function initData() {
   render(0, props.initDataNum * 2, 'init')
 }
 async function render(start = 0, itemNum:number = props.initDataNum * 2, direction: Direction = 'down') {
-  let offsetHeight
-  let index 
+  let _offsetHeight
+  let _index 
   let _maxLen = data.sourceData.length
+  let _scrollTop = document.querySelector('.scroll-wrapper')?.scrollTop || 0
 
   for(let i = 0, len = itemNum; i < len; i++) {
-    index = direction === 'up' ? start - i : start + i
-    if(index >= 0 && index < _maxLen) {
-      data.templateData = data.sourceData[index]
-      await sleep()
-      offsetHeight = getOffsetHeight(itemTemplate.value)
+    _index = direction === 'up' ? start - i : start + i
+    if(_index >= 0 && _index < _maxLen) {
+      data.templateData = data.sourceData[_index]
+      await sleep(0)
+      _offsetHeight = getOffsetHeight(itemTemplate.value)
 
-      getShowData(data.sourceData as ItemProps[], data.currentData, direction, index, offsetHeight, props.initDataNum)
+      getShowData(data.sourceData as ItemProps[], data.currentData, direction, _index, _offsetHeight, props.initDataNum, _scrollTop)
     }
   }
 }
 function scrollHandler() {
-  let scrollTop = document.querySelector('.scroll-wrapper')?.scrollTop || 0
-  let distance = scrollTop - data.currentScrollTop
-  let direction: Direction = distance > 0 ? 'down' : 'up'
-  let scrollItemNum = getScrollItemNum(data.currentData, distance, direction)
+  let _scrollTop = document.querySelector('.scroll-wrapper')?.scrollTop || 0
+  let _distance = _scrollTop - data.currentScrollTop
+  let _direction: Direction = _distance > 0 ? 'down' : 'up'
+  let _scrollItemNum = getScrollItemNum(data.currentData, _distance, _direction)
 
-  if(scrollItemNum > 0) {
-    console.log(direction, scrollItemNum, '看下数据')
-    data.currentScrollTop += distance
+  if(_scrollItemNum > 0) {
+    data.currentScrollTop += _distance
     addQueue(() => {
-      render(direction === 'down' ? (data.currentData[data.currentData.length - 1].index + 1) : (data.currentData[0].index - 1), scrollItemNum, direction)
+      return render(_direction === 'down' ? (data.currentData[data.currentData.length - 1].index + 1) : (data.currentData[0].index - 1), _scrollItemNum, _direction)
     })
   }
 }

@@ -3,7 +3,7 @@ import ScrollList from './../index.vue'
 import ScrollItem from './components/ScrollItem.vue'
 import { getMessage } from './mock'
 
-let sourceData = getMessage(200)
+let sourceData = getMessage(50000)
 
 </script>
 <template>

@@ -21,37 +21,37 @@ export function getOffsetHeight(el:HTMLElement):number {
 }
 
 /**
- * 获取需要展示的item
+ * 获取需要展示的item,
  * @param sourceData
  * @param list 
  * @param direction 
  * @param index 
  * @param height 
  */
-export function getShowData(sourceData: ItemProps[], list: ItemProps[], direction:Direction = 'down', index:number, offsetHeight: number, initDataNum: number):void {
-  let transformY
-  let len = list.length
-  let data
+export function getShowData(sourceData: ItemProps[], list: ItemProps[], direction:Direction = 'down', index:number, offsetHeight: number, initDataNum: number, scrollTop:number):void {
+  let _transformY
+  let _data
+  let _itemSeat = getReserveItemNum(list, scrollTop)
 
   switch(direction) {
     case 'init':
-      data = getInnerIndex(list, index > 0 ? index - 1 : 0)
-      transformY = data ? data.transformY + data.offsetHeight : 0
-      list.splice(index, 1, {...sourceData[index], offsetHeight, transformY})
+      _data = getInnerIndex(list, index > 0 ? index - 1 : 0)
+      _transformY = _data ? _data.transformY + _data.offsetHeight : 0
+      list.splice(index, 1, {...sourceData[index], offsetHeight, transformY: _transformY})
       break;
     case 'down':
-      data = getInnerIndex(list, index - 1)
-      transformY = data ? data.transformY + data.offsetHeight : 0
-      list.push({...sourceData[index], offsetHeight, transformY})
-      if(len >= initDataNum * 3) {
+      _data = getInnerIndex(list, index - 1)
+      _transformY = _data ? _data.transformY + _data.offsetHeight : 0
+      list.push({...sourceData[index], offsetHeight, transformY: _transformY})
+      if(_itemSeat.beforeItemNum >= initDataNum) {
         list.shift()
       }
       break
     case 'up':
-      data = getInnerIndex(list, index + 1)
-      transformY = data ? data.transformY - data.offsetHeight : 0
-      list.unshift({...sourceData[index], offsetHeight, transformY})
-      if(len >= initDataNum * 3) {
+      _data = getInnerIndex(list, index + 1)
+      _transformY = _data ? _data.transformY - offsetHeight : 0
+      list.unshift({...sourceData[index], offsetHeight, transformY: _transformY})
+      if(_itemSeat.afterItemNum >= initDataNum * 2) {
         list.pop()
       }
       break
@@ -70,39 +70,56 @@ function getInnerIndex(list, index) {
       return list[i]
     }
   }
+  return false
 }
 
 /**
- * 获取滚动距离的 item 数量
+ * 滚动事件监听，获取滚动距离的 item 数量
  * @param list 
  * @param distance 
  * @param direction 
  * @returns 
  */
 export function getScrollItemNum(list:ItemProps[], distance: number, direction: Direction = 'down'): number {
-  let calculatorItemHeight = 0
-  let itemNum = 0
+  let _calculatorItemHeight = 0
+  let _itemNum = 0
   let _len = list.length
 
   distance = Math.abs(distance)
-  while(calculatorItemHeight < distance) {
+  while(_calculatorItemHeight < distance) {
     if(direction === 'down') {
-      calculatorItemHeight += list[itemNum].offsetHeight
+      _calculatorItemHeight += list[_itemNum].offsetHeight
     }
     if(direction === 'up') {
-      try {
-        calculatorItemHeight += list[_len - 1 - itemNum].offsetHeight
-      } catch(err) {
-        console.log(itemNum, _len, '再看')
-      }
+      _calculatorItemHeight += list[_len - 1 - _itemNum].offsetHeight
     }
-    if(distance > calculatorItemHeight) {
-      itemNum++ 
+    if(distance > _calculatorItemHeight) {
+      _itemNum++ 
     }
   }
-  return itemNum
+  return _itemNum
 }
 
-export function getScrolltopItemIndex(list, scrollTop) {
+/**
+ * 获取距离当前scrollTop item的前后item数量，保证在回收数据时候不会影响后续顺滑滚动
+ * @param list 
+ * @param scrollTop 
+ * @param direction 
+ */
+export function getReserveItemNum(list:ItemProps[], scrollTop: number) {
+  let _beforeListLen = 0
+  let _afterListLen = 0
 
+  list.forEach((element, index) => {
+    if(scrollTop >= list[index].transformY) {
+      _beforeListLen += 1
+    } else {
+      _afterListLen += 1
+    }
+  })
+
+  return {
+    beforeItemNum: _beforeListLen,
+    afterItemNum: _afterListLen
+  }
 }
