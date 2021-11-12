@@ -12,7 +12,7 @@ export function sleep(period = 0):Promise<void> {
   })
 }
 /**
- * 
+ * 获取元素高度
  * @param el HTMLElement
  * @returns 
  */
@@ -21,6 +21,7 @@ export function getOffsetHeight(el:HTMLElement):number {
 }
 
 /**
+ * 获取需要展示的item
  * @param sourceData
  * @param list 
  * @param direction 
@@ -42,7 +43,7 @@ export function getShowData(sourceData: ItemProps[], list: ItemProps[], directio
       data = getInnerIndex(list, index - 1)
       transformY = data ? data.transformY + data.offsetHeight : 0
       list.push({...sourceData[index], offsetHeight, transformY})
-      if(len > initDataNum * 3) {
+      if(len >= initDataNum * 3) {
         list.shift()
       }
       break
@@ -50,13 +51,19 @@ export function getShowData(sourceData: ItemProps[], list: ItemProps[], directio
       data = getInnerIndex(list, index + 1)
       transformY = data ? data.transformY - data.offsetHeight : 0
       list.unshift({...sourceData[index], offsetHeight, transformY})
-      if(len > initDataNum * 3) {
+      if(len >= initDataNum * 3) {
         list.pop()
       }
       break
   }
 }
 
+/**
+ * 获取元素内部的index
+ * @param list 
+ * @param index 
+ * @returns 
+ */
 function getInnerIndex(list, index) {
   for(let i = 0, len = list.length; i < len; i++) {
     if(list[i].index === index) {
@@ -66,7 +73,7 @@ function getInnerIndex(list, index) {
 }
 
 /**
- * 
+ * 获取滚动距离的 item 数量
  * @param list 
  * @param distance 
  * @param direction 
@@ -75,15 +82,27 @@ function getInnerIndex(list, index) {
 export function getScrollItemNum(list:ItemProps[], distance: number, direction: Direction = 'down'): number {
   let calculatorItemHeight = 0
   let itemNum = 0
+  let _len = list.length
 
+  distance = Math.abs(distance)
   while(calculatorItemHeight < distance) {
     if(direction === 'down') {
       calculatorItemHeight += list[itemNum].offsetHeight
     }
     if(direction === 'up') {
-      calculatorItemHeight += list[list.length - itemNum].offsetHeight
+      try {
+        calculatorItemHeight += list[_len - 1 - itemNum].offsetHeight
+      } catch(err) {
+        console.log(itemNum, _len, '再看')
+      }
     }
-    ++itemNum
+    if(distance > calculatorItemHeight) {
+      itemNum++ 
+    }
   }
   return itemNum
+}
+
+export function getScrolltopItemIndex(list, scrollTop) {
+
 }

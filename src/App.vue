@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted, nextTick, reactive, ref } from 'vue'
 import ScrollList from './../index.vue'
 import ScrollItem from './components/ScrollItem.vue'
 import { getMessage } from './mock'

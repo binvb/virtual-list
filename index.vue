@@ -3,7 +3,7 @@ import { ComponentPublicInstance, reactive, ref, onMounted, onUnmounted} from 'v
 import { sleep, getOffsetHeight, getShowData, getScrollItemNum } from './utils'
 import { SourceData, ItemProps, ReactiveData, Direction } from './index'
 import addQueue from './queue'
-import { debounce } from 'lodash'
+import { throttle } from 'lodash'
 
 interface Props {
   sourceData: SourceData[],
@@ -28,7 +28,7 @@ initData()
 onMounted(() => {
   let _scrollEl = document.querySelector('.scroll-wrapper')
 
-  _scrollEl?.addEventListener('scroll', debounce(scrollHandler, 200))
+  _scrollEl?.addEventListener('scroll', throttle(scrollHandler, 200))
 })
 
 // methods
@@ -46,14 +46,17 @@ function initData() {
 async function render(start = 0, itemNum:number = props.initDataNum * 2, direction: Direction = 'down') {
   let offsetHeight
   let index 
+  let _maxLen = data.sourceData.length
 
   for(let i = 0, len = itemNum; i < len; i++) {
     index = direction === 'up' ? start - i : start + i
-    data.templateData = data.sourceData[index]
-    await sleep()
-    offsetHeight = getOffsetHeight(itemTemplate.value)
+    if(index >= 0 && index < _maxLen) {
+      data.templateData = data.sourceData[index]
+      await sleep()
+      offsetHeight = getOffsetHeight(itemTemplate.value)
 
-    getShowData(data.sourceData as ItemProps[], data.currentData, direction, index, offsetHeight, props.initDataNum)
+      getShowData(data.sourceData as ItemProps[], data.currentData, direction, index, offsetHeight, props.initDataNum)
+    }
   }
 }
 function scrollHandler() {
@@ -63,6 +66,8 @@ function scrollHandler() {
   let scrollItemNum = getScrollItemNum(data.currentData, distance, direction)
 
   if(scrollItemNum > 0) {
+    console.log(direction, scrollItemNum, '看下数据')
+    data.currentScrollTop += distance
     addQueue(() => {
       render(direction === 'down' ? (data.currentData[data.currentData.length - 1].index + 1) : (data.currentData[0].index - 1), scrollItemNum, direction)
     })
