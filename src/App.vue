@@ -7,7 +7,7 @@ let sourceData = getMessage(50000)
 
 </script>
 <template>
-  <ScrollList :sourceData="sourceData" :initDataNum="20" :ScrollItemComponent="ScrollItem" :initItemHeight="93"></ScrollList>
+  <ScrollList :sourceData="sourceData" :initDataNum="20" :ScrollItemComponent="ScrollItem"></ScrollList>
 </template>
 <style lang="less" scoped>
 .myTest {

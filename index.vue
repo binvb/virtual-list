@@ -8,8 +8,7 @@ import { throttle } from 'lodash'
 interface Props {
   sourceData: SourceData[],
   ScrollItemComponent: ComponentPublicInstance,
-  initDataNum: number,
-  initItemHeight: number
+  initDataNum: number
 }
 
 const props = defineProps<Props>()
