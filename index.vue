@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { ComponentPublicInstance, reactive, ref, onMounted, onUnmounted} from 'vue'
+import { ComponentPublicInstance, reactive, ref, onMounted} from 'vue'
 import { sleep, getOffsetHeight, getShowData, getScrollItemNum } from './utils'
 import { SourceData, ItemProps, ReactiveData, Direction } from './index'
 import addQueue from './queue'
@@ -19,7 +19,6 @@ const data = reactive<ReactiveData>({
   currentScrollTop: 0
 })
 const itemTemplate = ref()
-let test = ref<number>(0)
 
 // init data
 initData()
