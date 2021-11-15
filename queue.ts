@@ -1,3 +1,5 @@
+
+   
 const EventQueue: Function[] = []
 let pending: boolean = false
 
