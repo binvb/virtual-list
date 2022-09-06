@@ -1,0 +1,43 @@
+{
+  "name": "@vb_he/vue-virtual-scroll",
+  "version": "1.0.0-beta.35",
+  "type": "module",
+  "types": "./dist/main.d.ts",
+  "main": "./dist/vue3-virtual-list.js",
+  "author": {
+    "name": "vb",
+    "email": "wenbin.vb@gmail.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/binvb/virtual-scroll.git",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit &&vite build --config ./build/pack.js",
+    "preview": "vite preview"
+  },
+  "files": [
+    "src/*",
+    "dist/*"
+  ],
+  "dependencies": {
+    "vue": "^3.2.37"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.184",
+    "@vitejs/plugin-vue": "^3.0.3",
+    "intersection-observer": "^0.12.2",
+    "lodash": "^4.17.21",
+    "nanoid": "^4.0.0",
+    "resize-observer-polyfill": "^1.5.1",
+    "typescript": "^4.6.4",
+    "vite": "^3.0.7",
+    "vite-plugin-dts": "^1.4.1",
+    "vue-tsc": "^0.39.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
