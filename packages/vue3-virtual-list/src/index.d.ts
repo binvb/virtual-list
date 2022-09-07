@@ -15,8 +15,7 @@ export interface ReactiveData {
   scrolling: boolean,
   ajusting: boolen,
   componentID: String,
-  listHeight: number,
-  nomoreData: boolean
+  listHeight: number
 }
 
 export interface Observer {

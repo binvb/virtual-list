@@ -10,6 +10,7 @@ function resizeHandle(data:ReactiveData) {
         return
     }
     const scrollTop = utils.getScrollTop(data)
+    const ifBottomPosition = utils.ifBottomPosition(data)
     const currentViewPortTopIndex = utils.getCurrentTopIndex(currentData, scrollTop)
     const viewPortOffsetHeight = utils.getViewPortOffsetHeight(data)
     const innerOffsetHeight = utils.getListHeight(data)
@@ -19,9 +20,8 @@ function resizeHandle(data:ReactiveData) {
         const _elOffsetHeight = (document.querySelector(`.fishUI-virtual-list_${componentID} li[data-index="${currentData[i].index}"]`) as HTMLElement).offsetHeight
 
         if(currentData[i].offsetHeight !==  _elOffsetHeight) {
-            // 1、resize item above current scrollTop
-            // 2、if chating(bottom position), need scroll to bottom(but here's allready render, it's hard to get before status, here use last item transformY to compare)
-            if (scrollTop !== 0 && currentViewPortTopIndex! > currentData[i].index) {
+            // resize item above current scrollTop, exclude top/bottom position
+            if (scrollTop !== 0 && !ifBottomPosition && currentViewPortTopIndex! > currentData[i].index) {
                 ajustScrollPosition(_elOffsetHeight - currentData[i].offsetHeight, data)
             }
             // // if bottom

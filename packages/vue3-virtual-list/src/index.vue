@@ -33,9 +33,8 @@ const data = reactive<ReactiveData>({
 	loading: false,
 	scrolling: false,
 	ajusting: false,
-	componentID: new Date().getTime() + utils.getRandom().toString(),
-	listHeight: 0, // calculate list height real time
-	nomoreData: false
+	componentID: new Date().getTime() + utils.getRandom().toString(), 
+	listHeight: 0 
 })
 
 const resizeThrottle = throttle(() => {
@@ -136,6 +135,7 @@ defineExpose<VirtualScrollExpose>({
 	}
 })
 
+// methods 
 function locate(index: number) {
 	if(!data.sourceData.length) {
 		return
@@ -155,7 +155,7 @@ function setListHeight() {
 
 	if(lastItem) {
 		let height = lastItem.offsetHeight + lastItem.transformY
-		console.log(`listheight: ${height}`)
+
 		data.listHeight = height
 	}
 }

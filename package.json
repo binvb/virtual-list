@@ -8,5 +8,16 @@
   },
   "keywords": [],
   "author": "vb",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.19.0",
+    "@babel/eslint-parser": "^7.18.9",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
+    "@typescript-eslint/parser": "^5.36.2",
+    "@vue/eslint-config-typescript": "^11.0.0",
+    "eslint": "^8.18.0",
+    "eslint-config-alloy": "^4.6.2",
+    "eslint-plugin-vue": "^9.4.0",
+    "vue-eslint-parser": "^9.0.3"
+  }
 }

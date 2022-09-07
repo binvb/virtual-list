@@ -61,7 +61,7 @@ function del(index: number | number[], data: ReactiveData, observer: Observer, p
 function add(index: number, insertData: any[], data: ReactiveData, observer: Observer, props:any) {
     const {retainHeightValue} = props
     let {sourceData} = data
-    let isScrollBottom = utils.ifScrollBottom(data)
+    let isScrollBottom = utils.ifBottomPosition(data)
 
     sourceData.splice(index,0, ...insertData)
     sourceDataInitail(data, retainHeightValue)
