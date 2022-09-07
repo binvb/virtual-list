@@ -8,6 +8,8 @@ export interface ItemProps{
 export type SourceData = Partial<ItemProps> & {
   [key: string]: any
 }
+
+type Mode = 'normal' | 'loading'
 export interface ReactiveData {
   sourceData:  ItemProps[],
   currentData: ItemProps[],
@@ -15,7 +17,8 @@ export interface ReactiveData {
   scrolling: boolean,
   ajusting: boolen,
   componentID: String,
-  listHeight: number
+  listHeight: number,
+  mode: Mode
 }
 
 export interface Observer {

@@ -34,7 +34,8 @@ const data = reactive<ReactiveData>({
 	scrolling: false,
 	ajusting: false,
 	componentID: new Date().getTime() + utils.getRandom().toString(), 
-	listHeight: 0 
+	listHeight: 0,
+	mode: props.loadingOptions ? 'loading' : 'normal'
 })
 
 const resizeThrottle = throttle(() => {
