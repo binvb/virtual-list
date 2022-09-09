@@ -1,11 +1,11 @@
-import { nextTick } from 'vue'
-import { ajustScrollPosition, scrollToBottom } from './scrollInstance'
+import { ajustScrollPosition } from './scrollInstance'
 import { ReactiveData } from "./index.d"
 import utils from './utils'
 
 function resizeHandle(data:ReactiveData) {
     const { currentData, sourceData, componentID } = data
     const len = currentData.length
+
     if(!len) {
         return
     }

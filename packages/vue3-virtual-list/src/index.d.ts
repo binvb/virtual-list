@@ -41,5 +41,6 @@ export type Direction = 'up' | 'down'
 export type LoadingOptions = {
   loadingFn: () => Promise<SourceData[]>,
   loadingComponent?: ComponentPublicInstance,
-  nomoreData?: boolean
+  nomoreData?: boolean,
+  nomoreDataText: String
 }

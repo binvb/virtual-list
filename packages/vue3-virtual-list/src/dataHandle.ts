@@ -8,7 +8,7 @@ import { scrollToBottom } from './scrollInstance'
 // when rendered, current data will update offsetHeight && transformY
 // when current data updated, avoid complex calculation, do not update all data all the time
 // only update in some case
-function getSourceDataAfterResize(sourceData: SourceData[], endIndex:number) {
+function resetSourceDataBeforeLocate(sourceData: SourceData[], endIndex:number) {
     for(let i = 0; i <= endIndex; i += 1) {
         if(!sourceData[i]) {
             return
@@ -29,7 +29,9 @@ function sourceDataInitail(data: ReactiveData, retainHeightValue: number, newVal
         let pre = sourceData[index - 1]
 
         if(!sourceData[index]) {
-            sourceData[index] = ({nanoid: nanoid(), ...item} as ItemProps)
+            const _nanoid = item.nanoid || nanoid()
+            
+            sourceData[index] = ({nanoid: _nanoid, ...item} as ItemProps)
         }
         sourceData[index].index = index
         sourceData[index].offsetHeight = item.offsetHeight || retainHeightValue
@@ -84,6 +86,12 @@ function setSourceData(newData: any[], data: ReactiveData, observer: Observer, p
 
     sourceDataInitail(data, retainHeightValue, newData)
     resetCurrentData(data, observer, props)
+    nextTick(() => {
+        // if direction === 'up', then scroll to bottom
+        if(props.direction === 'up' && props.loadingOptions) {
+            scrollToBottom(data)
+        }
+    })
 }
 
 function resetCurrentData(data: ReactiveData, observer: Observer, props: any) {
@@ -121,10 +129,11 @@ function resetCurrentData(data: ReactiveData, observer: Observer, props: any) {
 
 
 export default {
-    getSourceDataAfterResize,
+    resetSourceDataBeforeLocate,
     sourceDataInitail,
     del,
     add,
     update,
-    setSourceData
+    setSourceData,
+    resetCurrentData
 }
