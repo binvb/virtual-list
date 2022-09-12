@@ -56,7 +56,7 @@ async function reset() {
         <button @click="update">update</button>
       </div>
       <div style="display:flex;justify-content: space-between;margin-top: 20px">
-        <input v-model="data.updateNum" type="number" placeholder="index" />
+        <input v-model="data.delNum" type="number" placeholder="index" />
         <button @click="del">del</button>
       </div>
       <div style="display:flex;justify-content: space-between;margin-top: 20px">
