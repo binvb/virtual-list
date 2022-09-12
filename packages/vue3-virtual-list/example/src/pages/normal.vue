@@ -9,7 +9,8 @@ const data = reactive({
   locateNum: 0,
   updateNum: 0,
   delNum: 0,
-  addNum: 0
+  addNum: 0,
+  size: 100000
 })
 
 onMounted(async() => {
@@ -19,7 +20,7 @@ onMounted(async() => {
 function loadData(): Promise<any[]> {
     return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(getMessage(100000))
+      resolve(getMessage(data.size))
     },1000)
   })
 }
@@ -38,6 +39,9 @@ async function add() {
   const newData = await getMessage(1)
 
   virtualScroll.value?.add(data.addNum, newData)
+}
+async function reset() {
+  virtualScroll.value!.setSourceData(await loadData())
 }
 </script>
 <template>
@@ -58,6 +62,10 @@ async function add() {
       <div style="display:flex;justify-content: space-between;margin-top: 20px">
         <input v-model="data.addNum" type="number" placeholder="index" />
         <button @click="add">add</button>
+      </div>
+      <div style="display:flex;justify-content: space-between;margin-top: 20px">
+        <input v-model="data.size" type="number" placeholder="index" />
+        <button @click="reset">reset</button>
       </div>
     </div>
     <div style="width: 800px;height: 1000px;margin: 0 auto;border: 1px solid #000">

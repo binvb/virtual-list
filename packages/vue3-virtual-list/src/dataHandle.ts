@@ -1,9 +1,6 @@
-import { nextTick } from 'vue'
 import { nanoid } from 'nanoid'
 import observeHandle from './observeHandle'
 import { SourceData, ItemProps, Observer, ReactiveData } from './index.d'
-import utils from './utils'
-import { scrollToBottom } from './scrollInstance'
 
 // when rendered, current data will update offsetHeight && transformY
 // when current data updated, avoid complex calculation, do not update all data all the time
@@ -29,9 +26,7 @@ function sourceDataInitail(data: ReactiveData, retainHeightValue: number, newVal
         let pre = sourceData[index - 1]
 
         if(!sourceData[index]) {
-            const _nanoid = item.nanoid || nanoid()
-            
-            sourceData[index] = ({nanoid: _nanoid, ...item} as ItemProps)
+            sourceData[index] = ({nanoid: nanoid(), ...item} as ItemProps)
         }
         sourceData[index].index = index
         sourceData[index].offsetHeight = item.offsetHeight || retainHeightValue
@@ -50,10 +45,12 @@ function del(index: number | number[], data: ReactiveData, observer: Observer, p
     let { sourceData } = data
 
     if(index instanceof Array) {
-        index.forEach(item => {
-            sourceData.splice(item, 1)
+        index.forEach(_index => {
+            data.listHeight -= sourceData[_index].offsetHeight
+            sourceData.splice(_index, 1)
         })
     } else {
+        data.listHeight -= sourceData[index].offsetHeight
         sourceData.splice(index, 1)
     }
     sourceDataInitail(data, retainHeightValue)
@@ -63,16 +60,10 @@ function del(index: number | number[], data: ReactiveData, observer: Observer, p
 function add(index: number, insertData: any[], data: ReactiveData, observer: Observer, props:any) {
     const {retainHeightValue} = props
     let {sourceData} = data
-    let isScrollBottom = utils.ifBottomPosition(data)
 
     sourceData.splice(index,0, ...insertData)
     sourceDataInitail(data, retainHeightValue)
     resetCurrentData(data, observer, props)
-    nextTick(() => {
-        if(isScrollBottom && props.loadingOptions && props.direction === 'up') {
-            scrollToBottom(data)
-        }
-    })
 }
 
 function update(index: number, data: any, sourceData: ItemProps[]) {
@@ -86,12 +77,6 @@ function setSourceData(newData: any[], data: ReactiveData, observer: Observer, p
 
     sourceDataInitail(data, retainHeightValue, newData)
     resetCurrentData(data, observer, props)
-    nextTick(() => {
-        // if direction === 'up', then scroll to bottom
-        if(props.direction === 'up' && props.loadingOptions) {
-            scrollToBottom(data)
-        }
-    })
 }
 
 function resetCurrentData(data: ReactiveData, observer: Observer, props: any) {
@@ -102,15 +87,9 @@ function resetCurrentData(data: ReactiveData, observer: Observer, props: any) {
         currentData.splice(0, 10000)
         return 
     }
-    // if current Data exist, still use current Data, only change position
+    // reset
     let startIndex = currentData[0] ? (currentData[0].index > sourceData[sourceData.length - 1].index ? 0 : currentData[0].index) : 0
     let len = sourceData.length > initDataNum * 2 ? initDataNum * 2 : sourceData.length
-    const strollTop = utils.getScrollTop(data)
-
-    // if in top position and not loading mode, need start in sourceData[0]
-    if(strollTop === 0 && !props.loadingFn) {
-        startIndex = 0
-    }
     // unobserve
     observeHandle.unobserve(currentData, observer, data)
     for(let i = 0; i < len; i += 1) {
@@ -118,6 +97,8 @@ function resetCurrentData(data: ReactiveData, observer: Observer, props: any) {
 
         if(_data) {
             currentData[i] = _data
+        } else {
+            currentData.splice(i, 1)
         }
     }
     if(currentData.length > len) {
@@ -130,7 +111,6 @@ function resetCurrentData(data: ReactiveData, observer: Observer, props: any) {
 
 export default {
     resetSourceDataBeforeLocate,
-    sourceDataInitail,
     del,
     add,
     update,

@@ -8,17 +8,16 @@ export interface ItemProps{
 export type SourceData = Partial<ItemProps> & {
   [key: string]: any
 }
-
-type Mode = 'normal' | 'loading'
 export interface ReactiveData {
-  sourceData:  ItemProps[],
-  currentData: ItemProps[],
-  loading: boolean,
-  scrolling: boolean,
-  ajusting: boolen,
-  componentID: String,
-  listHeight: number,
-  mode: Mode
+  sourceData:  ItemProps[], // all data
+  currentData: ItemProps[], // current rendering data
+  loading: boolean, // loading data
+  scrolling: boolean, // scrolling
+  ajusting: boolen, // scrolling compensation
+  componentID: String, // unique id
+  listHeight: number, // list offsetheight
+  locationPosition: number, // locate position
+  userScrolling: boolean // user scrolling
 }
 
 export interface Observer {
@@ -41,6 +40,5 @@ export type Direction = 'up' | 'down'
 export type LoadingOptions = {
   loadingFn: () => Promise<SourceData[]>,
   loadingComponent?: ComponentPublicInstance,
-  nomoreData?: boolean,
-  nomoreDataText: String
+  nomoreData?: boolean
 }

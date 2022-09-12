@@ -1,8 +1,8 @@
-import { ajustScrollPosition } from './scrollInstance'
+import { ajustAction } from './scrollInstance'
 import { ReactiveData } from "./index.d"
 import utils from './utils'
 
-function resizeHandle(data:ReactiveData) {
+function resizeHandle(data:ReactiveData, props: any) {
     const { currentData, sourceData, componentID } = data
     const len = currentData.length
 
@@ -10,17 +10,23 @@ function resizeHandle(data:ReactiveData) {
         return
     }
     const scrollTop = utils.getScrollTop(data)
-    const currentViewPortTopIndex = utils.getCurrentTopIndex(currentData, scrollTop)
-
+    const correctLocateItem = data.currentData.find(item => item.transformY >= data.locationPosition) || data.currentData[data.currentData.length - 1]
+    
     for(let i = 0; i < len; i += 1) {
         const _pre = sourceData[currentData[i].index! - 1]
         const _elOffsetHeight = (document.querySelector(`.fishUI-virtual-list_${componentID} li[data-index="${currentData[i].index}"]`) as HTMLElement).offsetHeight
 
         if(currentData[i].offsetHeight !==  _elOffsetHeight) {
-            // resize item above current scrollTop, exclude top position && loading mode
-            if (data.mode !== 'loading' && scrollTop !== 0 && currentViewPortTopIndex! > currentData[i].index) {
-                ajustScrollPosition(_elOffsetHeight - currentData[i].offsetHeight, data)
+            let _offset = _elOffsetHeight - currentData[i].offsetHeight
+            // only above locate item resize need to be compenstion, exclude top position
+            if (scrollTop !== 0 && correctLocateItem?.index! > currentData[i].index && !data.userScrolling) {
+                data.locationPosition += _offset
+                setTimeout(() => {
+                    data.ajusting = true
+                    ajustAction(data.locationPosition, data)
+                }, 10)
             }
+            data.listHeight += _offset
             currentData[i].offsetHeight = _elOffsetHeight
         }
         if(_pre) {
