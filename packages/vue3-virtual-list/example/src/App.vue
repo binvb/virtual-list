@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
+import { useRoute } from 'vue-router'
+
 interface User {
   name: string
   top: number
@@ -10,6 +12,7 @@ interface Data {
 const data = reactive<Data>({
   list: []
 })
+const route = useRoute()
 
 onMounted(() => {
   getList(100)
@@ -25,16 +28,13 @@ function getList(num: number) {
     )
   }
 }
-function add() {
-  data.list.push({name: '操你', top: data.list.length * 40})
-}
 </script>
 <template>
   <div class="header">
     <h1>vue3-virtual-list</h1>
-    <a href="#/normal">normal</a>
-    <a href="#/loading">loading</a>
-    <a href="#/chat">chat</a>
+    <a :class="{active: route.name === 'Normal'}" href="#/normal">normal</a>
+    <a :class="{active: route.name === 'Loading'}" href="#/loading">loading</a>
+    <a :class="{'active': route.name === 'Chat'}" href="#/chat">chat</a>
   </div>
   <router-view></router-view>
 </template>
@@ -62,6 +62,9 @@ function add() {
     border-radius: 4px;
     cursor: pointer;
     text-decoration: none;
+  }
+  .active {
+    background: #ca9252;
   }
 }
 </style>

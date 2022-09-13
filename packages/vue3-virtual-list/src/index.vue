@@ -166,10 +166,14 @@ function setListHeight() {
 function loadData(lastIndex: number) {
 	data.loading = true
 	props.loadingOptions!.loadingFn().then((res) => {
+		const _preSourceDataLen = data.sourceData.length
+
 		data.loading = false
 		dataHandle.add(lastIndex, res, data, {resizeObserver, intersectionObserver}, props)
 		setListHeight()
-		locate(res.length)
+		nextTick(() => {
+			locate(props.direction === 'up' ? res.length : _preSourceDataLen)
+		})
 	})
 }
 function checkIfScrollToBottom() {
