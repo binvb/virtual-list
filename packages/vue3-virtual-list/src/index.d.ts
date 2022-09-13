@@ -38,7 +38,8 @@ export type VirtualScrollExpose =  {
 export type Direction = 'up' | 'down' 
 
 export type LoadingOptions = {
-  loadingFn: () => Promise<SourceData[]>,
+  loadingFn: () => Promise<any[]>,
   loadingComponent?: ComponentPublicInstance,
-  nomoreData?: boolean
+  nomoreData?: boolean,
+  nomoreDataText?: string
 }

@@ -99,14 +99,12 @@ defineExpose<VirtualScrollExpose>({
 	locate,
 	del: (index) => {
 		dataHandle.del(index, data, {resizeObserver, intersectionObserver}, props)
+		setListHeight()
 	},
 	add: (index, insertData) => {
 		dataHandle.add(index, insertData, data, {resizeObserver, intersectionObserver}, props)
-		if(props.loadingOptions && props.direction === 'up' && utils.ifBottomPosition(data)) {
-			nextTick(() => {
-				scrollToBottom(data)
-			})
-		}
+		setListHeight()
+		checkIfScrollToBottom()
 	},
 	update: (index, _data) => {
 		dataHandle.update(index, _data, data.sourceData)
@@ -115,6 +113,11 @@ defineExpose<VirtualScrollExpose>({
 		data.sourceData = []
 		dataHandle.setSourceData(_data, data, {resizeObserver, intersectionObserver}, props)
 		setListHeight()
+		if(props.loadingOptions && props.direction === 'up') {
+			nextTick(() => {
+				scrollToBottom(data)
+			})
+		}
 	},
 	getData() {
 		return data.sourceData
@@ -154,12 +157,6 @@ function locate(index: number) {
 function setListHeight() {
 	let lastItem = data.sourceData[data.sourceData.length - 1]
 
-	// keep bottom compensation
-	if(props.loadingOptions && props.direction === 'up' && utils.ifBottomPosition(data)) {
-		nextTick(() => {
-			scrollToBottom(data)
-		})
-	}
 	if(lastItem) {
 		let height = lastItem.offsetHeight + lastItem.transformY
 
@@ -171,21 +168,30 @@ function loadData(lastIndex: number) {
 	props.loadingOptions!.loadingFn().then((res) => {
 		data.loading = false
 		dataHandle.add(lastIndex, res, data, {resizeObserver, intersectionObserver}, props)
-		// when loaded data, if direction === up, need to locate before position
-		locate(data.currentData[data.currentData.length - 1].index)
+		setListHeight()
+		locate(res.length)
 	})
+}
+function checkIfScrollToBottom() {
+	if(props.loadingOptions && props.direction === 'up' && utils.ifBottomPosition(data)) {
+		nextTick(() => {
+			scrollToBottom(data)
+		})
+	}
 }
 </script>
 <template>
 	<div :class="'fishUI-virtual-list_' + data.componentID" style="width: 100%; height: 100%; overflow-y: scroll">
 		<div v-if="props.loadingOptions && props.direction === 'up'">	
 			<component :is="props.loadingOptions.loadingComponent || Loading" v-if="data.loading"></component>
+			<div v-if="props.loadingOptions.nomoreData" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
 		</div>
 		<ul class="fishUI-virtual-list__inner" :style="{height: `${data.listHeight}px`}">
 			<template v-for="item in data.currentData" :key="item.nanoid">
 				<li
 					:data-index="item.index"
 					:data-offsetHeight="item.offsetHeight"
+					:data-key="item.nanoid"
 					:style="{
 					position: 'absolute',
 					transform: `translateY(${item.transformY || 0}px)`,
@@ -197,6 +203,7 @@ function loadData(lastIndex: number) {
 		</ul>
 		<div v-if="props.loadingOptions && props.direction === 'down'">	
 			<component :is="props.loadingOptions.loadingComponent || Loading" v-if="data.loading"></component>
+			<div v-if="props.loadingOptions.nomoreData" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
 		</div>
 	</div>
 </template>
@@ -205,6 +212,7 @@ function loadData(lastIndex: number) {
 .fishUI-virtual-list__inner {
 	position: relative;
 	margin: 0;
+	padding: 0;
 }
 .fishUI-virtual-list__inner>li {
 	width: 100%;

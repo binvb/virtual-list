@@ -28,6 +28,9 @@ function sourceDataInitail(data: ReactiveData, retainHeightValue: number, newVal
         if(!sourceData[index]) {
             sourceData[index] = ({nanoid: nanoid(), ...item} as ItemProps)
         }
+        if(!sourceData[index].nanoid) {
+            sourceData[index].nanoid = nanoid()
+        }
         sourceData[index].index = index
         sourceData[index].offsetHeight = item.offsetHeight || retainHeightValue
         sourceData[index].transformY = pre ? (pre.transformY! + pre.offsetHeight!) : retainHeightValue * index
