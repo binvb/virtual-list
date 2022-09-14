@@ -148,6 +148,7 @@ function locate(index: number) {
 
 	data.locationPosition = position
 	locatePosition(data.locationPosition, data)
+	setListHeight()
 }
 
 function setListHeight() {
