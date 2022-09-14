@@ -26,7 +26,7 @@ function indexExist(index: any) {
 }
 
 function getRandom() {
-    return parseInt((Math.random() *10).toString())
+    return parseInt((Math.random() *10).toString(), 10)
 }
 
 function getScrollTop(data: ReactiveData) {

@@ -104,12 +104,19 @@ function getCurrentIndex(data: ReactiveData, props: any): number {
 function resetCurrentData(data: ReactiveData, observer: Observer, props: any, startIndex: number) {
     const {sourceData, currentData} = data
     const len = sourceData.length > props.initDataNum * 2 ? props.initDataNum * 2 : sourceData.length
+    let _startIndex = startIndex
 
+    if(!sourceData.length) {
+        return 
+    }
+    if(_startIndex < 0) {
+        _startIndex = 0
+    }
     // unobserve
     observeHandle.unobserve(currentData, observer, data)
     for(let i = 0; i < len; i += 1) {
-        if(sourceData[startIndex + i]) {
-            currentData[i] = sourceData[startIndex + i]
+        if(sourceData[_startIndex + i]) {
+            currentData[i] = sourceData[_startIndex + i]
         } else {
             currentData.splice(i, 1)
         }
@@ -117,7 +124,6 @@ function resetCurrentData(data: ReactiveData, observer: Observer, props: any, st
     if(currentData.length > len) {
         currentData.splice(len, 10000)
     }
-    console.log(`${JSON.stringify(currentData)}`)
     // observe
     observeHandle.observe(currentData, observer, data)
 }

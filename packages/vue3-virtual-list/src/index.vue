@@ -51,8 +51,7 @@ const checkIfCorrectCurrentData = throttle(() => {
 	data.scrolling = false
 	data.userScrolling = false
 	if(!scope.find(item => item.index === correctIndex)) {
-		dataHandle.resetSourceDataBeforeLocate(data.sourceData, correctIndex)
-		dataHandle.resetCurrentData(data, {intersectionObserver, resizeObserver}, props, correctIndex)
+		locate(correctIndex)
 	}
 }, 100)
 
@@ -64,7 +63,7 @@ const resizeObserver = new ResizeObserver((entries, observer) => {
 		if(!height) {
 			return false
 		}
-		resizeHandle(data, props)
+		resizeHandle(data)
 	}
 })
 // intersectionObserver
@@ -74,12 +73,12 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 		const lastIndex = props.direction === 'up' ? 0 : data.sourceData[data.sourceData.length - 1].index
 
 		if(entry.intersectionRatio > 0 &&  data.scrolling && !data.ajusting) {
-			data.currentData = interSectionHandle.interAction(+entry.target.getAttribute('data-index')!, props.initDataNum, data, {intersectionObserver, resizeObserver})
+			data.currentData = interSectionHandle.interAction(Number(entry.target.getAttribute('data-index'))!, props.initDataNum, data, {intersectionObserver, resizeObserver})
 		}
 		// if it's last item and loading mode, should trigger loadingFn
-		if(entry.intersectionRatio > 0 && lastIndex === +currentIndex! && data.scrolling && !data.ajusting) {
+		if(entry.intersectionRatio > 0 && lastIndex === Number(currentIndex) && data.scrolling && !data.ajusting) {
 			if(!data.loading && props.loadingOptions && !props.loadingOptions.nomoreData) {
-				loadData(lastIndex)
+				loadData(lastIndex + 1)
 			}
 		}
 	}
@@ -143,7 +142,7 @@ function locate(index: number) {
 	}
 	// ajust row data
 	dataHandle.resetSourceDataBeforeLocate(data.sourceData, index)
-	dataHandle.resetCurrentData(data, {intersectionObserver, resizeObserver}, props, index)
+	dataHandle.resetCurrentData(data, {intersectionObserver, resizeObserver}, props, index - props.initDataNum)
 	let item = data.sourceData[index]
 	let position = item.transformY
 
@@ -169,7 +168,14 @@ function loadData(lastIndex: number) {
 		dataHandle.add(lastIndex, res, data, {resizeObserver, intersectionObserver}, props)
 		setListHeight()
 		nextTick(() => {
-			locate(props.direction === 'up' ? res.length : _preSourceDataLen)
+			// locate after load data
+			if(props.direction === 'up') {
+				locate(res.length)
+			} else {
+				const _correctIndex = utils.getCorrectTopIndex(data.sourceData, utils.getScrollTop(data))!
+
+				locate(_correctIndex)
+			}
 		})
 	})
 }

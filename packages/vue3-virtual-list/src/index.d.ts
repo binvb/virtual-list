@@ -13,7 +13,7 @@ export interface ReactiveData {
   currentData: ItemProps[], // current rendering data
   loading: boolean, // loading data
   scrolling: boolean, // scrolling
-  ajusting: boolen, // scrolling compensation
+  ajusting: boolean, // scrolling compensation
   componentID: String, // unique id
   listHeight: number, // list offsetheight
   locationPosition: number, // locate position
@@ -25,7 +25,7 @@ export interface Observer {
   resizeObserver: ResizeObserver
 }
 
-export type VirtualScrollExpose =  {
+export interface VirtualScrollExpose {
   locate: (index: number) => void
   del: (index: number | number[]) => void
   add: (index: number, insertData: any[]) => void
@@ -37,7 +37,7 @@ export type VirtualScrollExpose =  {
 
 export type Direction = 'up' | 'down' 
 
-export type LoadingOptions = {
+export interface LoadingOptions {
   loadingFn: () => Promise<any[]>,
   loadingComponent?: ComponentPublicInstance,
   nomoreData?: boolean,
