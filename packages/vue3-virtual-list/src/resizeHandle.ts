@@ -1,7 +1,11 @@
 import { ajustAction } from './scrollInstance'
 import { ReactiveData } from "./index.d"
 import utils from './utils'
+import throttle from 'lodash/throttle'
 
+const ajustActionThrottle = throttle((data) => {
+    ajustAction(data.locationPosition, data)
+}, 50)
 function resizeHandle(data:ReactiveData) {
     const { currentData, sourceData, componentID } = data
     const len = currentData.length
@@ -21,10 +25,8 @@ function resizeHandle(data:ReactiveData) {
             // only above locate item resize need to be compenstion, exclude top position
             if (scrollTop !== 0 && correctLocateItem?.index > currentData[i].index && !data.userScrolling) {
                 data.locationPosition += _offset
-                setTimeout(() => {
-                    data.ajusting = true
-                    ajustAction(data.locationPosition, data)
-                }, 10)
+                data.ajusting = true
+                ajustActionThrottle(data)
             }
             data.listHeight += _offset
             currentData[i].offsetHeight = _elOffsetHeight

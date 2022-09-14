@@ -53,7 +53,7 @@ const checkIfCorrectCurrentData = throttle(() => {
 	if(!scope.find(item => item.index === correctIndex)) {
 		locate(correctIndex)
 	}
-}, 100)
+}, 200)
 
 // resizeObserver
 const resizeObserver = new ResizeObserver((entries, observer) => {
@@ -155,16 +155,12 @@ function setListHeight() {
 	let lastItem = data.sourceData[data.sourceData.length - 1]
 
 	if(lastItem) {
-		let height = lastItem.offsetHeight + lastItem.transformY
-
-		data.listHeight = height
+		data.listHeight = lastItem.offsetHeight + lastItem.transformY
 	}
 }
 function loadData(lastIndex: number) {
 	data.loading = true
 	props.loadingOptions!.loadingFn().then((res) => {
-		const _preSourceDataLen = data.sourceData.length
-
 		data.loading = false
 		dataHandle.add(lastIndex, res, data, {resizeObserver, intersectionObserver}, props)
 		setListHeight()

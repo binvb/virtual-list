@@ -1,13 +1,5 @@
 import { SourceData, ReactiveData, ItemProps } from "./index.d"
 
-function sleep(period: number): Promise<boolean> {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(true)
-        },period)
-    })
-}
-
 // get closed top item
 function getCorrectTopIndex(dataList: SourceData[], top: number) {
     let afterDataList = dataList.filter(item => item.transformY! >= top)
@@ -54,7 +46,6 @@ function ifBottomPosition(data: ReactiveData) {
 
 export default {
     indexExist,
-    sleep,
     getRandom,
     getCorrectTopIndex,
     getScrollTop,
