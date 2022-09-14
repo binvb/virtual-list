@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid'
 import observeHandle from './observeHandle'
 import { SourceData, ItemProps, Observer, ReactiveData } from './index.d'
+import utils from './utils'
 
 // when rendered, current data will update offsetHeight && transformY
 // when current data updated, avoid complex calculation, do not update all data all the time
@@ -93,13 +94,16 @@ function resetCurrentData(data: ReactiveData, observer: Observer, props: any) {
     // reset
     let startIndex = currentData[0] ? (currentData[0].index > sourceData[sourceData.length - 1].index ? 0 : currentData[0].index) : 0
     let len = sourceData.length > initDataNum * 2 ? initDataNum * 2 : sourceData.length
+
+    // if bottom position,reset startIndex to include new item
+    if(props.loadingOptions && props.direction === 'up' && utils.ifBottomPosition(data)) {
+        startIndex = sourceData.length - initDataNum * 2
+    }
     // unobserve
     observeHandle.unobserve(currentData, observer, data)
     for(let i = 0; i < len; i += 1) {
-        let _data = sourceData[startIndex + i]
-
-        if(_data) {
-            currentData[i] = _data
+        if(sourceData[startIndex + i]) {
+            currentData[i] = sourceData[startIndex + i]
         } else {
             currentData.splice(i, 1)
         }
