@@ -50,9 +50,9 @@ const checkIfCorrectCurrentData = throttle(() => {
 	data.ajusting = false
 	data.scrolling = false
 	data.userScrolling = false
-
 	if(!scope.find(item => item.index === correctIndex)) {
-		data.currentData = interSectionHandle.interAction(correctIndex, props.initDataNum, data, {intersectionObserver, resizeObserver})
+		dataHandle.resetSourceDataBeforeLocate(data.sourceData, correctIndex)
+		dataHandle.resetCurrentData(data, {intersectionObserver, resizeObserver}, props, correctIndex)
 	}
 }, 100)
 
@@ -143,15 +143,12 @@ function locate(index: number) {
 	}
 	// ajust row data
 	dataHandle.resetSourceDataBeforeLocate(data.sourceData, index)
-
+	dataHandle.resetCurrentData(data, {intersectionObserver, resizeObserver}, props, index)
 	let item = data.sourceData[index]
 	let position = item.transformY
 
 	data.locationPosition = position
-	locatePosition(data.locationPosition, data) 
-	nextTick(() => {
-		checkIfCorrectCurrentData()
-	})
+	locatePosition(data.locationPosition, data)
 }
 
 function setListHeight() {
@@ -177,7 +174,7 @@ function loadData(lastIndex: number) {
 	})
 }
 function checkIfScrollToBottom() {
-	if(props.loadingOptions && props.direction === 'up' && utils.ifBottomPosition(data)) {
+	if(props.direction === 'up' && utils.ifBottomPosition(data)) {
 		nextTick(() => {
 			scrollToBottom(data)
 		})

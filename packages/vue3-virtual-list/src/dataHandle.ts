@@ -58,7 +58,7 @@ function del(index: number | number[], data: ReactiveData, observer: Observer, p
         sourceData.splice(index, 1)
     }
     sourceDataInitail(data, retainHeightValue)
-    resetCurrentData(data, observer, props)
+    resetCurrentData(data, observer, props, getCurrentIndex(data, props))
 }
 
 function add(index: number, insertData: any[], data: ReactiveData, observer: Observer, props:any) {
@@ -67,7 +67,7 @@ function add(index: number, insertData: any[], data: ReactiveData, observer: Obs
 
     sourceData.splice(index,0, ...insertData)
     sourceDataInitail(data, retainHeightValue)
-    resetCurrentData(data, observer, props)
+    resetCurrentData(data, observer, props, getCurrentIndex(data, props))
 }
 
 function update(index: number, data: any, sourceData: ItemProps[]) {
@@ -80,25 +80,31 @@ function setSourceData(newData: any[], data: ReactiveData, observer: Observer, p
     const {retainHeightValue} = props
 
     sourceDataInitail(data, retainHeightValue, newData)
-    resetCurrentData(data, observer, props)
+    resetCurrentData(data, observer, props, getCurrentIndex(data, props))
 }
 
-function resetCurrentData(data: ReactiveData, observer: Observer, props: any) {
+function getCurrentIndex(data: ReactiveData, props: any): number {
     const { initDataNum } = props
     let {sourceData, currentData} = data
 
     if(!sourceData.length) {
         currentData.splice(0, 10000)
-        return 
+        return 0
     }
-    // reset
     let startIndex = currentData[0] ? (currentData[0].index > sourceData[sourceData.length - 1].index ? 0 : currentData[0].index) : 0
-    let len = sourceData.length > initDataNum * 2 ? initDataNum * 2 : sourceData.length
 
     // if bottom position,reset startIndex to include new item
-    if(props.loadingOptions && props.direction === 'up' && utils.ifBottomPosition(data)) {
+    if(props.direction === 'up' && utils.ifBottomPosition(data)) {
         startIndex = sourceData.length - initDataNum * 2
     }
+
+    return startIndex
+}
+
+function resetCurrentData(data: ReactiveData, observer: Observer, props: any, startIndex: number) {
+    const {sourceData, currentData} = data
+    const len = sourceData.length > props.initDataNum * 2 ? props.initDataNum * 2 : sourceData.length
+
     // unobserve
     observeHandle.unobserve(currentData, observer, data)
     for(let i = 0; i < len; i += 1) {
@@ -111,6 +117,7 @@ function resetCurrentData(data: ReactiveData, observer: Observer, props: any) {
     if(currentData.length > len) {
         currentData.splice(len, 10000)
     }
+    console.log(`${JSON.stringify(currentData)}`)
     // observe
     observeHandle.observe(currentData, observer, data)
 }
@@ -122,5 +129,6 @@ export default {
     add,
     update,
     setSourceData,
+    sourceDataInitail,
     resetCurrentData
 }
