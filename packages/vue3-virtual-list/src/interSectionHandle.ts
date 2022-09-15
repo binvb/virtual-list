@@ -1,5 +1,5 @@
 import observeHandle from './observeHandle'
-import { ItemProps, Observer, ReactiveData } from "./index.d"
+import { Observer, ReactiveData } from "./index.d"
 
 interface PatchResult {
     before: number // need to fill scroll item number before
