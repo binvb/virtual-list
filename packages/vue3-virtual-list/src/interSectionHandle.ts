@@ -22,7 +22,6 @@ function interAction(currentIndex: number, initDataNum: number, data: ReactiveDa
             _data.splice(0, 2 * screenNum)
         }
         currentData = _data.concat(currentData)
-        addDatainitPosition('before', currentData)
         observeHandle.observe(_data, observer, data)
     } else {
         observeHandle.unobserve(currentData.splice(0, Math.abs(patchResult.before)), observer, data)
@@ -37,7 +36,6 @@ function interAction(currentIndex: number, initDataNum: number, data: ReactiveDa
             _data = _data.slice(_data.length - 2 * screenNum, _data.length)
         }
         currentData = currentData.concat(_data) 
-        addDatainitPosition('after', currentData)
         observeHandle.observe(_data, observer, data)
     } else {
         observeHandle.unobserve(currentData.splice(2 * screenNum, 100000000000), observer, data)
@@ -55,20 +53,6 @@ function patch(currentIndex: number, screenNum: number, topIndex: number, bottom
     result.after = screenNum - (bottomIndex - currentIndex)
 
     return result
-}
-
-function addDatainitPosition(position: 'before' | 'after', currentList: ItemProps[]) {
-    let len = currentList.length
-    
-    if(position === 'before') {
-        for(let i = len - 2; i >=0; i -= 1) {
-            currentList[i].transformY = currentList[i + 1].transformY - currentList[i].offsetHeight
-        }
-    } else {
-        for(let i = 2; i < len; i += 1) {
-            currentList[i].transformY = currentList[i - 1].transformY + currentList[i - 1].offsetHeight
-        }   
-    }
 }
 
 export default  {

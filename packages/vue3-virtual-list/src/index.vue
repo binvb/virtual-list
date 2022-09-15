@@ -51,6 +51,7 @@ const checkIfCorrectCurrentData = throttle(() => {
 	data.scrolling = false
 	data.userScrolling = false
 	if(!scope.find(item => item.index === correctIndex)) {
+		// locate 后只有当前数据是准确的，其他数据没有修改，滚动就出现异常 #TODO
 		locate(correctIndex)
 	}
 }, 200)
@@ -140,8 +141,9 @@ function locate(index: number) {
 	if(!data.sourceData.length) {
 		return
 	}
+	console.log(`locate index: ${index}`)
 	// ajust row data
-	dataHandle.resetSourceDataBeforeLocate(data.sourceData, index)
+	dataHandle.resetSourceDataBeforeLocate(data.sourceData, data.sourceData.length)
 	dataHandle.resetCurrentData(data, {intersectionObserver, resizeObserver}, props, index - props.initDataNum)
 	let item = data.sourceData[index]
 	let position = item.transformY
