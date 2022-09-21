@@ -48,7 +48,7 @@ async function reset() {
   <div style="display: flex;">
     <div style="display:flex;flex-direction: column;flex: 0 0 250px;margin-left: 10px">
       <div style="display:flex;justify-content: space-between;margin-top: 20px">
-        <input v-model="data.locateNum" type="number" placeholder="index" />
+        <input v-model="data.locateNum" type="number" data-testid="locateNum" placeholder="index" />
         <button @click="locate">locate</button>
       </div>
       <div style="display:flex;justify-content: space-between;margin-top: 20px">
@@ -69,12 +69,12 @@ async function reset() {
       </div>
     </div>
     <div style="width: 800px;height: 1000px;margin: 0 auto;border: 1px solid #000">
-        <VirtualList
+        <Virtual-list
+        ref="virtualScroll"
         :initDataNum="20"
         :ScrollItemComponent="CommonItem"
         :retainHeightValue="100"
-        ref="virtualScroll"
-      ></VirtualList>
+      ></Virtual-list>
     </div>
   </div>
 </template>

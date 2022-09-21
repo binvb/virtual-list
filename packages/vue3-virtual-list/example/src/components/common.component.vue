@@ -15,8 +15,8 @@ defineProps<{itemData: Item}>()
 <template>
 <div class="chat-item">
     <div class="bubble">
-        <p v-if="itemData.content">{{itemData.content}}</p>
-        <img  v-else :src="itemData.imgUrl" />
+       <p v-if="itemData.content">{{itemData.content}}</p>
+       <img  v-else :src="itemData.imgUrl" />
         <div class="meta">
             <time class="posted-date">{{itemData.time}},第{{itemData.index}}条</time>
         </div>

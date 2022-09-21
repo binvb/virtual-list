@@ -22,8 +22,8 @@ function resizeHandle(data:ReactiveData) {
 
         if(currentData[i].offsetHeight !==  _elOffsetHeight) {
             let _offset = _elOffsetHeight - currentData[i].offsetHeight
-            // only above locate item resize need to be compenstion, exclude top position
-            if (scrollTop !== 0 && correctLocateItem?.index > currentData[i].index && !data.userScrolling) {
+            // only above locate item resize need to be compenstion, exclude top position && bottom position
+            if (scrollTop !== 0 && (correctLocateItem?.index > currentData[i].index || utils.ifBottomPosition(data)) && !data.userScrolling) {
                 data.locationPosition += _offset
                 data.ajusting = true
                 ajustActionThrottle(data)

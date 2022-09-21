@@ -8,11 +8,13 @@
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["vitest/globals", "cypress"],
+    "outDir": "dist"
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["src/*.ts", "src/*.d.ts", "src/*.tsx", "src/*.vue", "cypress/**/*", "example/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
