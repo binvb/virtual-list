@@ -19,12 +19,16 @@ describe('nomal mode test', () => {
   beforeEach(() => {
     cy.viewport(1200, 1200)
     cy.mount(Normal)
-    cy.wait(3000) // waiting for async request
-  })  
+  }) 
+  it('mount', () => {
+    // should render 40 scroll item
+    cy.get('li').should('have.length', 40)
+  }) 
   it('locate at 100', () => {
+    cy.wait(3000) // wait for message
     cy.get(locateNum).clear().type('100')
     cy.get(locateTo).click()
-
+    
     cy.wait(100).get(container).find('div').invoke('scrollTop')
     .then(scrollTop => {
       cy.get('li').eq(20).should('have.css', 'transform', `matrix(1, 0, 0, 1, 0, ${scrollTop})`)

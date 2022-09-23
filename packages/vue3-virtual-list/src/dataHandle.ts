@@ -80,7 +80,7 @@ function setSourceData(newData: any[], data: ReactiveData, observer: Observer, p
     const {retainHeightValue} = props
 
     sourceDataInitail(data, retainHeightValue, newData)
-    resetCurrentData(data, observer, props, getCurrentIndex(data, props))
+    resetCurrentData(data, observer, props, 0)
 }
 
 function getCurrentIndex(data: ReactiveData, props: any): number {
@@ -105,7 +105,7 @@ function resetCurrentData(data: ReactiveData, observer: Observer, props: any, st
     const {sourceData, currentData} = data
     const len = sourceData.length > props.initDataNum * 2 ? props.initDataNum * 2 : sourceData.length
     let _startIndex = startIndex
-
+    
     if(!sourceData.length) {
         return 
     }
@@ -117,12 +117,12 @@ function resetCurrentData(data: ReactiveData, observer: Observer, props: any, st
     for(let i = 0; i < len; i += 1) {
         if(sourceData[_startIndex + i]) {
             currentData[i] = sourceData[_startIndex + i]
-        } else {
-            currentData.splice(i, 1)
         }
     }
+    // remove old data
+    currentData.splice(sourceData[sourceData.length - 1].index, 1000000000)
     if(currentData.length > len) {
-        currentData.splice(len, 10000)
+        currentData.splice(len, 1000000000)
     }
     // observe
     observeHandle.observe(currentData, observer, data)

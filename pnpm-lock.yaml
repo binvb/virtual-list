@@ -37,6 +37,7 @@ importers:
       happy-dom: ^6.0.4
       intersection-observer: ^0.12.2
       jest: ^29.0.3
+      less: ^4.1.3
       lodash: ^4.17.21
       nanoid: ^4.0.0
       resize-observer-polyfill: ^1.5.1
@@ -58,13 +59,14 @@ importers:
       happy-dom: 6.0.4
       intersection-observer: 0.12.2
       jest: 29.0.3
+      less: 4.1.3
       lodash: 4.17.21
       nanoid: 4.0.0
       resize-observer-polyfill: 1.5.1
       typescript: 4.8.3
-      vite: 3.1.0
+      vite: 3.1.0_less@4.1.3
       vite-plugin-dts: 1.5.0_vite@3.1.0
-      vitest: 0.23.2_happy-dom@6.0.4
+      vitest: 0.23.2_happy-dom@6.0.4+less@4.1.3
       vue-tsc: 0.39.5_typescript@4.8.3
 
   packages/vue3-virtual-list/example:
@@ -1203,7 +1205,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.1.0
+      vite: 3.1.0_less@4.1.3
       vue: 3.2.39
     dev: true
 
@@ -4809,36 +4811,9 @@ packages:
       fast-glob: 3.2.12
       fs-extra: 10.1.0
       ts-morph: 14.0.0
-      vite: 3.1.0
+      vite: 3.1.0_less@4.1.3
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /vite/3.1.0:
-    resolution: {integrity: sha512-YBg3dUicDpDWFCGttmvMbVyS9ydjntwEjwXRj2KBFwSB8SxmGcudo1yb8FW5+M/G86aS8x828ujnzUVdsLjs9g==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      less: '*'
-      sass: '*'
-      stylus: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      less:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      esbuild: 0.15.7
-      postcss: 8.4.16
-      resolve: 1.22.1
-      rollup: 2.78.1
-    optionalDependencies:
-      fsevents: 2.3.2
     dev: true
 
   /vite/3.1.0_less@4.1.3:
@@ -4869,7 +4844,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.23.2_happy-dom@6.0.4:
+  /vitest/0.23.2_happy-dom@6.0.4+less@4.1.3:
     resolution: {integrity: sha512-kTBKp3ROPDkYC+x2zWt4znkDtnT08W1FQ6ngRFuqxpBGNuNVS+eWZKfffr8y2JGvEzZ9EzMAOcNaiqMj/FZqMw==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -4902,7 +4877,7 @@ packages:
       tinybench: 2.1.5
       tinypool: 0.3.0
       tinyspy: 1.0.2
-      vite: 3.1.0
+      vite: 3.1.0_less@4.1.3
     transitivePeerDependencies:
       - less
       - sass
