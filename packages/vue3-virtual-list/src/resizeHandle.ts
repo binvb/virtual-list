@@ -9,13 +9,14 @@ const ajustActionThrottle = throttle((data) => {
 function resizeHandle(data:ReactiveData) {
     const { currentData, sourceData, componentID } = data
     const len = currentData.length
+    const ifBottomPosition = utils.ifBottomPosition(data)
 
     if(!len) {
         return
     }
     const scrollTop = utils.getScrollTop(data)
     const correctLocateItem = data.currentData.find(item => item.transformY >= data.locationPosition) || data.currentData[data.currentData.length - 1]!
-    
+
     for(let i = 0; i < len; i += 1) {
         const _pre = sourceData[currentData[i].index! - 1]
         const _elOffsetHeight = (document.querySelector(`.fishUI-virtual-list_${componentID} li[data-index="${currentData[i].index}"]`) as HTMLElement).offsetHeight

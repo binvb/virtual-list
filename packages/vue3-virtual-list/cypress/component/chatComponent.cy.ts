@@ -1,6 +1,6 @@
 import VirtualList from './../../src/index.vue'
 import { VirtualScrollExpose } from './../../src/index.d'
-import ScrollItem from './scrollItem.vue'
+import ScrollItem from './dynamicScrollItem.vue'
 import { getMessage } from './mock'
 
 // expose function
@@ -26,52 +26,33 @@ describe('chat mode test', () => {
             },
             ref: 'VirtualList'
         })
-        .then(instance => {
-            exposeFn = instance.componentVM.$.exposed
+        .then(componentInstance => {
+            exposeFn = componentInstance.componentVM.$.exposed
         })
         cy.wait(1000) // wait for component mounted and set exposeFn 
     })
     
-    // it('mounted at bottom position', async() => {
-    //     exposeFn.setSourceData(await getMessage(100))
-    //     cy.wait(100).get(container).invoke('scrollTop')
-    //     .then(scrollTop => {
-    //         cy.get('.fishUI-virtual-list__inner').should('have.css', 'height', `${scrollTop! + height}px`)
-    //     })
-    // })
-    // it('add item and keep bottom position',async() => {
-    //     exposeFn.setSourceData(await getMessage(100))
-    //     const listLenth = exposeFn.getData().length
-    //     cy.wait(5000)
-    //     exposeFn.add(listLenth, await getMessage(1))
-    //     // cy.wait(1000).get(container).invoke('scrollTop')
-    //     // .then(scrollTop => {
-    //     //     cy.get('.fishUI-virtual-list__inner').should('have.css', 'height', `${scrollTop! + height}px`)
-    //     // })
-    // })
-    it('test', async() => {
-        exposeFn.setSourceData(await getMessage(20))
-        cy.wait(1000)
-        for(let i = 0; i < 1000; i += 1){
-            cy.wait(20).then(async() => {
-                // exposeFn.locate(55)
-                // cy.wait(2000).then(async() => {
-                //     exposeFn.setSourceData(await getMessage(100))
-                // })
-                const listLenth = exposeFn.getData().length
-                exposeFn.update(listLenth-2, await getMessage(1)[0])
-                exposeFn.add(listLenth, await getMessage(1))
+    it('mounted at bottom position', async() => {
+        exposeFn.setSourceData(await getMessage(100))
+        cy.wait(100).get(container).invoke('scrollTop')
+        .then(scrollTop => {
+            cy.get('.fishUI-virtual-list__inner').should('have.css', 'height', `${scrollTop! + height}px`)
+        })
+    })
+    it('add item and keep bottom position',async() => {
+        exposeFn.setSourceData(await getMessage(100))
+        const listLenth = exposeFn.getData().length
+        const msgNum = 100
+
+        for(let i = 0; i < msgNum; i += 1) {
+            cy.wait(500)
+            .then(async() => {
+                exposeFn.add(listLenth + i, getMessage(1))
+                cy.wait(500).get(container).invoke('scrollTop')
+                .then(scrollTop => {
+                    cy.get('.fishUI-virtual-list__inner').should('have.css', 'height', `${scrollTop! + height}px`)
+                })
             })
-            // cy.wait(500).then(async() => {
-            //     const list = await exposeFn.getData()
-            //     for(let j = 0, len = list.length; j < len; j += 1) {
-            //         if(j > 0) {
-            //             if(list[j].transformY != list[j - 1].offsetHeight + list[j - 1].transformY) {
-            //                 debugger
-            //             }
-            //         }
-            //     }
-            // })
         }
     })
 })

@@ -20,42 +20,40 @@ function resetSourceDataBeforeLocate(sourceData: SourceData[], endIndex:number) 
 }
 
 function sourceDataInitail(data: ReactiveData, retainHeightValue: number, newVal?: SourceData[]){
-    const { sourceData } = data
-    let _data = newVal?.length ? newVal : sourceData
+    let _data = newVal ? newVal : data.sourceData
 
     _data.forEach((item, index) => {
-        let pre = sourceData[index - 1]
+        let pre = data.sourceData[index - 1]
 
-        if(!sourceData[index]) {
-            sourceData[index] = ({nanoid: nanoid(), ...item} as ItemProps)
+        if(!data.sourceData[index]) {
+            data.sourceData[index] = ({nanoid: nanoid(), ...item} as ItemProps)
         }
-        if(!sourceData[index].nanoid) {
-            sourceData[index].nanoid = nanoid()
+        if(!data.sourceData[index].nanoid) {
+            data.sourceData[index].nanoid = nanoid()
         }
-        sourceData[index].index = index
-        sourceData[index].offsetHeight = item.offsetHeight || retainHeightValue
-        sourceData[index].transformY = pre ? (pre.transformY! + pre.offsetHeight!) : retainHeightValue * index
+        data.sourceData[index].index = index
+        data.sourceData[index].offsetHeight = item.offsetHeight || retainHeightValue
+        data.sourceData[index].transformY = pre ? (pre.transformY! + pre.offsetHeight!) : retainHeightValue * index
     })
     // splice rest item
     if(newVal) {
-        sourceData.splice(newVal.length, 1000000000)
+        data.sourceData.splice(newVal.length, 1000000000)
     }
 
-    return (sourceData as ItemProps[])
+    return (data.sourceData as ItemProps[])
 }
 
 function del(index: number | number[], data: ReactiveData, observer: Observer, props:any) {
     const { retainHeightValue } = props
-    let { sourceData } = data
 
     if(index instanceof Array) {
         index.forEach(_index => {
-            data.listHeight -= sourceData[_index].offsetHeight
-            sourceData.splice(_index, 1)
+            data.listHeight -= data.sourceData[_index].offsetHeight
+            data.sourceData.splice(_index, 1)
         })
     } else {
-        data.listHeight -= sourceData[index].offsetHeight
-        sourceData.splice(index, 1)
+        data.listHeight -= data.sourceData[index].offsetHeight
+        data.sourceData.splice(index, 1)
     }
     sourceDataInitail(data, retainHeightValue)
     resetCurrentData(data, observer, props, getCurrentIndex(data, props))
@@ -63,9 +61,8 @@ function del(index: number | number[], data: ReactiveData, observer: Observer, p
 
 function add(index: number, insertData: any[], data: ReactiveData, observer: Observer, props:any) {
     const {retainHeightValue} = props
-    let {sourceData} = data
 
-    sourceData.splice(index,0, ...insertData)
+    data.sourceData.splice(index,0, ...insertData)
     sourceDataInitail(data, retainHeightValue)
     resetCurrentData(data, observer, props, getCurrentIndex(data, props))
 }
@@ -80,7 +77,7 @@ function setSourceData(newData: any[], data: ReactiveData, observer: Observer, p
     const {retainHeightValue} = props
 
     sourceDataInitail(data, retainHeightValue, newData)
-    resetCurrentData(data, observer, props, 0)
+    resetCurrentData(data, observer, props, getCurrentIndex(data, props))
 }
 
 function getCurrentIndex(data: ReactiveData, props: any): number {
@@ -91,6 +88,7 @@ function getCurrentIndex(data: ReactiveData, props: any): number {
         currentData.splice(0, 10000)
         return 0
     }
+    // 这里还有问题，如果之前的currentData开始是20，后面更新后的sourceData只有19个数据，那就只展示两个数据了。 # TODO 
     let startIndex = currentData[0] ? (currentData[0].index > sourceData[sourceData.length - 1].index ? 0 : currentData[0].index) : 0
 
     // if bottom position,reset startIndex to include new item
@@ -102,30 +100,24 @@ function getCurrentIndex(data: ReactiveData, props: any): number {
 }
 
 function resetCurrentData(data: ReactiveData, observer: Observer, props: any, startIndex: number) {
-    const {sourceData, currentData} = data
+    let {sourceData} = data
     const len = sourceData.length > props.initDataNum * 2 ? props.initDataNum * 2 : sourceData.length
     let _startIndex = startIndex
     
-    if(!sourceData.length) {
-        return 
-    }
     if(_startIndex < 0) {
         _startIndex = 0
     }
     // unobserve
-    observeHandle.unobserve(currentData, observer, data)
+    observeHandle.unobserve(data.currentData, observer, data)
+    // remove old data
+    data.currentData = []
     for(let i = 0; i < len; i += 1) {
         if(sourceData[_startIndex + i]) {
-            currentData[i] = sourceData[_startIndex + i]
+            data.currentData[i] = sourceData[_startIndex + i]
         }
     }
-    // remove old data
-    currentData.splice(sourceData[sourceData.length - 1].index, 1000000000)
-    if(currentData.length > len) {
-        currentData.splice(len, 1000000000)
-    }
     // observe
-    observeHandle.observe(currentData, observer, data)
+    observeHandle.observe(data.currentData, observer, data)
 }
 
 
