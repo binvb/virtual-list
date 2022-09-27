@@ -2,6 +2,7 @@ import * as VueRouter from 'vue-router'
 import NormalPage from './pages/normal.vue'
 import LoadingPage from './pages/loading.vue'
 import ChatPage from './pages/chat.vue'
+import StaticPage from './pages/static.vue'
 
 const routes = [
     {
@@ -19,6 +20,11 @@ const routes = [
         path: '/chat',
         name: 'Chat',
         component: ChatPage
+    },
+    {
+        path: '/static',
+        name: 'Static',
+        component: StaticPage
     }
 ]
 const router = VueRouter.createRouter({

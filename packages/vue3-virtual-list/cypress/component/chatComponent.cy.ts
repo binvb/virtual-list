@@ -10,7 +10,7 @@ const container = '[data-testid=container]'
 // default setting
 const height = 1000
 
-describe('chat mode test', () => {
+describe('chat mode(dynamic) test', () => {
     beforeEach(() => {
         cy.viewport(800, height)
         cy.mount(VirtualList, {

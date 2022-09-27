@@ -34,7 +34,8 @@ function getList(num: number) {
     <h1>vue3-virtual-list</h1>
     <a :class="{active: route.name === 'Normal'}" href="#/normal">normal</a>
     <a :class="{active: route.name === 'Loading'}" href="#/loading">loading</a>
-    <a :class="{'active': route.name === 'Chat'}" href="#/chat">chat</a>
+    <a :class="{active: route.name === 'Chat'}" href="#/chat">chat</a>
+    <a :class="{active: route.name === 'Static'}" href="#/static">static</a>
   </div>
   <router-view></router-view>
 </template>
