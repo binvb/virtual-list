@@ -33,8 +33,8 @@ export function locatePosition(position: number, data: ReactiveData) {
 }
 
 export function scrollToBottom(data: ReactiveData) {
-    ajustAction(10000000000000000, data)
-    data.locationPosition = 10000000000000000
+    ajustAction(data.listHeight, data)
+    data.locationPosition = data.listHeight
 }
 
 export function ajustScrollPosition(offset: number, data: ReactiveData) {
