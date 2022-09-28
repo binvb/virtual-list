@@ -13,16 +13,16 @@ import observeHandle from './observeHandle'
 import { scrollEvent, removeScrollEvent, locatePosition, scrollToBottom } from "./scrollInstance"
 
 interface Props {
-	ScrollItemComponent: ComponentPublicInstance
-	initDataNum: number
-	retainHeightValue?: number
+	scrollItem: ComponentPublicInstance
+	perPageItemNum: number
+	height?: number
 	direction?: Direction
 	loadingOptions?: LoadingOptions
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	initDataNum: 20,
-	retainHeightValue: 100,
+	perPageItemNum: 20,
+	height: 100,
 	direction: 'down'
 })
 const data = reactive<ReactiveData>({
@@ -70,7 +70,7 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 		const lastIndex = props.direction === 'up' ? 0 : data.sourceData[data.sourceData.length - 1].index
 
 		if(entry.intersectionRatio > 0 &&  data.scrolling && !data.ajusting) {
-			data.currentData = interSectionHandle.interAction(Number(entry.target.getAttribute('data-index'))!, props.initDataNum, data, {intersectionObserver, resizeObserver})
+			data.currentData = interSectionHandle.interAction(Number(entry.target.getAttribute('data-index'))!, props.perPageItemNum, data, {intersectionObserver, resizeObserver})
 		}
 		// if it's last item and loading mode, should trigger loadingFn
 		if(entry.intersectionRatio > 0 && lastIndex === Number(currentIndex)) {
@@ -136,7 +136,7 @@ function locate(index: number) {
 	}
 	// ajust row data
 	dataHandle.resetSourceDataBeforeLocate(data.sourceData, data.sourceData.length)
-	dataHandle.resetCurrentData(data, {intersectionObserver, resizeObserver}, props, index - props.initDataNum)
+	dataHandle.resetCurrentData(data, {intersectionObserver, resizeObserver}, props, index - props.perPageItemNum)
 	let item = data.sourceData[index]
 	let position = item.transformY
 
@@ -196,7 +196,7 @@ function checkIfScrollToBottom() {
 					}"
 					data-testid="listItem"
 				>
-					<component :is="props.ScrollItemComponent" :itemData="item" />
+					<component :is="props.scrollItem" :itemData="item" />
 				</li>
 			</template>
 		</ul>

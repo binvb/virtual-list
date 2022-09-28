@@ -75,12 +75,12 @@ async function add() {
             <button @click="add">add</button>
           </div>
         </div>
-        <div style="width: 800px;height: 1000px;margin: 0 auto;">
-            <div style="width: 800px;height: 1000px;border: 1px solid #000">
+        <div style="margin: 0 auto;">
+            <div style="width: 800px;height: 600px;border: 1px solid #000">
                 <VirtualList
-                :initDataNum="20"
-                :ScrollItemComponent="ChatItem"
-                :retainHeightValue="100"
+                :perPageItemNum="10"
+                :scrollItem="ChatItem"
+                :height="100"
                 :loadingOptions="loadingOptions"
                 direction="up"
                 ref="virtualScroll"

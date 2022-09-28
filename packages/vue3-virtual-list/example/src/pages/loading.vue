@@ -25,9 +25,9 @@ function loadData() {
 <template>
     <div style="width: 800px;height: 1000px;margin: 0 auto;border: 1px solid #000">
         <VirtualList
-        :initDataNum="20"
-        :ScrollItemComponent="CommonItem"
-        :retainHeightValue="100"
+        :perPageItemNum="20"
+        :scrollItem="CommonItem"
+        :height="100"
         :loadingOptions="loadingOptions"
         ref="virtualScroll"
       ></VirtualList>

@@ -12,9 +12,9 @@ describe('test static item', () => {
         cy.viewport(800, 1000)
         cy.mount(VirtualList, {
             props: {
-                initDataNum: 40,
-                ScrollItemComponent: StaticScrollItem,
-                retainHeightValue: 42
+                perPageItemNum: 40,
+                scrollItem: StaticScrollItem,
+                height: 42
             },
             ref: 'VirtualList'
         }).its('componentVM.$.exposed').as('exposeFn')

@@ -28,10 +28,13 @@ function getList(num: number) {
     )
   }
 }
+function goGithub() {
+  window.open('https://github.com/binvb/virtual-list/tree/master/packages/vue3-virtual-list')
+}
 </script>
 <template>
   <div class="header">
-    <h1>vue3-virtual-list</h1>
+    <h1 @click="goGithub">vue3-virtual-list</h1>
     <a :class="{active: route.name === 'Normal'}" href="#/normal">normal</a>
     <a :class="{active: route.name === 'Loading'}" href="#/loading">loading</a>
     <a :class="{active: route.name === 'Chat'}" href="#/chat">chat</a>
@@ -51,6 +54,7 @@ function getList(num: number) {
     background: #eee;
     font-size: 24px;
     border-radius: 4px;
+    cursor: pointer;
   }
   a {
     display: block;

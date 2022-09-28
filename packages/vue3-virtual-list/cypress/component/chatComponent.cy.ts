@@ -15,9 +15,9 @@ describe('chat mode(dynamic) test', () => {
         cy.viewport(800, height)
         cy.mount(VirtualList, {
             props: {
-                initDataNum: 20,
-                ScrollItemComponent: ScrollItem,
-                retainHeightValue: 500,
+                perPageItemNum: 20,
+                scrollItem: ScrollItem,
+                height: 500,
                 loadingOptions: {
                     loadingFn: getMessage(100),
                     nomoreData: false

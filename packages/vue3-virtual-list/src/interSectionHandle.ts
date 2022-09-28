@@ -6,9 +6,9 @@ interface PatchResult {
     after: number // need to fill scroll item number after
 }
 
-function interAction(currentIndex: number, initDataNum: number, data: ReactiveData, observer: Observer) {
+function interAction(currentIndex: number, perPageItemNum: number, data: ReactiveData, observer: Observer) {
     let {sourceData, currentData} = data
-    let screenNum = initDataNum
+    let screenNum = perPageItemNum
     let topIndex = currentData[0].index!
     let bottomIndex = currentData[currentData.length - 1].index!
     let patchResult = patch(currentIndex, screenNum, topIndex, bottomIndex)

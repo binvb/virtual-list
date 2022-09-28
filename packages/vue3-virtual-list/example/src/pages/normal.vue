@@ -71,9 +71,9 @@ async function reset() {
     <div style="width: 800px;height: 1000px;margin: 0 auto;border: 1px solid #000">
         <Virtual-list
         ref="virtualScroll"
-        :initDataNum="20"
-        :ScrollItemComponent="CommonItem"
-        :retainHeightValue="100"
+        :perPageItemNum="20"
+        :scrollItem="CommonItem"
+        :height="100"
       ></Virtual-list>
     </div>
   </div>

@@ -16,7 +16,7 @@ function resetSourceDataBeforeLocate(sourceData: SourceData[], endIndex:number) 
     }
 }
 
-function sourceDataInitail(data: ReactiveData, retainHeightValue: number, newVal?: SourceData[]){
+function sourceDataInitail(data: ReactiveData, height: number, newVal?: SourceData[]){
     let _data = newVal ? newVal : data.sourceData
 
     _data.forEach((item, index) => {
@@ -29,8 +29,8 @@ function sourceDataInitail(data: ReactiveData, retainHeightValue: number, newVal
             data.sourceData[index].nanoid = nanoid()
         }
         data.sourceData[index].index = index
-        data.sourceData[index].offsetHeight = item.offsetHeight || retainHeightValue
-        data.sourceData[index].transformY = pre ? (pre.transformY! + pre.offsetHeight!) : retainHeightValue * index
+        data.sourceData[index].offsetHeight = item.offsetHeight || height
+        data.sourceData[index].transformY = pre ? (pre.transformY! + pre.offsetHeight!) : height * index
     })
     // splice rest item
     if(newVal) {
@@ -41,7 +41,7 @@ function sourceDataInitail(data: ReactiveData, retainHeightValue: number, newVal
 }
 
 function del(index: number | number[], data: ReactiveData, observer: Observer, props:any) {
-    const { retainHeightValue } = props
+    const { height } = props
 
     if(index instanceof Array) {
         index.forEach(_index => {
@@ -52,15 +52,15 @@ function del(index: number | number[], data: ReactiveData, observer: Observer, p
         data.listHeight -= data.sourceData[index].offsetHeight
         data.sourceData.splice(index, 1)
     }
-    sourceDataInitail(data, retainHeightValue)
+    sourceDataInitail(data, height)
     resetCurrentData(data, observer, props, getCorrectCurrentDataStartIndex(data, props))
 }
 
 function add(index: number, insertData: any[], data: ReactiveData, observer: Observer, props:any) {
-    const {retainHeightValue} = props
+    const {height} = props
 
     data.sourceData.splice(index,0, ...insertData)
-    sourceDataInitail(data, retainHeightValue)
+    sourceDataInitail(data, height)
     resetCurrentData(data, observer, props, getCorrectCurrentDataStartIndex(data, props))
 }
 
@@ -71,24 +71,27 @@ function update(index: number, data: any, sourceData: ItemProps[]) {
 }
 
 function setSourceData(newData: any[], data: ReactiveData, observer: Observer, props: any) {
-    const {retainHeightValue} = props
+    const {height} = props
 
-    sourceDataInitail(data, retainHeightValue, newData)
+    sourceDataInitail(data, height, newData)
     resetCurrentData(data, observer, props, getCorrectCurrentDataStartIndex(data, props))
 }
 
 function getCorrectCurrentDataStartIndex(data: ReactiveData, props: any): number {
-    const { initDataNum } = props
+    const { perPageItemNum } = props
     let {sourceData, currentData} = data
     let startIndex = currentData[0] ? currentData[0].index : 0 // default
 
+    if(!sourceData.length) {
+        return 0
+    }
     // if currentData was not subset sourceData e.g. current: [50,...100], sourceData: [1, ...80]
     if(currentData.length && currentData[currentData.length - 1] && currentData[currentData.length - 1].index > sourceData[sourceData.length - 1].index) {
-        startIndex = sourceData.length - initDataNum * 2
+        startIndex = sourceData.length - perPageItemNum * 2
     }
     // if bottom position,reset startIndex to include new item
     if(props.direction === 'up' && utils.ifBottomPosition(data)) {
-        startIndex = sourceData.length - initDataNum * 2
+        startIndex = sourceData.length - perPageItemNum * 2
     }
 
     return startIndex
@@ -96,7 +99,7 @@ function getCorrectCurrentDataStartIndex(data: ReactiveData, props: any): number
 
 function resetCurrentData(data: ReactiveData, observer: Observer, props: any, startIndex: number) {
     let {sourceData} = data
-    const len = sourceData.length > props.initDataNum * 2 ? props.initDataNum * 2 : sourceData.length
+    const len = sourceData.length > props.perPageItemNum * 2 ? props.perPageItemNum * 2 : sourceData.length
     let _startIndex = startIndex
     
     if(_startIndex < 0) {
