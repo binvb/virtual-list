@@ -1,36 +1,24 @@
 {
-  "name": "@vb_he/vue-virtual-scroll",
-  "version": "0.2.0",
-  "main": "index.vue",
-  "author": "vb",
+  "name": "fish",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview",
-    "lint": "eslint src package.json --ext .js,.ts,.vue"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "vb",
+  "license": "ISC",
   "dependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/eslint-parser": "^7.16.0",
-    "@types/lodash": "^4.14.176",
-    "less": "^4.1.2",
-    "lodash": "^4.17.21",
-    "vue": "^3.2.16",
-    "vue-eslint-parser": "^8.0.1"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.2.0",
-    "@typescript-eslint/parser": "^5.2.0",
-    "@vitejs/plugin-vue": "^1.9.3",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/eslint-config-typescript": "^8.0.0",
-    "eslint": "^8.1.0",
-    "eslint-config-alloy": "^4.4.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.0.3",
-    "prettier": "^2.4.1",
-    "typescript": "^4.4.4",
-    "vite": "^2.6.4",
-    "vue-tsc": "^0.3.0"
+    "@babel/core": "^7.19.0",
+    "@babel/eslint-parser": "^7.18.9",
+    "@testing-library/vue": "^6.6.1",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
+    "@typescript-eslint/parser": "^5.36.2",
+    "@vue/eslint-config-typescript": "^11.0.0",
+    "eslint": "^8.18.0",
+    "eslint-config-alloy": "^4.6.2",
+    "eslint-plugin-vue": "^9.4.0",
+    "vue-eslint-parser": "^9.0.3"
   }
 }
