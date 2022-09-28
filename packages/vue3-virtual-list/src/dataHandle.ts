@@ -3,9 +3,6 @@ import observeHandle from './observeHandle'
 import { SourceData, ItemProps, Observer, ReactiveData } from './index.d'
 import utils from './utils'
 
-// when rendered, current data will update offsetHeight && transformY
-// when current data updated, avoid complex calculation, do not update all data all the time
-// only update in some case
 function resetSourceDataBeforeLocate(sourceData: SourceData[], endIndex:number) {
     for(let i = 0; i <= endIndex; i += 1) {
         if(!sourceData[i]) {
@@ -56,7 +53,7 @@ function del(index: number | number[], data: ReactiveData, observer: Observer, p
         data.sourceData.splice(index, 1)
     }
     sourceDataInitail(data, retainHeightValue)
-    resetCurrentData(data, observer, props, getCurrentIndex(data, props))
+    resetCurrentData(data, observer, props, getCorrectCurrentDataStartIndex(data, props))
 }
 
 function add(index: number, insertData: any[], data: ReactiveData, observer: Observer, props:any) {
@@ -64,7 +61,7 @@ function add(index: number, insertData: any[], data: ReactiveData, observer: Obs
 
     data.sourceData.splice(index,0, ...insertData)
     sourceDataInitail(data, retainHeightValue)
-    resetCurrentData(data, observer, props, getCurrentIndex(data, props))
+    resetCurrentData(data, observer, props, getCorrectCurrentDataStartIndex(data, props))
 }
 
 function update(index: number, data: any, sourceData: ItemProps[]) {
@@ -77,20 +74,18 @@ function setSourceData(newData: any[], data: ReactiveData, observer: Observer, p
     const {retainHeightValue} = props
 
     sourceDataInitail(data, retainHeightValue, newData)
-    resetCurrentData(data, observer, props, getCurrentIndex(data, props))
+    resetCurrentData(data, observer, props, getCorrectCurrentDataStartIndex(data, props))
 }
 
-function getCurrentIndex(data: ReactiveData, props: any): number {
+function getCorrectCurrentDataStartIndex(data: ReactiveData, props: any): number {
     const { initDataNum } = props
     let {sourceData, currentData} = data
+    let startIndex = currentData[0] ? currentData[0].index : 0 // default
 
-    if(!sourceData.length) {
-        currentData.splice(0, 10000)
-        return 0
+    // if currentData was not subset sourceData e.g. current: [50,...100], sourceData: [1, ...80]
+    if(currentData.length && currentData[currentData.length - 1] && currentData[currentData.length - 1].index <= sourceData[sourceData.length - 1].index) {
+        startIndex = sourceData.length - initDataNum * 2
     }
-    // 这里还有问题，如果之前的currentData开始是20，后面更新后的sourceData只有19个数据，那就只展示两个数据了。 # TODO 
-    let startIndex = currentData[0] ? (currentData[0].index > sourceData[sourceData.length - 1].index ? 0 : currentData[0].index) : 0
-
     // if bottom position,reset startIndex to include new item
     if(props.direction === 'up' && utils.ifBottomPosition(data)) {
         startIndex = sourceData.length - initDataNum * 2

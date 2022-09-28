@@ -51,20 +51,8 @@ function del() {
 }
 async function add() {
     const newData = await getMessage(1)
-    const list = virtualScroll.value?.getData()
-    virtualScroll.value?.add(list!.length, newData)
-    virtualScroll.value?.locate(list!.length - 1)
-}
-function reset() {
-    setInterval(async() => {
-        await add()
-        await add()
-        await add()
-        setTimeout(async() => {
-            data.size = Math.ceil(Math.random() * 20)
-            virtualScroll.value!.setSourceData(await getMessage(data.size))
-        }, 2000)
-    }, 5000)
+
+    virtualScroll.value?.add(data.addNum, newData)
 }
 </script>
 <template>
@@ -85,10 +73,6 @@ function reset() {
           <div style="display:flex;justify-content: space-between;margin-top: 20px">
             <input v-model="data.addNum" type="number" placeholder="index" />
             <button @click="add">add</button>
-          </div>
-          <div style="display:flex;justify-content: space-between;margin-top: 20px">
-            <input v-model="data.size" type="number" placeholder="index" />
-            <button @click="reset">reset</button>
           </div>
         </div>
         <div style="width: 800px;height: 1000px;margin: 0 auto;">

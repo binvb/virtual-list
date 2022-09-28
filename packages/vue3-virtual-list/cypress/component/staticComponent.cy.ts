@@ -27,7 +27,7 @@ describe('test static item', () => {
     it('locate', () => {
         // scrollTop should equal to located item's transformY
         cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getMessage(10000)))
-        cy.wait(1000).then(() => {
+        cy.then(() => {
             cy.get<VirtualScrollExpose>('@exposeFn').then(exposeFn => exposeFn.locate(99))
         })
         cy.get('li').should('have.length', 80)
@@ -41,14 +41,14 @@ describe('test static item', () => {
         cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getMessage(100)))
         cy.get('li[data-index=10]').find('div').invoke('text').as('updateTestOldContent')
         cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.update(10, getMessage(1)[0]))
-        cy.wait(1000).get('li[data-index=10]').find('div').invoke('text')
+        cy.get('li[data-index=10]').find('div').invoke('text')
         .then(content => {
             cy.get('@updateTestOldContent').should('not.be', content)
         })
     })
     it('delete item index 33', () => {
         // 34 should replace 33
-        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getMessage(300)))
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getMessage(100)))
         cy.get('li').eq(34).invoke('attr', 'data-key').as('deleteTestAfterItem')
         cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.del(33))
         cy.get('li').eq(33).invoke('attr', 'data-key')

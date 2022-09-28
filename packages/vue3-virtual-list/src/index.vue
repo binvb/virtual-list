@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ComponentPublicInstance, reactive, onMounted, onBeforeUnmount, withDefaults, nextTick } from 'vue'
+import { ComponentPublicInstance, reactive, onMounted, onBeforeUnmount, withDefaults, nextTick, watch } from 'vue'
 import ResizeObserver from 'resize-observer-polyfill'
 import 'intersection-observer'
 import throttle from 'lodash/throttle'
@@ -25,7 +25,6 @@ const props = withDefaults(defineProps<Props>(), {
 	retainHeightValue: 100,
 	direction: 'down'
 })
-
 const data = reactive<ReactiveData>({
 	sourceData: [],
 	currentData: [],
@@ -37,7 +36,6 @@ const data = reactive<ReactiveData>({
 	locationPosition: 0,
 	userScrolling: false
 })
-
 // quick scroll end compensation
 const checkIfCorrectCurrentData = throttle(() => {
 	let currrentScrollTop = utils.getScrollTop(data)
@@ -54,7 +52,6 @@ const checkIfCorrectCurrentData = throttle(() => {
 		locate(correctIndex)
 	}
 }, 200)
-
 // resizeObserver
 const resizeObserver = new ResizeObserver((entries, observer) => {
 	for (const entry of entries) {
@@ -84,6 +81,9 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 	}
 }, {threshold: [0, 1]})
 
+watch(() => data.listHeight, () => {
+	checkIfScrollToBottom()
+})
 // life cycle
 onMounted(() => {
 	observeHandle.observe(data.currentData, {resizeObserver, intersectionObserver}, data)
@@ -103,7 +103,6 @@ defineExpose<VirtualScrollExpose>({
 	add: (index, insertData) => {
 		dataHandle.add(index, insertData, data, {resizeObserver, intersectionObserver}, props)
 		setListHeight()
-		checkIfScrollToBottom()
 	},
 	update: (index, _data) => {
 		dataHandle.update(index, _data, data.sourceData)
@@ -112,11 +111,6 @@ defineExpose<VirtualScrollExpose>({
 		data.sourceData = []
 		dataHandle.setSourceData(_data, data, {resizeObserver, intersectionObserver}, props)
 		setListHeight()
-		if(props.loadingOptions && props.direction === 'up') {
-			nextTick(() => {
-				scrollToBottom(data)
-			})
-		}
 	},
 	getData() {
 		return data.sourceData
