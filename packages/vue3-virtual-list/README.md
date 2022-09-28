@@ -1,8 +1,9 @@
 ## FEATURE
 1、async component render;  
 2、locate/update/delete/add specify location;  
-4、scroll loading;  
-5、chat mode(keep bottom position);  
+3、scroll loading;  
+4、chat mode(keep bottom position);  
+5、loading mode(scroll loading);  
 
 [demo](https://binvb.github.io/vb.github.io/#/normal)
 ## USAGE
