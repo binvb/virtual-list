@@ -83,7 +83,7 @@ function getCorrectCurrentDataStartIndex(data: ReactiveData, props: any): number
     let startIndex = currentData[0] ? currentData[0].index : 0 // default
 
     // if currentData was not subset sourceData e.g. current: [50,...100], sourceData: [1, ...80]
-    if(currentData.length && currentData[currentData.length - 1] && currentData[currentData.length - 1].index <= sourceData[sourceData.length - 1].index) {
+    if(currentData.length && currentData[currentData.length - 1] && currentData[currentData.length - 1].index > sourceData[sourceData.length - 1].index) {
         startIndex = sourceData.length - initDataNum * 2
     }
     // if bottom position,reset startIndex to include new item

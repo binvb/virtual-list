@@ -51,7 +51,7 @@ describe('test static item', () => {
         cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getMessage(100)))
         cy.get('li').eq(34).invoke('attr', 'data-key').as('deleteTestAfterItem')
         cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.del(33))
-        cy.get('li').eq(33).invoke('attr', 'data-key')
+        cy.get('li[data-index=33]').invoke('attr', 'data-key')
         .then(key => {
             cy.get('@deleteTestAfterItem').should('eq', key)
         })
