@@ -34,6 +34,7 @@ createApp(App).use(VirtualList).mount('#app')
 ```
 
 ### props
+base props  
 |   key   | default value | required | description |
 |  ----  | -------------  | -------- | ----------- |
 | scrollItem | null | true | scroll item inside component |
@@ -43,7 +44,8 @@ createApp(App).use(VirtualList).mount('#app')
 | loadingOptions | null | false | see under |
 
 
-loadingOptions(loading mode or chat mode): 
+
+loadingOptions: 
 | key | default value | required | description |
 | --- | ------------- | -------- | ----------- |
 | loadingFn | null | true | need to return Promise<any[]> |
@@ -87,9 +89,9 @@ onMounted(async() => {
 })
 function loadData(): Promise<any[]> {
     return new Promise((resolve) => {
-    setTimeout(() => {
-        resolve(getMessage(data.size))
-    },1000)
+        setTimeout(() => {
+            resolve(getMessage(data.size))
+        },1000)
     })
 }
 function locate() {
@@ -111,37 +113,13 @@ async function reset() {
 }
 </script>
 <template>
-    <div style="display: flex;">
-    <div style="display:flex;flex-direction: column;flex: 0 0 250px;margin-left: 10px">
-        <div style="display:flex;justify-content: space-between;margin-top: 20px">
-        <input v-model="data.locateNum" type="number" data-testid="locateNum" placeholder="index" />
-        <button @click="locate">locate</button>
-        </div>
-        <div style="display:flex;justify-content: space-between;margin-top: 20px">
-        <input v-model="data.updateNum" type="number" placeholder="index" />
-        <button @click="update">update</button>
-        </div>
-        <div style="display:flex;justify-content: space-between;margin-top: 20px">
-        <input v-model="data.delNum" type="number" placeholder="index" />
-        <button @click="del">del</button>
-        </div>
-        <div style="display:flex;justify-content: space-between;margin-top: 20px">
-        <input v-model="data.addNum" type="number" placeholder="index" />
-        <button @click="add">add</button>
-        </div>
-        <div style="display:flex;justify-content: space-between;margin-top: 20px">
-        <input v-model="data.size" type="number" placeholder="index" />
-        <button @click="reset">reset</button>
-        </div>
-    </div>
-    <div style="width: 800px;height: 1000px;margin: 0 auto;border: 1px solid #000">
+    <div style="width: 800px;height: 1000px;">
         <Virtual-list
         ref="virtualScroll"
         :perPageItemNum="40"
         :scrollItem="StaticItem"
         :height="42"
         ></Virtual-list>
-    </div>
     </div>
 </template>
 ```
