@@ -34,7 +34,7 @@ createApp(App).use(VirtualList).mount('#app')
 ```
 
 ### props
-base props  
+base props: 
 |   key   | default value | required | description |
 |  ----  | -------------  | -------- | ----------- |
 | scrollItem | null | true | scroll item inside component |
@@ -50,24 +50,22 @@ loadingOptions:
 | --- | ------------- | -------- | ----------- |
 | loadingFn | null | true | need to return Promise<any[]> |
 | loadingComponent | loading.io style | false | can replace default loading component |
-| nomoreData | false | true | set true if no more data |
+| nomoreData | false | false | set true if no more data |
 | nomoreDataText | 'no more data' | false | set no more data text |
 
 ### expose method 
 you may need to understand [expose](https://vuejs.org/api/options-state.html#expose)
 
-type declaration
-```
-export interface VirtualScrollExpose {
-  locate: (index: number) => void 
-  del: (index: number | number[]) => void
-  add: (index: number, insertData: any[]) => void
-  update: (index: number, data: any) => void
-  setSourceData: (data: any[]) => void
-  getData: () => ItemProps[],
-  getCurrentViewPortData: () => ItemProps[]
-}
-```
+| name | arguments | description |
+| ---- | --------- | ----------- |
+| setSourceData | data: any[] | set list data |
+| locate | index: number | locate at specify index |
+| del | index: number \| number[] | delete some item |
+| add | index: number, insertData: any[] | add item/items |
+| update | index: number, data: any | update item |
+| getData | null | get list data |
+| getCurrentViewPortData | null | get current viewport data |
+
 
 basically, you can only use all this methods to change the view, e.g.
 ```
@@ -99,14 +97,14 @@ function locate() {
 }
 async function update() {
     const newData = await getMessage(1)
+
     virtualScroll.value?.update(data.updateNum, newData[0])
 }
 function del() {
     virtualScroll.value?.del(data.delNum)
 }
 async function add() {
-    const newData = await getMessage(1)
-    virtualScroll.value?.add(data.addNum, newData)
+    virtualScroll.value?.add(data.addNum, await getMessage(1))
 }
 async function reset() {
     virtualScroll.value!.setSourceData(await loadData())
@@ -123,3 +121,6 @@ async function reset() {
     </div>
 </template>
 ```
+
+### notices
+1、must set height value(100px, 100%, flex, etc.) which wrap VirtualList;    
