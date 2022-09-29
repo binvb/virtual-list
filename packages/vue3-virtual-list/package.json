@@ -14,7 +14,8 @@
     "dev": "vite",
     "build": "vite build --config ./build/pack.js",
     "preview": "vite preview",
-    "test": "cypress run --component --browser chrome"
+    "test": "cypress open --component --browser chrome",
+    "test:commit": "cypress run --component --browser chrome"
   },
   "files": [
     "src/*",
