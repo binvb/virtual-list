@@ -78,10 +78,6 @@ async function reset() {
             <input v-model="data.addNum" type="number" placeholder="index" />
             <button @click="add">add</button>
           </div>
-          <div style="display:flex;justify-content: space-between;margin-top: 20px">
-            <input v-model="data.size" type="number" placeholder="index" />
-            <button @click="reset">reset</button>
-          </div>
         </div>
         <div style="margin: 0 auto;">
             <div style="width: 800px;height: 600px;border: 1px solid #000">

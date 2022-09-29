@@ -13,6 +13,7 @@ importers:
       eslint: ^8.18.0
       eslint-config-alloy: ^4.6.2
       eslint-plugin-vue: ^9.4.0
+      husky: ^8.0.1
       vue-eslint-parser: ^9.0.3
     dependencies:
       '@babel/core': 7.19.0
@@ -24,6 +25,7 @@ importers:
       eslint: 8.23.1
       eslint-config-alloy: 4.6.2_ej6tusbyn7upcvdh4uy63ivliu
       eslint-plugin-vue: 9.4.0_eslint@8.23.1
+      husky: 8.0.1
       vue-eslint-parser: 9.1.0_eslint@8.23.1
 
   packages/vue3-virtual-list:
@@ -2926,6 +2928,12 @@ packages:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
     dev: true
+
+  /husky/8.0.1:
+    resolution: {integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: false
 
   /iconv-lite/0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}

@@ -9,7 +9,6 @@ const ajustActionThrottle = throttle((data) => {
 function resizeHandle(data:ReactiveData) {
     const { currentData, sourceData, componentID } = data
     const len = currentData.length
-    const ifBottomPosition = utils.ifBottomPosition(data)
 
     if(!len) {
         return

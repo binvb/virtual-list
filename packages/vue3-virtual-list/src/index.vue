@@ -51,7 +51,11 @@ const checkIfCorrectCurrentData = throttle(() => {
 	if(!scope.find(item => item.index === correctIndex)) {
 		locate(correctIndex)
 	}
-}, 200)
+}, 100)
+// IntersectionObserver throttle
+const intersectionObserverThrottle = throttle((entry) => {
+	data.currentData = interSectionHandle.interAction(Number(entry.target.getAttribute('data-index'))!, props.perPageItemNum, data, {intersectionObserver, resizeObserver})
+}, 100)
 // resizeObserver
 const resizeObserver = new ResizeObserver((entries, observer) => {
 	for (const entry of entries) {
@@ -70,7 +74,7 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 		const lastIndex = props.direction === 'up' ? 0 : data.sourceData[data.sourceData.length - 1].index
 
 		if(entry.intersectionRatio > 0 &&  data.scrolling && !data.ajusting) {
-			data.currentData = interSectionHandle.interAction(Number(entry.target.getAttribute('data-index'))!, props.perPageItemNum, data, {intersectionObserver, resizeObserver})
+			intersectionObserverThrottle(entry)
 		}
 		// if it's last item and loading mode, should trigger loadingFn
 		if(entry.intersectionRatio > 0 && lastIndex === Number(currentIndex)) {
