@@ -18,7 +18,7 @@ function resizeHandle(data:ReactiveData) {
 
     for(let i = 0; i < len; i += 1) {
         const _pre = sourceData[currentData[i].index! - 1]
-        const _elOffsetHeight = (document.querySelector(`.fishUI-virtual-list_${componentID} li[data-index="${currentData[i].index}"]`) as HTMLElement).offsetHeight
+        const _elOffsetHeight = (document.querySelector(`.fishUI-virtual-list_${componentID} li[data-key="${currentData[i].nanoid}"]`) as HTMLElement).offsetHeight
 
         if(currentData[i].offsetHeight !==  _elOffsetHeight) {
             let _offset = _elOffsetHeight - currentData[i].offsetHeight

@@ -27,7 +27,7 @@ function loadData():Promise<any[]> {
     return new Promise((resolve) => {
     setTimeout(() => {
         resolve(getMessage(100))
-    },2000)
+    },1000)
     })
 }
 async function send() {

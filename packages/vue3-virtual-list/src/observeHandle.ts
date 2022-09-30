@@ -12,7 +12,7 @@ function observe(observeList: any[], observer: Observer, data: ReactiveData) {
                 console.log(`警告，没有订阅到: ${JSON.stringify(observeList[i])}`)
                 continue
             }
-            let _el: HTMLElement | null = document.querySelector(`.fishUI-virtual-list_${data.componentID} li[data-index="${observeList[i].index}"]`)
+            let _el: HTMLElement | null = document.querySelector(`.fishUI-virtual-list_${data.componentID} li[data-key="${observeList[i].nanoid}"]`)
 
             if(!_el) {
                 continue 
@@ -34,7 +34,7 @@ function unobserve(unobserveList: any[], observer: Observer, data: ReactiveData)
             console.log(`警告，没有退订到: ${JSON.stringify(unobserveList[i])}`)
             continue
         }
-        let _el: HTMLElement | null = document.querySelector(`.fishUI-virtual-list_${data.componentID} li[data-index="${unobserveList[i].index}"]`)
+        let _el: HTMLElement | null = document.querySelector(`.fishUI-virtual-list_${data.componentID} li[data-key="${unobserveList[i].nanoid}"]`)
 
         if(!_el) {
             continue 
