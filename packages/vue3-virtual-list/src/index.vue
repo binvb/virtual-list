@@ -186,7 +186,7 @@ function checkIfScrollToBottom() {
 	<div :class="'fishUI-virtual-list_' + data.componentID" style="width: 100%; height: 100%; overflow-y: scroll" data-testid="container">
 		<div v-if="props.loadingOptions && props.direction === 'up'">	
 			<component :is="props.loadingOptions.loadingComponent || Loading" v-if="data.loading"></component>
-			<div v-if="props.loadingOptions.nomoreData" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
+			<div data-testid="noMoreDataUp" v-if="props.loadingOptions.nomoreData" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
 		</div>
 		<ul class="fishUI-virtual-list__inner" :style="{height: `${data.listHeight}px`}">
 			<template v-for="item in data.currentData" :key="item.nanoid">
@@ -206,7 +206,7 @@ function checkIfScrollToBottom() {
 		</ul>
 		<div v-if="props.loadingOptions && props.direction === 'down'">	
 			<component :is="props.loadingOptions.loadingComponent || Loading" v-if="data.loading"></component>
-			<div v-if="props.loadingOptions.nomoreData" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
+			<div data-testid="noMoreDataDown" v-if="props.loadingOptions.nomoreData" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
 		</div>
 	</div>
 </template>

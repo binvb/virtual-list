@@ -95,3 +95,7 @@ export function getMessage(size: number = 1):Message[] {
 
     return msgList
 }
+
+export default {
+    getMessage
+}

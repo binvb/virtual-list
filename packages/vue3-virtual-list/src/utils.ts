@@ -1,4 +1,4 @@
-import { SourceData, ReactiveData, ItemProps } from "./index.d"
+import { SourceData, ReactiveData } from "./index.d"
 
 // get closed top item
 function getCorrectTopIndex(dataList: SourceData[], top: number) {

@@ -1,58 +1,67 @@
 import VirtualList from './../../src/index.vue'
 import { VirtualScrollExpose } from './../../src/index.d'
 import ScrollItem from './dynamicScrollItem.vue'
-import { getMessage } from './mock'
+import mock  from './mock'
 
-// expose function
-let exposeFn: VirtualScrollExpose
 // selector
 const container = '[data-testid=container]'
-// default setting
-const height = 1000
+const noMoreDataUp = '[data-testid=noMoreDataUp]'
+// props
+const loadingOptions = {
+    loadingFn: () => {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(mock.getMessage(100)) 
+            }, 1000)
+        })
+    },
+    nomoredata: false
+}
 
 describe('chat mode(dynamic) test', () => {
     beforeEach(() => {
-        cy.viewport(800, height)
+        cy.viewport(800, 1000)
         cy.mount(VirtualList, {
             props: {
-                perPageItemNum: 20,
+                perPageItemNum: 40,
                 scrollItem: ScrollItem,
-                height: 500,
-                loadingOptions: {
-                    loadingFn: getMessage(100),
-                    nomoreData: false
-                },
+                height: 42,
+                loadingOptions,
                 direction: 'up'
             },
             ref: 'VirtualList'
-        })
-        .then(componentInstance => {
-            exposeFn = componentInstance.componentVM.$.exposed
-        })
-        cy.wait(1000) // wait for component mounted and set exposeFn 
+        }).as('component')
+        cy.get('@component').its('componentVM.$.exposed').as('exposeFn')
+        cy.get('@component').its('setProps').as('setProps')
     })
-    
-    it('mounted at bottom position', async() => {
-        exposeFn.setSourceData(await getMessage(100))
-        cy.wait(100).get(container).invoke('scrollTop')
-        .then(scrollTop => {
-            cy.get('.fishUI-virtual-list__inner').should('have.css', 'height', `${scrollTop! + height}px`)
-        })
-    })
-    it('add item and keep bottom position',async() => {
-        exposeFn.setSourceData(await getMessage(100))
-        const listLenth = exposeFn.getData().length
-        const msgNum = 100
 
-        for(let i = 0; i < msgNum; i += 1) {
-            cy.wait(500)
-            .then(async() => {
-                exposeFn.add(listLenth + i, getMessage(1))
-                cy.wait(500).get(container).invoke('scrollTop')
-                .then(scrollTop => {
-                    cy.get('.fishUI-virtual-list__inner').should('have.css', 'height', `${scrollTop! + height}px`)
-                })
+    it('loading data', async() => {
+        // 设置一个 2-5 的随机数, 作为执行次数
+        const _randomNum = Math.ceil(Math.random() * 3 + 2)
+        // 设置初始消息
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await mock.getMessage(100)))
+        // stub getMessage 函数
+        cy.stub(loadingOptions, 'loadingFn').as('getMessage').callsFake(() => {
+            return new Promise(resolve => {
+                resolve(mock.getMessage(100)) 
+            })
+        })
+        for(let i = 0; i <= _randomNum; i += 1) {
+            // 容器滚动到顶部
+            cy.get(container).scrollTo(0, 0).then(() => {
+                // 检查函数是否已执行，并 restore 执行次数
+                cy.get('@getMessage').should('have.been.calledOnce').invoke('restore')
             })
         }
+        // 设置已loading所有数据
+        cy.get<Function>('@setProps').then(setProps => {
+            cy.get('@component').then(component => {
+                setProps.call(component, {loadingOptions: {
+                    loadingFn: loadingOptions.loadingFn,
+                    nomoreData: true
+                }})
+                cy.get(noMoreDataUp).contains('no more data')
+            })
+        })
     })
 })

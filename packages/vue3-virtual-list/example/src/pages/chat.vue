@@ -17,6 +17,7 @@ const data = reactive({
     addNum: 0,
     size: 100
 })
+let count = 0
 
 onMounted(async() => {
     virtualScroll.value?.setSourceData(await getMessage(100))
@@ -25,9 +26,13 @@ onMounted(async() => {
 // methods
 function loadData():Promise<any[]> {
     return new Promise((resolve) => {
-    setTimeout(() => {
-        resolve(getMessage(100))
-    },1000)
+        count++
+        setTimeout(() => {
+            resolve(getMessage(100))
+            if(count >= 3) {
+                loadingOptions.nomoreData = true
+            }
+        },1000)
     })
 }
 async function send() {
