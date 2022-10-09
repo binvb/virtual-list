@@ -18,7 +18,7 @@ function loadData() {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(getMessage(100))
-    },2000)
+    },4000)
   })
 }
 </script>

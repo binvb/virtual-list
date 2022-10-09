@@ -79,7 +79,7 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 		// if it's last item and loading mode, should trigger loadingFn
 		if(entry.intersectionRatio > 0 && lastIndex === Number(currentIndex)) {
 			if(!data.loading && props.loadingOptions && !props.loadingOptions.nomoreData) {
-				loadData(lastIndex + 1)
+				loadData(lastIndex === 0 ? 0 : lastIndex + 1)
 			}
 		}
 	}
