@@ -35,7 +35,7 @@ describe('chat mode(dynamic) test', () => {
         cy.get('@component').its('setProps').as('setProps')
     })
 
-    it('loading data', async() => {
+    it('loading data', () => {
         // 设置一个 2-5 的随机数, 作为执行次数
         const _randomNum = Math.ceil(Math.random() * 3 + 2)
         // 设置初始消息

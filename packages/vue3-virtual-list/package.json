@@ -14,8 +14,8 @@
     "dev": "vite",
     "build": "vite build --config ./build/pack.js",
     "preview": "vite preview",
-    "test": "cypress open --component --browser chrome",
-    "test:commit": "cypress run --component --browser chrome"
+    "test": "DEBUG=code-coverage cypress open --component --browser chrome",
+    "test:commit": "cypress run --component --browser chrome && npx nyc report"
   },
   "files": [
     "src/*",
@@ -28,6 +28,7 @@
     "vue": "^3.2.37"
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.10.0",
     "@testing-library/cypress": "^8.0.3",
     "@testing-library/vue": "^6.6.1",
     "@types/lodash": "^4.14.184",
@@ -44,6 +45,7 @@
     "typescript": "^4.6.4",
     "vite": "^3.0.7",
     "vite-plugin-dts": "^1.4.1",
+    "vite-plugin-istanbul": "^3.0.1",
     "vitest": "^0.23.2",
     "vue-tsc": "^0.39.5"
   },
