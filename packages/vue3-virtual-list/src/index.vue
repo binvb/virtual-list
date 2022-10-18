@@ -31,10 +31,10 @@ const data = reactive<ReactiveData>({
 	loading: false,
 	scrolling: false,
 	ajusting: false,
-	componentID: new Date().getTime() + utils.getRandom().toString(), 
+	componentID: new Date().getTime() + utils.getRandom().toString(), // unique id
 	listHeight: 0,
-	locationPosition: 0,
-	userScrolling: false
+	locationPosition: 0, // record user scrolling end position
+	userScrolling: false  // conflict userScroll/program scroll(e.g. locate)
 })
 // quick scroll end compensation
 const checkIfCorrectCurrentData = throttle(() => {
@@ -79,7 +79,7 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 		// if it's last item and loading mode, should trigger loadingFn
 		if(entry.intersectionRatio > 0 && lastIndex === Number(currentIndex)) {
 			if(!data.loading && props.loadingOptions && !props.loadingOptions.nomoreData) {
-				loadData(lastIndex === 0 ? 0 : lastIndex + 1)
+				loadData(lastIndex)
 			}
 		}
 	}

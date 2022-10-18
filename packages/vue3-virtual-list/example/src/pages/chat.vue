@@ -40,7 +40,7 @@ async function send() {
     const newMsg = await getMessage(1)
 
     newMsg[0].content = content.value
-    virtualScroll.value?.add(list!.length + 1, newMsg)
+    virtualScroll.value?.add(list!.length, newMsg)
     content.value = ''
 }
 function locate() {

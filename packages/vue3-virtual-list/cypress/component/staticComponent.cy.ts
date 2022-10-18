@@ -1,7 +1,7 @@
 import VirtualList from './../../src/index.vue'
 import { VirtualScrollExpose } from './../../src/index.d'
-import StaticScrollItem from './staticScrollItem.vue'
-import { getMessage } from './mock'
+import StaticScrollItem from './help/staticScrollItem.vue'
+import { getMessage } from './help/mock'
 
 // selector
 const container = '[data-testid=container]'
@@ -35,6 +35,14 @@ describe('test static item', () => {
         .then(scrollTop => {
             cy.get('li[data-index="99"]').should('have.css', 'transform', `matrix(1, 0, 0, 1, 0, ${scrollTop})`)
         })
+        // locate but !sourceData.length
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getMessage(0)))
+        cy.then(() => {
+            cy.get<VirtualScrollExpose>('@exposeFn').then(exposeFn => exposeFn.locate(99))
+        })
+        cy.get<VirtualScrollExpose>('@exposeFn').then(exposeFn => {
+            cy.wrap(exposeFn.getCurrentViewPortData()).its('length').should('eq', 0)
+        })
     })
     it('update item index 10', () => {
         // content should change
@@ -46,7 +54,17 @@ describe('test static item', () => {
             cy.get('@updateTestOldContent').should('not.be', content)
         })
     })
-    it('delete item index 33', () => {
+    it('add item', () => {
+        // add data after index 12, 13 should be 14
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getMessage(100)))
+        cy.get('li').eq(13).invoke('attr', 'data-key').as('addItemOld13')
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.add(12, await getMessage(1)))
+        cy.get('li').eq(14).invoke('attr', 'data-key')
+        .then(key => {
+            cy.get('@addItemOld13').should('eq', key)
+        })
+    })
+    it('delete item', () => {
         // 34 should replace 33
         cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getMessage(100)))
         cy.get('li').eq(34).invoke('attr', 'data-key').as('deleteTestAfterItem')
@@ -54,6 +72,18 @@ describe('test static item', () => {
         cy.get('li[data-index=33]').invoke('attr', 'data-key')
         .then(key => {
             cy.get('@deleteTestAfterItem').should('eq', key)
+        })
+        // del [21,25], 22 should replace 21, 27 should replace 25
+        cy.get('li').eq(22).invoke('attr', 'data-key').as('deleteTestAfterItem22')
+        cy.get('li').eq(27).invoke('attr', 'data-key').as('deleteTestAfterItem27')
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.del([21, 25]))
+        cy.get('li[data-index=21]').invoke('attr', 'data-key')
+        .then(key => {
+            cy.get('@deleteTestAfterItem22').should('eq', key)
+        })
+        cy.get('li[data-index=25]').invoke('attr', 'data-key')
+        .then(key => {
+            cy.get('@deleteTestAfterItem27').should('eq', key)
         })
     })
     it('locate item index 88 and reset 80 length data', () => {

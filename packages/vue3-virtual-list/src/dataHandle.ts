@@ -59,7 +59,7 @@ function del(index: number | number[], data: ReactiveData, observer: Observer, p
 function add(index: number, insertData: any[], data: ReactiveData, observer: Observer, props:any) {
     const {height} = props
 
-    data.sourceData.splice(index,0, ...insertData)
+    data.sourceData.splice(index === 0 ? 0 : ++index, 0, ...insertData)
     sourceDataInitail(data, height)
     resetCurrentData(data, observer, props, getCorrectCurrentDataStartIndex(data, props))
 }

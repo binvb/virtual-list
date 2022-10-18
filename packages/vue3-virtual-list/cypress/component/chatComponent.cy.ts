@@ -1,7 +1,7 @@
 import VirtualList from './../../src/index.vue'
 import { VirtualScrollExpose } from './../../src/index.d'
-import ScrollItem from './dynamicScrollItem.vue'
-import mock  from './mock'
+import ScrollItem from './help/dynamicScrollItem.vue'
+import mock  from './help/mock'
 
 // selector
 const container = '[data-testid=container]'
