@@ -22,7 +22,9 @@ function getRandom() {
 }
 
 function getScrollTop(data: ReactiveData) {
-    return document.querySelector(`.fishUI-virtual-list_${data.componentID}`)!.scrollTop
+    const component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+
+    return component ? component.scrollTop : 0
 }
 
 function getViewPortOffsetHeight(data: ReactiveData) {

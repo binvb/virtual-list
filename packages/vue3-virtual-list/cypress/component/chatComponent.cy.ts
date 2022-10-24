@@ -23,7 +23,7 @@ describe('chat mode(dynamic) test', () => {
         cy.viewport(800, 1000)
         cy.mount(VirtualList, {
             props: {
-                perPageItemNum: 40,
+                perPageItemNum: 20,
                 scrollItem: ScrollItem,
                 height: 42,
                 loadingOptions,
@@ -62,6 +62,22 @@ describe('chat mode(dynamic) test', () => {
                 }})
                 cy.get(noMoreDataUp).contains('no more data')
             })
+        })
+    })
+    it('locate && get current viewport data', () => {
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await mock.getMessage(100)))
+        cy.get<VirtualScrollExpose>('@exposeFn').invoke('locate', 0)
+        cy.then(() => {
+            cy.get<VirtualScrollExpose>('@exposeFn').invoke('getCurrentViewPortData').then(data => {
+                cy.wrap(data[0]).its('index').should('eq', 100)
+            })
+        })
+    })
+    it('reset data', () => {
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await mock.getMessage(100)))
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => {
+            exposeFn.setSourceData(await mock.getMessage(15))
+            cy.get('li').its('length').should('eq', 15)
         })
     })
 })

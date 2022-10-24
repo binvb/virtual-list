@@ -73,7 +73,7 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 		const currentIndex = entry.target.getAttribute('data-index')
 		const lastIndex = props.direction === 'up' ? 0 : data.sourceData[data.sourceData.length - 1].index
 
-		if(entry.intersectionRatio > 0 &&  data.scrolling && !data.ajusting) {
+		if(entry.intersectionRatio > 0 && data.scrolling && !data.ajusting) {
 			intersectionObserverThrottle(entry)
 		}
 		// if it's last item and loading mode, should trigger loadingFn
@@ -185,7 +185,7 @@ function checkIfScrollToBottom() {
 <template>
 	<div :class="'fishUI-virtual-list_' + data.componentID" style="width: 100%; height: 100%; overflow-y: scroll" data-testid="container">
 		<div v-if="props.loadingOptions && props.direction === 'up'">	
-			<component :is="props.loadingOptions.loadingComponent || Loading" v-if="data.loading"></component>
+			<component :is="props.loadingOptions.loadingComponent || Loading" v-if="data.loading" data-testid="loadingUp"></component>
 			<div data-testid="noMoreDataUp" v-if="props.loadingOptions.nomoreData" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
 		</div>
 		<ul class="fishUI-virtual-list__inner" :style="{height: `${data.listHeight}px`}">
@@ -205,8 +205,8 @@ function checkIfScrollToBottom() {
 			</template>
 		</ul>
 		<div v-if="props.loadingOptions && props.direction === 'down'">	
-			<component :is="props.loadingOptions.loadingComponent || Loading" v-if="data.loading"></component>
-			<div data-testid="noMoreDataDown" v-if="props.loadingOptions.nomoreData" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
+			<component :is="props.loadingOptions.loadingComponent || Loading" v-if="data.loading" data-testid="loadingDown"></component>
+			<div v-if="props.loadingOptions.nomoreData" style="text-align: center;" data-testid="noMoreDataDown">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
 		</div>
 	</div>
 </template>

@@ -15,6 +15,7 @@ const data = reactive({
     updateNum: 0,
     delNum: 0,
     addNum: 0,
+    resetNum: 0,
     size: 100
 })
 let count = 0
@@ -61,7 +62,7 @@ async function add() {
 }
 
 async function reset() {
-    virtualScroll.value?.setSourceData(await getMessage(data.size))
+    virtualScroll.value?.setSourceData(await getMessage(data.resetNum))
 }
 </script>
 <template>
@@ -82,6 +83,10 @@ async function reset() {
           <div style="display:flex;justify-content: space-between;margin-top: 20px">
             <input v-model="data.addNum" type="number" placeholder="index" />
             <button @click="add">add</button>
+          </div>
+          <div style="display:flex;justify-content: space-between;margin-top: 20px">
+            <input v-model="data.resetNum" type="number" placeholder="index" />
+            <button @click="reset">reset</button>
           </div>
         </div>
         <div style="margin: 0 auto;">
