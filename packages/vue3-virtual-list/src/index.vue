@@ -125,7 +125,7 @@ defineExpose<VirtualScrollExpose>({
 		const _data:ItemProps[] = []
 
 		data.currentData.forEach(item => {
-			if((item.transformY + item.offsetHeight >= scrollTop) && (item.transformY <= scrollTop + viewPortOffset)) {
+			if((item.transformY + item.offsetHeight > scrollTop) && (item.transformY < scrollTop + viewPortOffset)) {
 				_data.push(item)
 			}
 		})

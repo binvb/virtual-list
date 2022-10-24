@@ -1,4 +1,3 @@
-import {nextTick} from 'vue'
 import utils from './utils'
 import { ReactiveData } from "./index.d"
 
@@ -13,7 +12,7 @@ export function removeScrollEvent(data: ReactiveData) {
     document.querySelector(`.fishUI-virtual-list_${data.componentID}`)!.removeEventListener('scroll', onScroll.bind(null, undefined, undefined))
 }
 
-function onUserScrolling(data:ReactiveData | undefined, scrollDebounceFn?: Function) {
+function onUserScrolling(data:ReactiveData | undefined) {
     if(data) {
         data.userScrolling = true
     }

@@ -100,4 +100,28 @@ describe('test static item', () => {
             })
         })
     })
+    it('set data(locate && update && del)', () => {
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getMessage(10000)))
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => {
+            const updateData = await getMessage(1)[0]
+            // locate
+            exposeFn.locate(2343)
+            cy.wrap(exposeFn.getCurrentViewPortData()[0]).its('index').should('eq', 2343)
+            // update
+            exposeFn.update(2345, updateData)
+            if(updateData.content) {
+                cy.get('[data-index=2345]').contains(updateData.content)
+            } else {
+                cy.get('[data-index=2345]').contains('empty')
+            }
+            // del
+            cy.get('[data-index=2348]').invoke('attr', 'data-key').as('delBeforeKey2348')
+            cy.wait(1000).then(() => {
+                exposeFn.del(2346)
+                cy.get('@delBeforeKey2348').then(delBeforeKey2348 => {
+                    cy.wait(1000).get('[data-index=2347]').invoke('attr', 'data-key').should('eq', delBeforeKey2348)
+                })
+            })
+        })
+    })
 })
