@@ -15,6 +15,7 @@
     "build": "vite build --config ./build/pack.js",
     "preview": "vite preview",
     "test": "DEBUG=code-coverage cypress open --component --browser chrome",
+    "test:force-update-baseLine": "DEBUG=code-coverage cypress open --component --browser chrome && cypress -image-diff.js -u",
     "test:commit": "cypress run --component --browser chrome && npx nyc report"
   },
   "files": [
@@ -35,6 +36,8 @@
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/test-utils": "^2.0.2",
     "cypress": "^10.8.0",
+    "cypress-image-diff-js": "^1.22.0",
+    "cypress-recurse": "^1.23.0",
     "happy-dom": "^6.0.4",
     "intersection-observer": "^0.12.2",
     "jest": "^29.0.3",

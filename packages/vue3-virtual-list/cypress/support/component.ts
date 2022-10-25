@@ -22,6 +22,9 @@ import './commands'
 import { mount } from 'cypress/vue'
 
 import '@cypress/code-coverage/support'
+// cusstom command
+import type { RecurseDefaults } from 'cypress-recurse'
+import compareSnapshotCommand from 'cypress-image-diff-js/dist/command'
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
@@ -30,11 +33,16 @@ import '@cypress/code-coverage/support'
 declare global {
   namespace Cypress {
     interface Chainable {
-      mount: typeof mount
+      mount: typeof mount,
+      compareSnapshot(
+        name: string,
+        testThreshold?: number,
+        retryOptions?: Partial<typeof RecurseDefaults>
+      ): Chainable<Element>
     }
   }
 }
-
+compareSnapshotCommand()
 Cypress.Commands.add('mount', mount)
 
 // Example use:

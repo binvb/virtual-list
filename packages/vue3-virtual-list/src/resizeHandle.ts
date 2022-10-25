@@ -5,7 +5,7 @@ import throttle from 'lodash/throttle'
 
 const ajustActionThrottle = throttle((data) => {
     ajustAction(data.locationPosition, data)
-}, 50)
+}, 50, {trailing: true, leading: false})
 function resizeHandle(data:ReactiveData) {
     const { currentData, sourceData, componentID } = data
     const len = currentData.length

@@ -55,7 +55,7 @@ const checkIfCorrectCurrentData = throttle(() => {
 // IntersectionObserver throttle
 const intersectionObserverThrottle = throttle((entry) => {
 	data.currentData = interSectionHandle.interAction(Number(entry.target.getAttribute('data-index'))!, props.perPageItemNum, data, {intersectionObserver, resizeObserver})
-}, 100)
+}, 100, {trailing: true, leading: false})
 // resizeObserver
 const resizeObserver = new ResizeObserver((entries, observer) => {
 	for (const entry of entries) {

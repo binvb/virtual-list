@@ -96,6 +96,30 @@ export function getMessage(size: number = 1):Message[] {
     return msgList
 }
 
+export function getStaticMessage(size: number = 1):Message[] {
+    const msgList = []
+
+    for(let i = 0; i < size; i++) {
+        msgList.push(
+            {
+                content: 'test' + i,
+                avatar: `/assets/avatar${utils.getRandom(0, 3)}.jpg`,
+                imgUrl: getPicUrl(),
+                time: new Date(),
+                name: NAME[utils.getRandom(0, NAME.length)],
+                userInfo: {
+                    name: 'vb',
+                    age: 17
+                }
+            }
+        )
+    }
+
+    return msgList
+}
+
+
 export default {
-    getMessage
+    getMessage,
+    getStaticMessage
 }
