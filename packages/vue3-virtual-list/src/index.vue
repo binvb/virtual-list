@@ -4,7 +4,7 @@ import ResizeObserver from 'resize-observer-polyfill'
 import 'intersection-observer'
 import throttle from 'lodash/throttle'
 import Loading from './loading.vue'
-import { ReactiveData, VirtualScrollExpose, Direction, LoadingOptions, ItemProps } from "./index.d"
+import { ReactiveData, VirtualScrollExpose, ItemProps, Direction, LoadingOptions } from "./index.d"
 import utils from './utils'
 import resizeHandle from './resizeHandle'
 import interSectionHandle from './interSectionHandle'
@@ -54,7 +54,7 @@ const checkIfCorrectCurrentData = throttle(() => {
 }, 100)
 // IntersectionObserver throttle
 const intersectionObserverThrottle = throttle((entry) => {
-	data.currentData = interSectionHandle.interAction(Number(entry.target.getAttribute('data-index'))!, props.perPageItemNum, data, {intersectionObserver, resizeObserver})
+	data.currentData = interSectionHandle.interAction(Number(entry.target.getAttribute('data-index')), {data, observer: {resizeObserver, intersectionObserver}, props})
 }, 100, {trailing: true, leading: false})
 // resizeObserver
 const resizeObserver = new ResizeObserver((entries, observer) => {
@@ -101,11 +101,11 @@ onBeforeUnmount(() => {
 defineExpose<VirtualScrollExpose>({
 	locate,
 	del: (index) => {
-		dataHandle.del(index, data, {resizeObserver, intersectionObserver}, props)
+		dataHandle.del(index, {data, observer: {resizeObserver, intersectionObserver}, props})
 		setListHeight()
 	},
 	add: (index, insertData) => {
-		dataHandle.add(index, insertData, data, {resizeObserver, intersectionObserver}, props)
+		dataHandle.add(index, insertData, {data, observer: {resizeObserver, intersectionObserver}, props})
 		setListHeight()
 	},
 	update: (index, _data) => {
@@ -113,7 +113,7 @@ defineExpose<VirtualScrollExpose>({
 	},
 	setSourceData: (_data) => {
 		data.sourceData = []
-		dataHandle.setSourceData(_data, data, {resizeObserver, intersectionObserver}, props)
+		dataHandle.setSourceData(_data, {data, observer: {resizeObserver, intersectionObserver}, props})
 		setListHeight()
 	},
 	getData() {
@@ -140,7 +140,7 @@ function locate(index: number) {
 	}
 	// ajust row data
 	dataHandle.resetSourceDataBeforeLocate(data.sourceData, data.sourceData.length)
-	dataHandle.resetCurrentData(data, {intersectionObserver, resizeObserver}, props, index - props.perPageItemNum)
+	dataHandle.resetCurrentData({data, observer: {resizeObserver, intersectionObserver}, props}, index - props.perPageItemNum)
 	let item = data.sourceData[index]
 	let position = item.transformY
 
@@ -160,7 +160,7 @@ function loadData(lastIndex: number) {
 	data.loading = true
 	props.loadingOptions!.loadingFn().then((res) => {
 		data.loading = false
-		dataHandle.add(lastIndex, res, data, {resizeObserver, intersectionObserver}, props)
+		dataHandle.add(lastIndex, res, {data, observer: {resizeObserver, intersectionObserver}, props})
 		setListHeight()
 		nextTick(() => {
 			// locate after load data
@@ -186,7 +186,7 @@ function checkIfScrollToBottom() {
 	<div :class="'fishUI-virtual-list_' + data.componentID" style="width: 100%; height: 100%; overflow-y: scroll" data-testid="container">
 		<div v-if="props.loadingOptions && props.direction === 'up'">	
 			<component :is="props.loadingOptions.loadingComponent || Loading" v-if="data.loading" data-testid="loadingUp"></component>
-			<div data-testid="noMoreDataUp" v-if="props.loadingOptions.nomoreData" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
+			<div v-if="props.loadingOptions.nomoreData" data-testid="noMoreDataUp" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
 		</div>
 		<ul class="fishUI-virtual-list__inner" :style="{height: `${data.listHeight}px`}">
 			<template v-for="item in data.currentData" :key="item.nanoid">

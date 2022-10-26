@@ -1,17 +1,21 @@
 import observeHandle from './observeHandle'
-import { Observer, ReactiveData } from "./index.d"
+import { VirtualListComponent } from "./index.d"
 
 interface PatchResult {
     before: number // need to fill scroll item number before
     after: number // need to fill scroll item number after
 }
+interface PositionIndex {
+    topIndex: number, 
+    bottomIndex: number
+}
 
-function interAction(currentIndex: number, perPageItemNum: number, data: ReactiveData, observer: Observer) {
-    let {sourceData, currentData} = data
-    let screenNum = perPageItemNum
+function interAction(currentIndex: number, component: VirtualListComponent) {
+    let {sourceData, currentData} = component.data
+    let screenNum = component.props.perPageItemNum
     let topIndex = currentData[0].index!
     let bottomIndex = currentData[currentData.length - 1].index!
-    let patchResult = patch(currentIndex, screenNum, topIndex, bottomIndex)
+    let patchResult = patch(currentIndex, screenNum, {topIndex, bottomIndex})
 
     if(patchResult.before > 0) {
         let _start = topIndex - patchResult.before
@@ -22,9 +26,9 @@ function interAction(currentIndex: number, perPageItemNum: number, data: Reactiv
             _data.splice(0, 2 * screenNum)
         }
         currentData = _data.concat(currentData)
-        observeHandle.observe(_data, observer, data)
+        observeHandle.observe(_data, component.observer, component.data)
     } else {
-        observeHandle.unobserve(currentData.splice(0, Math.abs(patchResult.before)), observer, data)
+        observeHandle.unobserve(currentData.splice(0, Math.abs(patchResult.before)), component.observer, component.data)
     }
     // make sure after has more than full screens
     if(patchResult.after > 0) {
@@ -36,21 +40,21 @@ function interAction(currentIndex: number, perPageItemNum: number, data: Reactiv
             _data = _data.slice(_data.length - 2 * screenNum, _data.length)
         }
         currentData = currentData.concat(_data) 
-        observeHandle.observe(_data, observer, data)
+        observeHandle.observe(_data, component.observer, component.data)
     } else {
-        observeHandle.unobserve(currentData.splice(2 * screenNum, 100000000000), observer, data)
+        observeHandle.unobserve(currentData.splice(2 * screenNum, 100000000000), component.observer, component.data)
     }
     return currentData
 }
 
-function patch(currentIndex: number, screenNum: number, topIndex: number, bottomIndex: number) {
+function patch(currentIndex: number, screenNum: number, position: PositionIndex) {
     let result: PatchResult = {
         before: 0,
         after: 0
     }
 
-    result.before = screenNum - (currentIndex - topIndex)
-    result.after = screenNum - (bottomIndex - currentIndex)
+    result.before = screenNum - (currentIndex - position.topIndex)
+    result.after = screenNum - (position.bottomIndex - currentIndex)
 
     return result
 }

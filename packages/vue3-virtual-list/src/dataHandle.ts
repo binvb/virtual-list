@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import observeHandle from './observeHandle'
-import { SourceData, ItemProps, Observer, ReactiveData } from './index.d'
+import { SourceData, Props, ReactiveData, ItemBase, VirtualListComponent } from './index.d'
 import utils from './utils'
 
 function resetSourceDataBeforeLocate(sourceData: SourceData[], endIndex:number) {
@@ -16,68 +16,75 @@ function resetSourceDataBeforeLocate(sourceData: SourceData[], endIndex:number) 
     }
 }
 
-function sourceDataInitail(data: ReactiveData, height: number, newVal?: SourceData[]){
-    let _data = newVal ? newVal : data.sourceData
+function itemBaseToItem(data: ItemBase[]): SourceData[] {
+    return data.map(item => {
+        return {index: 0, transformY: 0, nanoid: nanoid(), offsetHeight: 0, ...item}
+    })
+}
+
+function sourceDataInitail(component: VirtualListComponent, newVal?: SourceData[]){
+    let _data = newVal ? newVal : component.data.sourceData
 
     _data.forEach((item, index) => {
-        let pre = data.sourceData[index - 1]
+        let _pre = component.data.sourceData[index - 1]
 
-        if(!data.sourceData[index]) {
-            data.sourceData[index] = ({nanoid: nanoid(), ...item} as ItemProps)
+        if(!component.data.sourceData[index]) {
+            component.data.sourceData[index] = {...item}
         }
-        if(!data.sourceData[index].nanoid) {
-            data.sourceData[index].nanoid = nanoid()
+        if(!component.data.sourceData[index].nanoid) {
+            component.data.sourceData[index].nanoid = nanoid()
         }
-        data.sourceData[index].index = index
-        data.sourceData[index].offsetHeight = item.offsetHeight || height
-        data.sourceData[index].transformY = pre ? (pre.transformY! + pre.offsetHeight!) : height * index
+        component.data.sourceData[index].index = index
+        component.data.sourceData[index].offsetHeight = item.offsetHeight || component.props.height
+        component.data.sourceData[index].transformY = _pre ? (_pre.transformY! + _pre.offsetHeight!) : component.props.height * index
     })
     // splice rest item
     if(newVal) {
-        data.sourceData.splice(newVal.length, 1000000000)
+        component.data.sourceData.splice(newVal.length, 1000000000)
     }
 
-    return (data.sourceData as ItemProps[])
+    return component.data.sourceData
 }
 
-function del(index: number | number[], data: ReactiveData, observer: Observer, props:any) {
-    const { height } = props
-
+function del(index: number | number[], component: VirtualListComponent) {
     if(index instanceof Array) {
         index.forEach(_index => {
-            data.listHeight -= data.sourceData[_index].offsetHeight
-            data.sourceData.splice(_index, 1)
+            component.data.listHeight -= component.data.sourceData[_index].offsetHeight
+            component.data.sourceData.splice(_index, 1)
         })
     } else {
-        data.listHeight -= data.sourceData[index].offsetHeight
-        data.sourceData.splice(index, 1)
+        component.data.listHeight -= component.data.sourceData[index].offsetHeight
+        component.data.sourceData.splice(index, 1)
     }
-    sourceDataInitail(data, height)
-    resetCurrentData(data, observer, props, getCorrectCurrentDataStartIndex(data, props))
+    sourceDataInitail(component)
+    resetCurrentData(component, getCorrectCurrentDataStartIndex(component.data, component.props))
 }
 
-function add(index: number, insertData: any[], data: ReactiveData, observer: Observer, props:any) {
-    const {height} = props
+function add(index: number, insertData: ItemBase[], component: VirtualListComponent) {
+    let _index = index
 
-    data.sourceData.splice(index === 0 ? 0 : ++index, 0, ...insertData)
-    sourceDataInitail(data, height)
-    resetCurrentData(data, observer, props, getCorrectCurrentDataStartIndex(data, props))
+    // splice feature
+    if(index !== 0) {
+        ++_index
+    }
+    
+    component.data.sourceData.splice(_index, 0, ...itemBaseToItem(insertData))
+    sourceDataInitail(component)
+    resetCurrentData(component, getCorrectCurrentDataStartIndex(component.data, component.props))
 }
 
-function update(index: number, data: any, sourceData: ItemProps[]) {
+function update(index: number, data: ItemBase, sourceData: SourceData[]) {
     Object.keys(data).forEach(key => {
         sourceData[index][key] = data[key]
     })
 }
 
-function setSourceData(newData: any[], data: ReactiveData, observer: Observer, props: any) {
-    const {height} = props
-
-    sourceDataInitail(data, height, newData)
-    resetCurrentData(data, observer, props, getCorrectCurrentDataStartIndex(data, props))
+function setSourceData(newData: any[], component: VirtualListComponent) {
+    sourceDataInitail(component, newData)
+    resetCurrentData(component, getCorrectCurrentDataStartIndex(component.data, component.props))
 }
 
-function getCorrectCurrentDataStartIndex(data: ReactiveData, props: any): number {
+function getCorrectCurrentDataStartIndex(data: ReactiveData, props: Props): number {
     const { perPageItemNum } = props
     let {sourceData, currentData} = data
     let startIndex = currentData[0] ? currentData[0].index : 0 // default
@@ -97,25 +104,25 @@ function getCorrectCurrentDataStartIndex(data: ReactiveData, props: any): number
     return startIndex
 }
 
-function resetCurrentData(data: ReactiveData, observer: Observer, props: any, startIndex: number) {
-    let {sourceData} = data
-    const len = sourceData.length > props.perPageItemNum * 2 ? props.perPageItemNum * 2 : sourceData.length
+function resetCurrentData(component: VirtualListComponent, startIndex: number) {
+    let { sourceData } = component.data
+    const len = sourceData.length > component.props.perPageItemNum * 2 ? component.props.perPageItemNum * 2 : sourceData.length
     let _startIndex = startIndex
     
     if(_startIndex < 0) {
         _startIndex = 0
     }
     // unobserve
-    observeHandle.unobserve(data.currentData, observer, data)
+    observeHandle.unobserve(component.data.currentData, component.observer, component.data)
     // remove old data
-    data.currentData = []
+    component.data.currentData = []
     for(let i = 0; i < len; i += 1) {
         if(sourceData[_startIndex + i]) {
-            data.currentData[i] = sourceData[_startIndex + i]
+            component.data.currentData[i] = sourceData[_startIndex + i]
         }
     }
     // observe
-    observeHandle.observe(data.currentData, observer, data)
+    observeHandle.observe(component.data.currentData, component.observer, component.data)
 }
 
 

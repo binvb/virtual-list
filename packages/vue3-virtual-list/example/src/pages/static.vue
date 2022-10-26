@@ -70,7 +70,6 @@ function getCurrentViewData() {
         <input v-model="data.size" type="number" placeholder="index" />
         <button @click="reset">reset</button>
         </div>
-        <button @click="getCurrentViewData">test</button>
     </div>
     <div style="width: 800px;height: 1000px;margin: 0 auto;border: 1px solid #000">
         <Virtual-list

@@ -68,11 +68,11 @@ async function add() {
       </div>
       <div style="width: 800px;height: 1000px;margin: 0 auto;border: 1px solid #000">
           <VirtualList
+          ref="virtualScroll"
           :perPageItemNum="20"
           :scrollItem="CommonItem"
           :height="100"
           :loadingOptions="loadingOptions"
-          ref="virtualScroll"
         ></VirtualList>
       </div>
     </div>

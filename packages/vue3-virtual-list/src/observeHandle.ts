@@ -1,7 +1,7 @@
-import { Observer, ReactiveData } from './index.d'
+import { Observer, ReactiveData, ItemProps } from './index.d'
 import utils from './utils'
 
-function observe(observeList: any[], observer: Observer, data: ReactiveData) {
+function observe(observeList: ItemProps[], observer: Observer, data: ReactiveData) {
     if(!observeList.length) {
         return false
     }
@@ -22,7 +22,7 @@ function observe(observeList: any[], observer: Observer, data: ReactiveData) {
     }, 0)
 }
 
-function unobserve(unobserveList: any[], observer: Observer, data: ReactiveData) {
+function unobserve(unobserveList: ItemProps[], observer: Observer, data: ReactiveData) {
     if(!unobserveList.length) {
         return false
     }

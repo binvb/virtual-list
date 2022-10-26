@@ -92,12 +92,12 @@ async function reset() {
         <div style="margin: 0 auto;">
             <div style="width: 800px;height: 600px;border: 1px solid #000">
                 <VirtualList
+                ref="virtualScroll"
                 :perPageItemNum="10"
                 :scrollItem="ChatItem"
                 :height="100"
                 :loadingOptions="loadingOptions"
                 direction="up"
-                ref="virtualScroll"
                 ></VirtualList>
             </div>
             <div style="display:flex;width: 800px;margin: 0 auto;">
