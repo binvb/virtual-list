@@ -1,5 +1,5 @@
 {
-  "extends": ["alloy", "alloy/vue", "alloy/typescript"],
+  "extends": ["alloy", "alloy/vue", "alloy/typescript", "cypress"],
   "parser": "vue-eslint-parser",
   "parserOptions": {
     "parser": {
@@ -17,6 +17,7 @@
     // mocha: true,
     // jest: true,
     // jquery: true
+    "cypress/globals": true
   },
   "globals": {
     // Your global variables (setting to false means it"s not allowed to be reassigned)
@@ -29,6 +30,12 @@
     // Please keep this rule off because it requiresTypeChecking
     // https://github.com/vuejs/vue-eslint-parser/issues/104
     // https://github.com/typescript-eslint/typescript-eslint/pull/5318
-    "@typescript-eslint/prefer-optional-chain": "off"
+    "@typescript-eslint/prefer-optional-chain": "off",
+    "cypress/no-assigning-return-values": "error",
+    "cypress/no-unnecessary-waiting": "error",
+    "cypress/assertion-before-screenshot": "warn",
+    "cypress/no-force": "warn",
+    "cypress/no-async-tests": "error",
+    "cypress/no-pause": "error"
   }
 }

@@ -10,7 +10,7 @@ import resizeHandle from './resizeHandle'
 import interSectionHandle from './interSectionHandle'
 import dataHandle from './dataHandle'
 import observeHandle from './observeHandle'
-import { scrollEvent, removeScrollEvent, locatePosition, scrollToBottom } from "./scrollInstance"
+import { scrollEvent, removeScrollEvent, locatePosition, checkIfScrollToBottom } from "./scrollInstance"
 
 interface Props {
 	scrollItem: ComponentPublicInstance
@@ -86,8 +86,18 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 }, {threshold: [0, 1]})
 
 watch(() => data.listHeight, () => {
-	checkIfScrollToBottom()
+	checkIfScrollToBottom({data, observer: {resizeObserver, intersectionObserver}, props})
 })
+watch(() => data.currentData, (val, pre) => {
+	// add first, avoid missing observe
+	observeHandle.observe(val, {resizeObserver, intersectionObserver}, data)
+	nextTick(() => {
+		observeHandle.unobserve(pre, {resizeObserver, intersectionObserver}, data)
+		// data change trigger resize handle
+		resizeHandle(data)
+	})
+})
+
 // life cycle
 onMounted(() => {
 	observeHandle.observe(data.currentData, {resizeObserver, intersectionObserver}, data)
@@ -173,13 +183,6 @@ function loadData(lastIndex: number) {
 			}
 		})
 	})
-}
-function checkIfScrollToBottom() {
-	if(props.direction === 'up' && utils.ifBottomPosition(data)) {
-		nextTick(() => {
-			scrollToBottom(data)
-		})
-	}
 }
 </script>
 <template>

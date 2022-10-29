@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { Observer, ReactiveData, ItemProps } from './index.d'
 import utils from './utils'
 
@@ -5,7 +6,7 @@ function observe(observeList: ItemProps[], observer: Observer, data: ReactiveDat
     if(!observeList.length) {
         return false
     }
-    setTimeout(() => {
+    nextTick(() => {
         for(let i = 0, len = observeList.length; i < len; i += 1) {
             if(!observeList[i] || !utils.indexExist(observeList[i].index)) {
                 continue
@@ -15,11 +16,14 @@ function observe(observeList: ItemProps[], observer: Observer, data: ReactiveDat
             if(!_el) {
                 continue 
             }
+            // make sure unobserve before observe
+            observer.resizeObserver.unobserve(_el)
+            observer.intersectionObserver.unobserve(_el)
             observer.resizeObserver.observe(_el)
             observer.intersectionObserver.observe(_el)
             _el = null
         }
-    }, 0)
+    })
 }
 
 function unobserve(unobserveList: ItemProps[], observer: Observer, data: ReactiveData) {

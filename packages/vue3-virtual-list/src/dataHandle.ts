@@ -112,8 +112,8 @@ function resetCurrentData(component: VirtualListComponent, startIndex: number) {
     if(_startIndex < 0) {
         _startIndex = 0
     }
-    // unobserve
-    observeHandle.unobserve(component.data.currentData, component.observer, component.data)
+    // // unobserve
+    // observeHandle.unobserve(component.data.currentData, component.observer, component.data)
     // remove old data
     component.data.currentData = []
     for(let i = 0; i < len; i += 1) {
@@ -122,7 +122,7 @@ function resetCurrentData(component: VirtualListComponent, startIndex: number) {
         }
     }
     // observe
-    observeHandle.observe(component.data.currentData, component.observer, component.data)
+    // observeHandle.observe(component.data.currentData, component.observer, component.data)
 }
 
 

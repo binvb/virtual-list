@@ -2,12 +2,11 @@ import { SourceData, ReactiveData } from "./index.d"
 
 // get closed top item
 function getCorrectTopIndex(dataList: SourceData[], top: number) {
-    let afterDataList = dataList.filter(item => item.transformY! >= top)
-
-    if(afterDataList.length) {
-        return afterDataList[0].index
+    for(let length = dataList.length, i = 0; i < length; i += 1) {
+        if(dataList[i].transformY! >= top) {
+            return i
+        }
     }
-    return dataList.length - 1
 }
 
 function indexExist(index: any) {

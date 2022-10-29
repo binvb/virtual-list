@@ -1,6 +1,6 @@
 {
   "name": "@vb_he/vue-virtual-scroll",
-  "version": "1.0.0-beta.78",
+  "version": "1.0.0",
   "type": "module",
   "types": "./dist/main.d.ts",
   "main": "./dist/vue3-virtual-list.js",
@@ -38,6 +38,7 @@
     "cypress": "^10.8.0",
     "cypress-image-diff-js": "^1.22.0",
     "cypress-recurse": "^1.23.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "happy-dom": "^6.0.4",
     "intersection-observer": "^0.12.2",
     "jest": "^29.0.3",

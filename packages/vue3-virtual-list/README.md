@@ -1,18 +1,23 @@
 ## FEATURE
+
 1、async component render;  
 2、locate/update/delete/add specify location;  
 3、scroll loading;  
 4、chat mode(keep bottom position);  
-5、loading mode(scroll loading);  
+5、loading mode(scroll loading);
 
 [demo](https://binvb.github.io/vb.github.io/#/normal)
+
 ## USAGE
-1、install;  
+
+1、install;
+
 ```
 npm install --save @vb_he/vue-virtual-scroll
 ```
 
-2、import;  
+2、import;
+
 ```
 import VirtualList from '@vb_he/vue-virtual-scroll'
 import '@vb_he/vue-virtual-scroll/dist/style.css'
@@ -22,6 +27,7 @@ createApp(App).use(VirtualList).mount('#app')
 ```
 
 3、use in vue component
+
 ```
 <div style="width: 800px;height: 1000px;">
     <Virtual-list
@@ -34,18 +40,17 @@ createApp(App).use(VirtualList).mount('#app')
 ```
 
 ### props
-base props: 
-|   key   | default value | required | description |
-|  ----  | -------------  | -------- | ----------- |
+
+base props:
+| key | default value | required | description |
+| ---- | ------------- | -------- | ----------- |
 | scrollItem | null | true | scroll item inside component |
-| perPageItemNum  | 20       |  true    | at less display area number, normaly component keep render 2 * perPageItemNum item |
-| height  | 100  | true    | item size(height),for better performance |
+| perPageItemNum | 20 | true | at less display area number, normaly component keep render 2 \* perPageItemNum item |
+| height | 100 | true | item size(height),for better performance |
 | direction | 'down' | false | 'up'/'down', need to set 'up' in chat mode |
 | loadingOptions | null | false | see under |
 
-
-
-loadingOptions: 
+loadingOptions:
 | key | default value | required | description |
 | --- | ------------- | -------- | ----------- |
 | loadingFn | null | true | need to return Promise<any[]> |
@@ -53,21 +58,22 @@ loadingOptions:
 | nomoreData | false | false | set true if no more data |
 | nomoreDataText | 'no more data' | false | set no more data text |
 
-### expose method 
+### expose method
+
 you may need to understand [expose](https://vuejs.org/api/options-state.html#expose)
 
-| name | arguments | description |
-| ---- | --------- | ----------- |
-| setSourceData | data: any[] | set list data |
-| locate | index: number | locate at specify index |
-| del | index: number \| number[] | delete some item |
-| add | index: number, insertData: any[] | add item/items |
-| update | index: number, data: any | update item |
-| getData | null | get list data |
-| getCurrentViewPortData | null | get current viewport data |
-
+| name                   | arguments                        | description               |
+| ---------------------- | -------------------------------- | ------------------------- |
+| setSourceData          | data: any[]                      | set list data             |
+| locate                 | index: number                    | locate at specify index   |
+| del                    | index: number \| number[]        | delete some item          |
+| add                    | index: number, insertData: any[] | add item/items            |
+| update                 | index: number, data: any         | update item               |
+| getData                | null                             | get list data             |
+| getCurrentViewPortData | null                             | get current viewport data |
 
 basically, you can only use all this methods to change the view, e.g.
+
 ```
 <script setup lang="ts">
 import { onMounted, ref, reactive } from 'vue'
@@ -123,4 +129,5 @@ async function reset() {
 ```
 
 ### notices
-1、must set height value(100px, 100%, flex, etc.) which wrap VirtualList;    
+
+1、element must set height value(100px, 100%, flex, etc.) which was wrapping VirtualList;
