@@ -54,9 +54,10 @@ export function ajustScrollPosition(offset: number, data: ReactiveData) {
 }
 
 export function ajustAction(position: number, data: ReactiveData) {
-    const component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+    let component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
 
     if(component) {
         component.scrollTo(0, position)
     }
+    component = null
 }

@@ -26,10 +26,8 @@ function interAction(currentIndex: number, component: VirtualListComponent) {
             _data.splice(0, 2 * screenNum)
         }
         currentData = _data.concat(currentData)
-        // observeHandle.observe(_data, component.observer, component.data)
     } else {
         currentData.splice(0, Math.abs(patchResult.before))
-        // observeHandle.unobserve(currentData.splice(0, Math.abs(patchResult.before)), component.observer, component.data)
     }
     // make sure after has more than full screens
     if(patchResult.after > 0) {
@@ -41,10 +39,8 @@ function interAction(currentIndex: number, component: VirtualListComponent) {
             _data = _data.slice(_data.length - 2 * screenNum, _data.length)
         }
         currentData = currentData.concat(_data) 
-        // observeHandle.observe(_data, component.observer, component.data)
     } else {
         currentData.splice(2 * screenNum, 100000000000)
-        // observeHandle.unobserve(currentData.splice(2 * screenNum, 100000000000), component.observer, component.data)
     }
     return currentData
 }

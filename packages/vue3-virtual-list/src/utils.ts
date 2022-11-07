@@ -21,16 +21,28 @@ function getRandom() {
 }
 
 function getScrollTop(data: ReactiveData) {
-    const component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+    let component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+    const scrollTop = (component as HTMLElement).scrollTop || 0
 
-    return component ? component.scrollTop : 0
+    component = null
+    return scrollTop
 }
 
 function getViewPortOffsetHeight(data: ReactiveData) {
-    return (document.querySelector(`.fishUI-virtual-list_${data.componentID}`) as HTMLElement).offsetHeight
+    let el = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+    let elOffsetHeight
+    if(el) {
+        elOffsetHeight = (el as HTMLElement).offsetHeight
+    }
+    el = null
+    return elOffsetHeight || 0
 }
 function getListHeight(data: ReactiveData) {
-    return (document.querySelector(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner`) as HTMLElement).offsetHeight
+    let el = document.querySelector(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner`)
+    const offsetHeight = (el as HTMLElement).offsetHeight
+
+    el = null
+    return offsetHeight || 0
 }
 
 function ifBottomPosition(data: ReactiveData) {

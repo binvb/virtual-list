@@ -18,7 +18,7 @@ function resizeHandle(data:ReactiveData) {
     
     for(let i = 0; i < len; i += 1) {
         const _pre = sourceData[currentData[i].index! - 1]
-        const _currentEl = document.querySelector(`.fishUI-virtual-list_${componentID} li[data-key="${currentData[i].nanoid}"]`) as HTMLElement
+        let _currentEl = document.querySelector(`.fishUI-virtual-list_${componentID} li[data-key="${currentData[i].nanoid}"]`) as (HTMLElement | null)
         if(!_currentEl) {
             continue
         }
@@ -42,6 +42,7 @@ function resizeHandle(data:ReactiveData) {
                 currentData[i].transformY = _elTransformY
             }
         }
+        _currentEl = null
     }
 }
 

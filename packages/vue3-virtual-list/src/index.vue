@@ -89,10 +89,10 @@ watch(() => data.listHeight, () => {
 	checkIfScrollToBottom({data, observer: {resizeObserver, intersectionObserver}, props})
 })
 watch(() => data.currentData, (val, pre) => {
-	// add first, avoid missing observe
+	// unobserve first, avoid missing observe
+	observeHandle.unobserve(pre, {resizeObserver, intersectionObserver}, data)
 	observeHandle.observe(val, {resizeObserver, intersectionObserver}, data)
 	nextTick(() => {
-		observeHandle.unobserve(pre, {resizeObserver, intersectionObserver}, data)
 		// data change trigger resize handle
 		resizeHandle(data)
 	})
