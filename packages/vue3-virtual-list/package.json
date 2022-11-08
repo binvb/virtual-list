@@ -23,10 +23,10 @@
     "dist/*"
   ],
   "dependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.2.41"
   },
   "peerDependencies": {
-    "vue": "^3.2.37"
+    "vue": "^3.2.41"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.10.0",
