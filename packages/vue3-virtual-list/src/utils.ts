@@ -7,6 +7,7 @@ function getCorrectTopIndex(dataList: SourceData[], top: number) {
             return i
         }
     }
+    return dataList.length ? dataList.length - 1 : 0
 }
 
 function indexExist(index: any) {
