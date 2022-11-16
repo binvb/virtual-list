@@ -144,6 +144,11 @@ defineExpose<VirtualScrollExpose>({
 })
 
 // methods 
+function locateBykey(key: string) {
+	const index = data.sourceData.findIndex(item => item.nanoid === key)
+
+	locate(index)
+}
 function locate(index: number) {
 	if(!data.sourceData.length) {
 		return
@@ -169,18 +174,15 @@ function setListHeight() {
 function loadData(lastIndex: number) {
 	data.loading = true
 	props.loadingOptions!.loadingFn().then((res) => {
+		const _correctTopIndex = utils.getCorrectTopIndex(data.sourceData, utils.getScrollTop(data))
+		const _correctTopItem = data.sourceData[_correctTopIndex]
+
 		data.loading = false
 		dataHandle.add(lastIndex, res, {data, observer: {resizeObserver, intersectionObserver}, props})
 		setListHeight()
 		nextTick(() => {
 			// locate after load data
-			if(props.direction === 'up') {
-				locate(res.length)
-			} else {
-				const _correctIndex = utils.getCorrectTopIndex(data.sourceData, utils.getScrollTop(data))!
-
-				locate(_correctIndex)
-			}
+			locateBykey(_correctTopItem.nanoid)
 		})
 	})
 }
