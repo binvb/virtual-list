@@ -100,7 +100,10 @@ function getCorrectCurrentDataStartIndex(data: ReactiveData, props: Props): numb
     if(props.direction === 'up' && utils.ifBottomPosition(data)) {
         startIndex = sourceData.length - perPageItemNum * 2
     }
-
+    // if top position, reset startIndex to include new item
+    if(props.direction === 'up' && utils.getScrollTop(data) === 0) {
+        startIndex -= perPageItemNum
+    }
     return startIndex
 }
 
@@ -108,7 +111,7 @@ function resetCurrentData(component: VirtualListComponent, startIndex: number) {
     let { sourceData } = component.data
     const len = sourceData.length > component.props.perPageItemNum * 2 ? component.props.perPageItemNum * 2 : sourceData.length
     let _startIndex = startIndex
-    
+
     if(_startIndex < 0) {
         _startIndex = 0
     }

@@ -45,14 +45,6 @@ export function scrollToBottom(data: ReactiveData) {
     data.locationPosition = data.listHeight
 }
 
-export function ajustScrollPosition(offset: number, data: ReactiveData) {
-    let currentScrollPosition = utils.getScrollTop(data)
-
-    if(offset) {
-        ajustAction(currentScrollPosition + offset, data)
-    }
-}
-
 export function ajustAction(position: number, data: ReactiveData) {
     let component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
 

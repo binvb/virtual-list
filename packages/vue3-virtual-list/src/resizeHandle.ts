@@ -14,7 +14,7 @@ function resizeHandle(data:ReactiveData) {
         return
     }
     const scrollTop = utils.getScrollTop(data)
-    const correctLocateItem = data.currentData.find(item => item.transformY >= data.locationPosition) || data.currentData[data.currentData.length - 1]!
+    const correctLocateItem = data.currentData.find(item => item.transformY >= data.locationPosition) || data.currentData[data.currentData.length - 1]
     
     for(let i = 0; i < len; i += 1) {
         const _pre = sourceData[currentData[i].index! - 1]

@@ -161,6 +161,7 @@ function locate(index: number) {
 
 	data.locationPosition = position
 	locatePosition(data.locationPosition, data)
+	data.userScrolling = false // need to handle resize
 	setListHeight()
 }
 
@@ -179,9 +180,7 @@ function loadData(lastIndex: number) {
 
 		data.loading = false
 		dataHandle.add(lastIndex, res, {data, observer: {resizeObserver, intersectionObserver}, props})
-		setListHeight()
 		nextTick(() => {
-			// locate after load data
 			locateBykey(_correctTopItem.nanoid)
 		})
 	})
