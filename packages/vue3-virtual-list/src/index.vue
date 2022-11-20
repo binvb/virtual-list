@@ -10,7 +10,7 @@ import resizeHandle from './resizeHandle'
 import interSectionHandle from './interSectionHandle'
 import dataHandle from './dataHandle'
 import observeHandle from './observeHandle'
-import { scrollEvent, removeScrollEvent, locatePosition, checkIfScrollToBottom } from "./scrollInstance"
+import { scrollEvent, removeScrollEvent, locatePosition, checkIfScrollToBottom, scrollToBottom } from "./scrollInstance"
 
 interface Props {
 	scrollItem: ComponentPublicInstance
@@ -39,7 +39,7 @@ const data = reactive<ReactiveData>({
 // quick scroll end compensation
 const checkIfCorrectCurrentData = throttle(() => {
 	let currrentScrollTop = utils.getScrollTop(data)
-	let correctIndex = utils.getCorrectTopIndex(data.sourceData, currrentScrollTop)!
+	let correctIndex = utils.getCorrectTopIndex(data.sourceData, currrentScrollTop)
 	let scope = data.currentData.slice(0, data.currentData.length)
 
 	if(data.userScrolling) {
@@ -125,6 +125,12 @@ defineExpose<VirtualScrollExpose>({
 		data.sourceData = []
 		dataHandle.setSourceData(_data, {data, observer: {resizeObserver, intersectionObserver}, props})
 		setListHeight()
+		// check if chat mode(up direction && loading options)
+		if(props.direction === 'up' && props.loadingOptions) {
+			nextTick(() => {
+				scrollToBottom(data)
+			})
+		}
 	},
 	getData() {
 		return data.sourceData
@@ -153,6 +159,7 @@ function locate(index: number) {
 	if(!data.sourceData.length) {
 		return
 	}
+
 	// ajust row data
 	dataHandle.resetSourceDataBeforeLocate(data.sourceData, data.sourceData.length)
 	dataHandle.resetCurrentData({data, observer: {resizeObserver, intersectionObserver}, props}, index - props.perPageItemNum)
@@ -178,8 +185,8 @@ function loadData(lastIndex: number) {
 		const _correctTopIndex = utils.getCorrectTopIndex(data.sourceData, utils.getScrollTop(data))
 		const _correctTopItem = data.sourceData[_correctTopIndex]
 
-		data.loading = false
 		dataHandle.add(lastIndex, res, {data, observer: {resizeObserver, intersectionObserver}, props})
+		data.loading = false
 		nextTick(() => {
 			locateBykey(_correctTopItem.nanoid)
 		})

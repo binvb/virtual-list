@@ -49,9 +49,14 @@ function getListHeight(data: ReactiveData) {
 function ifBottomPosition(data: ReactiveData) {
     const scrollTop = getScrollTop(data)
     const viewPortOffsetHeight = getViewPortOffsetHeight(data)
+    let el = document.querySelectorAll(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner li`)
 
+    // if empty return true
+    if(!el || !el.length) {
+        return true
+    }
     // +1 to fix 0.5px bug
-    if(scrollTop + viewPortOffsetHeight + 1 >= getListHeight(data)) {
+    if(scrollTop + viewPortOffsetHeight + 1 >= data.listHeight) {
         return true
     }
 

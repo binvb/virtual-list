@@ -21,7 +21,7 @@ const data = reactive({
 let count = 0
 
 onMounted(async() => {
-    virtualScroll.value?.setSourceData(await getMessage(40))
+    virtualScroll.value?.setSourceData(await getMessage(20))
 })
 
 // methods
@@ -33,7 +33,7 @@ function loadData():Promise<any[]> {
             if(count >= 10) {
                 loadingOptions.nomoreData = true
             }
-        },10)
+        },1000)
     })
 }
 async function send() {
