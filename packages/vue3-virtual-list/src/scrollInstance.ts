@@ -32,9 +32,9 @@ export function locatePosition(position: number, data: ReactiveData) {
     data.ajusting = true
 }
 
-export function checkIfScrollToBottom(component: VirtualListComponent) {
+export function checkIfScrollToBottom(component: VirtualListComponent, oldListHeight: number) {
     // chat mode(direction === 'up' && bottom position)
-	if(component.props.direction === 'up' && utils.ifBottomPosition(component.data)) {
+	if(component.props.direction === 'up' && utils.ifBottomPosition(component.data, oldListHeight)) {
 		nextTick(() => {
 			scrollToBottom(component.data)
 		})

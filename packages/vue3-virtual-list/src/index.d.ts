@@ -19,7 +19,7 @@ export interface ReactiveData {
   componentID: String, // unique id
   listHeight: number, // list offsetheight
   locationPosition: number, // locate position
-  userScrolling: boolean // user scrolling
+  userScrolling: boolean, // user scrolling
 }
 
 export interface Observer {

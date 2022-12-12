@@ -15,7 +15,7 @@ function resizeHandle(data:ReactiveData) {
     }
     const scrollTop = utils.getScrollTop(data)
     const correctLocateItem = data.currentData.find(item => item.transformY >= data.locationPosition) || data.currentData[data.currentData.length - 1]
-    
+
     for(let i = 0; i < len; i += 1) {
         const _pre = sourceData[currentData[i].index! - 1]
         let _currentEl = document.querySelector(`.fishUI-virtual-list_${componentID} li[data-key="${currentData[i].nanoid}"]`) as (HTMLElement | null)

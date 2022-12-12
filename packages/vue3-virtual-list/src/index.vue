@@ -40,7 +40,6 @@ const data = reactive<ReactiveData>({
 const checkIfCorrectCurrentData = throttle(() => {
 	let currrentScrollTop = utils.getScrollTop(data)
 	let correctIndex = utils.getCorrectTopIndex(data.sourceData, currrentScrollTop)
-	let scope = data.currentData.slice(0, data.currentData.length)
 
 	if(data.userScrolling) {
 		data.locationPosition = currrentScrollTop
@@ -48,10 +47,10 @@ const checkIfCorrectCurrentData = throttle(() => {
 	data.ajusting = false
 	data.scrolling = false
 	data.userScrolling = false
-	if(!scope.find(item => item.index === correctIndex)) {
+	if(!data.currentData.find(item => item.index === correctIndex)) {
 		locate(correctIndex)
 	}
-}, 100)
+}, 100, {leading: false, trailing: true})
 // IntersectionObserver throttle
 const intersectionObserverThrottle = throttle((entry) => {
 	data.currentData = interSectionHandle.interAction(Number(entry.target.getAttribute('data-index')), {data, observer: {resizeObserver, intersectionObserver}, props})
@@ -85,8 +84,9 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 	}
 }, {threshold: [0, 1]})
 
-watch(() => data.listHeight, () => {
-	checkIfScrollToBottom({data, observer: {resizeObserver, intersectionObserver}, props})
+watch(() => data.listHeight, (val, pre) => {
+	// use before data check if bottom position
+	checkIfScrollToBottom({data, observer: {resizeObserver, intersectionObserver}, props}, pre)
 })
 watch(() => data.currentData, (val, pre) => {
 	// unobserve first, avoid missing observe
@@ -159,21 +159,20 @@ function locate(index: number) {
 	if(!data.sourceData.length) {
 		return
 	}
-
+	data.userScrolling = false // program scrolling
 	// ajust row data
 	dataHandle.resetSourceDataBeforeLocate(data.sourceData, data.sourceData.length)
 	dataHandle.resetCurrentData({data, observer: {resizeObserver, intersectionObserver}, props}, index - props.perPageItemNum)
-	let item = data.sourceData[index]
-	let position = item.transformY
+	const item = data.sourceData[index]
+	const position = item.transformY
 
 	data.locationPosition = position
 	locatePosition(data.locationPosition, data)
-	data.userScrolling = false // need to handle resize
 	setListHeight()
 }
 
 function setListHeight() {
-	let lastItem = data.sourceData[data.sourceData.length - 1]
+	const lastItem = data.sourceData[data.sourceData.length - 1]
 
 	if(lastItem) {
 		data.listHeight = lastItem.offsetHeight + lastItem.transformY
@@ -186,6 +185,7 @@ function loadData(lastIndex: number) {
 		const _correctTopItem = data.sourceData[_correctTopIndex]
 
 		dataHandle.add(lastIndex, res, {data, observer: {resizeObserver, intersectionObserver}, props})
+		setListHeight()
 		data.loading = false
 		nextTick(() => {
 			locateBykey(_correctTopItem.nanoid)

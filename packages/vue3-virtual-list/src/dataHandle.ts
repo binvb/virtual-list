@@ -100,10 +100,6 @@ function getCorrectCurrentDataStartIndex(data: ReactiveData, props: Props): numb
     if(props.direction === 'up' && utils.getScrollTop(data) === 0) {
         startIndex -= perPageItemNum
     }
-    // if bottom position,reset startIndex to include new item
-    if(props.direction === 'up' && utils.ifBottomPosition(data)) {
-        startIndex = sourceData.length - perPageItemNum * 2
-    }
     return startIndex
 }
 

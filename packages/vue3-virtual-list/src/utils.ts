@@ -23,7 +23,7 @@ function getRandom() {
 
 function getScrollTop(data: ReactiveData) {
     let component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
-    const scrollTop = (component as HTMLElement).scrollTop || 0
+    const scrollTop = component ? component.scrollTop : 0
 
     component = null
     return scrollTop
@@ -46,7 +46,7 @@ function getListHeight(data: ReactiveData) {
     return offsetHeight || 0
 }
 
-function ifBottomPosition(data: ReactiveData) {
+function ifBottomPosition(data: ReactiveData, oldListHeight: number) {
     const scrollTop = getScrollTop(data)
     const viewPortOffsetHeight = getViewPortOffsetHeight(data)
     let el = document.querySelectorAll(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner li`)
@@ -56,7 +56,7 @@ function ifBottomPosition(data: ReactiveData) {
         return true
     }
     // +1 to fix 0.5px bug
-    if(scrollTop + viewPortOffsetHeight + 1 >= data.listHeight) {
+    if(scrollTop + viewPortOffsetHeight + 1 >= oldListHeight) {
         return true
     }
 
