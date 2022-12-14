@@ -3,6 +3,7 @@ import { ComponentPublicInstance, reactive, onMounted, onBeforeUnmount, withDefa
 import ResizeObserver from 'resize-observer-polyfill'
 import 'intersection-observer'
 import throttle from 'lodash/throttle'
+import debounce from 'lodash/debounce'
 import Loading from './loading.vue'
 import { ReactiveData, VirtualScrollExpose, ItemProps, Direction, LoadingOptions } from "./index.d"
 import utils from './utils'
@@ -37,7 +38,7 @@ const data = reactive<ReactiveData>({
 	userScrolling: false  // conflict userScroll/program scroll(e.g. locate)
 })
 // quick scroll end compensation
-const checkIfCorrectCurrentData = throttle(() => {
+const checkIfCorrectCurrentData = debounce(() => {
 	let currrentScrollTop = utils.getScrollTop(data)
 	let correctIndex = utils.getCorrectTopIndex(data.sourceData, currrentScrollTop)
 
