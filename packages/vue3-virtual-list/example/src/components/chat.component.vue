@@ -29,8 +29,6 @@ defineProps<{itemData: Item}>()
     display: flex;
     padding: 10px 0;
     width: 100%;
-    contain: layout;
-    will-change: transform;
     p {
         margin: 0;
         word-wrap: break-word;

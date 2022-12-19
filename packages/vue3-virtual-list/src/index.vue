@@ -232,6 +232,8 @@ function loadData(lastIndex: number) {
 .fishUI-virtual-list__inner>li {
 	width: 100%;
 	list-style: none;
+	content: layout;
+	will-change: transform;
 }
 
 .fishUI-virtual-list__inner>ul {
