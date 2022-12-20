@@ -11,7 +11,7 @@ function observe(observeList: ItemProps[], observer: Observer, data: ReactiveDat
             if(!observeList[i] || !utils.indexExist(observeList[i].index)) {
                 continue
             }
-            let _el: HTMLElement | null = document.querySelector(`.fishUI-virtual-list_${data.componentID} li[data-key="${observeList[i].nanoid}"]`)
+            const _el: HTMLElement | null = document.querySelector(`.fishUI-virtual-list_${data.componentID} li[data-key="${observeList[i].nanoid}"]`)
 
             if(!_el) {
                 continue 
@@ -21,7 +21,6 @@ function observe(observeList: ItemProps[], observer: Observer, data: ReactiveDat
             observer.intersectionObserver.unobserve(_el)
             observer.resizeObserver.observe(_el)
             observer.intersectionObserver.observe(_el)
-            _el = null
         }
     })
 }
@@ -34,14 +33,13 @@ function unobserve(unobserveList: ItemProps[], observer: Observer, data: Reactiv
         if(!unobserveList[i] || !utils.indexExist(unobserveList[i].index)) {
             continue
         }
-        let _el: HTMLElement | null = document.querySelector(`.fishUI-virtual-list_${data.componentID} li[data-key="${unobserveList[i].nanoid}"]`)
+        const _el: HTMLElement | null = document.querySelector(`.fishUI-virtual-list_${data.componentID} li[data-key="${unobserveList[i].nanoid}"]`)
 
         if(!_el) {
             continue 
         }
         observer.resizeObserver.unobserve(_el)
         observer.intersectionObserver.unobserve(_el)
-        _el = null
     }
 }
 

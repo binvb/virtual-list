@@ -47,10 +47,9 @@ export function scrollToBottom(data: ReactiveData) {
 }
 
 export function ajustAction(position: number, data: ReactiveData) {
-    let component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+    const component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
 
     if(component) {
         component.scrollTo(0, position)
     }
-    component = null
 }

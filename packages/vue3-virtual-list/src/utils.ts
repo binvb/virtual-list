@@ -22,34 +22,32 @@ function getRandom() {
 }
 
 function getScrollTop(data: ReactiveData) {
-    let component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+    const component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
     const scrollTop = component ? component.scrollTop : 0
 
-    component = null
     return scrollTop
 }
 
 function getViewPortOffsetHeight(data: ReactiveData) {
-    let el = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+    const el = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
     let elOffsetHeight
+    
     if(el) {
         elOffsetHeight = (el as HTMLElement).offsetHeight
     }
-    el = null
     return elOffsetHeight || 0
 }
 function getListHeight(data: ReactiveData) {
-    let el = document.querySelector(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner`)
+    const el = document.querySelector(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner`)
     const offsetHeight = (el as HTMLElement).offsetHeight
 
-    el = null
     return offsetHeight || 0
 }
 
 function ifBottomPosition(data: ReactiveData, oldListHeight: number) {
     const scrollTop = getScrollTop(data)
     const viewPortOffsetHeight = getViewPortOffsetHeight(data)
-    let el = document.querySelectorAll(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner li`)
+    const el = document.querySelectorAll(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner li`)
 
     // if empty return true
     if(!el || !el.length) {
