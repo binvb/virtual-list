@@ -21,7 +21,7 @@ const data = reactive({
 let count = 0
 
 onMounted(async() => {
-    virtualScroll.value?.setSourceData(await getMessage(20))
+    virtualScroll.value?.setSourceData(await loadData())
 })
 
 // methods
@@ -29,11 +29,11 @@ function loadData():Promise<any[]> {
     return new Promise((resolve) => {
         count++
         setTimeout(() => {
-            resolve(getMessage(20))
+            resolve(getMessage(data.size))
             if(count >= 10) {
                 loadingOptions.nomoreData = true
             }
-        },1000)
+        },2000)
     })
 }
 async function send() {
@@ -93,7 +93,7 @@ async function reset() {
             <div style="width: 800px;height: 600px;border: 1px solid #000">
                 <VirtualList
                 ref="virtualScroll"
-                :perPageItemNum="10"
+                :perPageItemNum="20"
                 :scrollItem="ChatItem"
                 :height="100"
                 :loadingOptions="loadingOptions"
