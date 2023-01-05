@@ -16,7 +16,7 @@ const data = reactive({
     delNum: 0,
     addNum: 0,
     resetNum: 0,
-    size: 20
+    size: 40
 })
 let count = 0
 
@@ -93,7 +93,7 @@ async function reset() {
             <div style="width: 800px;height: 600px;border: 1px solid #000">
                 <VirtualList
                 ref="virtualScroll"
-                :perPageItemNum="20"
+                :perPageItemNum="40"
                 :scrollItem="ChatItem"
                 :height="100"
                 :loadingOptions="loadingOptions"
