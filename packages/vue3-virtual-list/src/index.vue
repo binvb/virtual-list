@@ -73,7 +73,7 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 		const currentIndex = entry.target.getAttribute('data-index')
 		const lastIndex = props.direction === 'up' ? 0 : data.sourceData[data.sourceData.length - 1].index
 
-		if(entry.intersectionRatio > 0 && data.scrolling && !data.ajusting) {
+		if(entry.intersectionRatio === 1 && data.scrolling && !data.ajusting) {
 			intersectionObserverThrottle(entry)
 		}
 		// if it's last item and loading mode, should trigger loadingFn
@@ -159,6 +159,9 @@ function locateBykey(key: string) {
 function locate(index: number) {
 	if(!data.sourceData.length) {
 		return
+	}
+	if(index >= data.sourceData.length) {
+		index = data.sourceData.length - 1
 	}
 	data.userScrolling = false // program scrolling
 	// ajust row data
