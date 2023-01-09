@@ -11,7 +11,7 @@ import resizeHandle from './resizeHandle'
 import interSectionHandle from './interSectionHandle'
 import dataHandle from './dataHandle'
 import observeHandle from './observeHandle'
-import { scrollEvent, removeScrollEvent, locatePosition, checkIfScrollToBottom, scrollToBottom } from "./scrollInstance"
+import { scrollEvent, removeScrollEvent, locatePosition } from "./scrollInstance"
 
 interface Props {
 	scrollItem: ComponentPublicInstance
@@ -85,10 +85,6 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 	}
 }, {threshold: [0, 1]})
 
-watch(() => data.listHeight, (val, pre) => {
-	// use before data check if bottom position
-	checkIfScrollToBottom({data, observer: {resizeObserver, intersectionObserver}, props}, pre)
-})
 watch(() => data.currentData, (val, pre) => {
 	// unobserve first, avoid missing observe
 	observeHandle.unobserve(pre, {resizeObserver, intersectionObserver}, data)
@@ -129,7 +125,7 @@ defineExpose<VirtualScrollExpose>({
 		// check if chat mode(up direction && loading options)
 		if(props.direction === 'up' && props.loadingOptions) {
 			nextTick(() => {
-				scrollToBottom(data)
+				locate(data.sourceData[data.sourceData.length - 1].index)
 			})
 		}
 	},

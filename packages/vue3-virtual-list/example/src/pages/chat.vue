@@ -16,7 +16,7 @@ const data = reactive({
     delNum: 0,
     addNum: 0,
     resetNum: 0,
-    size: 40
+    size: 20
 })
 let count = 0
 
@@ -30,7 +30,7 @@ function loadData():Promise<any[]> {
         count++
         setTimeout(() => {
             resolve(getMessage(data.size))
-            if(count >= 10) {
+            if(count >= 5) {
                 loadingOptions.nomoreData = true
             }
         },2000)
@@ -93,7 +93,7 @@ async function reset() {
             <div style="width: 800px;height: 600px;border: 1px solid #000">
                 <VirtualList
                 ref="virtualScroll"
-                :perPageItemNum="40"
+                :perPageItemNum="20"
                 :scrollItem="ChatItem"
                 :height="100"
                 :loadingOptions="loadingOptions"

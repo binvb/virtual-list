@@ -44,29 +44,11 @@ function getListHeight(data: ReactiveData) {
     return offsetHeight || 0
 }
 
-function ifBottomPosition(data: ReactiveData, oldListHeight: number) {
-    const scrollTop = getScrollTop(data)
-    const viewPortOffsetHeight = getViewPortOffsetHeight(data)
-    const el = document.querySelectorAll(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner li`)
-
-    // if empty return true
-    if(!el || !el.length) {
-        return true
-    }
-    // +1 to fix 0.5px bug
-    if(scrollTop + viewPortOffsetHeight + 1 >= oldListHeight) {
-        return true
-    }
-
-    return false
-}
-
 export default {
     indexExist,
     getRandom,
     getCorrectTopIndex,
     getScrollTop,
     getViewPortOffsetHeight,
-    ifBottomPosition,
     getListHeight
 }
