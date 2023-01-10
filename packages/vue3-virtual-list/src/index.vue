@@ -5,7 +5,7 @@ import 'intersection-observer'
 import throttle from 'lodash/throttle'
 import debounce from 'lodash/debounce'
 import Loading from './loading.vue'
-import { ReactiveData, VirtualScrollExpose, ItemProps, Direction, LoadingOptions } from "./index.d"
+import { ReactiveData, VirtualScrollExpose, Direction, LoadingOptions, SourceData } from "./index.d"
 import utils from './utils'
 import resizeHandle from './resizeHandle'
 import interSectionHandle from './interSectionHandle'
@@ -42,9 +42,6 @@ const checkIfCorrectCurrentData = debounce(() => {
 	let currrentScrollTop = utils.getScrollTop(data)
 	let correctIndex = utils.getCorrectTopIndex(data.sourceData, currrentScrollTop)
 
-	if(data.userScrolling) {
-		data.locationPosition = currrentScrollTop
-	}
 	data.ajusting = false
 	data.scrolling = false
 	data.userScrolling = false
@@ -112,6 +109,12 @@ defineExpose<VirtualScrollExpose>({
 		setListHeight()
 	},
 	add: (index, insertData) => {
+		// check if chat mode(up direction && loading options)
+		if(props.direction === 'up' && props.loadingOptions && utils.ifBottomPosition(data)) {
+			nextTick(() => {
+				locate(data.sourceData[data.sourceData.length - 1].index)
+			})
+		}
 		dataHandle.add(index, insertData, {data, observer: {resizeObserver, intersectionObserver}, props})
 		setListHeight()
 	},
@@ -133,16 +136,7 @@ defineExpose<VirtualScrollExpose>({
 		return data.sourceData
 	},
 	getCurrentViewPortData() {
-		const scrollTop = utils.getScrollTop(data) // range[scrollTop, scrollTop + viewportOffsetHeight]
-		const viewPortOffset = utils.getViewPortOffsetHeight(data)
-		const _data:ItemProps[] = []
-
-		data.currentData.forEach(item => {
-			if((item.transformY + item.offsetHeight > scrollTop) && (item.transformY < scrollTop + viewPortOffset)) {
-				_data.push(item)
-			}
-		})
-		return _data
+		return utils.getCurrentViewPortData(data)
 	}
 })
 
@@ -192,6 +186,14 @@ function loadData(lastIndex: number) {
 		})
 	})
 }
+function itemLoaded(item: SourceData) {
+	const currentEl = document.querySelector(`.fishUI-virtual-list_${data.componentID} li[data-key="${item.nanoid}"]`) as HTMLElement
+	
+	if(!item.offset) {
+		item.offset = {height: 0}
+	}
+	item.offset.height = currentEl.offsetHeight
+}
 </script>
 <template>
 	<div :class="'fishUI-virtual-list_' + data.componentID" style="width: 100%; height: 100%; overflow-y: scroll" data-testid="container">
@@ -208,10 +210,11 @@ function loadData(lastIndex: number) {
 					:style="{
 					position: 'absolute',
 					transform: `translateY(${item.transformY || 0}px)`,
+					height: item.offset && item.offset.height ? `${item.offset.height}px`: 'auto'
 					}"
 					data-testid="listItem"
 				>
-					<component :is="props.scrollItem" :itemData="item" />
+					<component @itemLoaded="itemLoaded(item)" :is="props.scrollItem" :itemData="item" />
 				</li>
 			</template>
 		</ul>
@@ -231,7 +234,7 @@ function loadData(lastIndex: number) {
 .fishUI-virtual-list__inner>li {
 	width: 100%;
 	list-style: none;
-	content: layout;
+	contain: layout;
 	will-change: transform;
 }
 

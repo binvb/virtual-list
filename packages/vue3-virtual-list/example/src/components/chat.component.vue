@@ -1,4 +1,6 @@
 <script setup lang='ts'>
+import { nextTick } from 'vue';
+
 interface Item {
     index: number,
     avatar: string,
@@ -7,9 +9,13 @@ interface Item {
     showBox?:boolean,
     imgUrl: string
 }
-
+const emits = defineEmits(['itemLoaded'])
 defineProps<{itemData: Item}>()
 
+
+function imageLoaded() {
+    emits('itemLoaded')
+}
 </script>
 
 <template>
@@ -17,7 +23,7 @@ defineProps<{itemData: Item}>()
     <img class="avatar" :src="itemData.avatar" />
     <div class="bubble">
         <p v-if="itemData.content">{{itemData.content}}</p>
-        <img  v-else :src="itemData.imgUrl" />
+        <img @load="imageLoaded"  v-else :src="itemData.imgUrl" />
         <div class="meta">
             <time class="posted-date">{{itemData.time}},第{{itemData.index}}条</time>
         </div>

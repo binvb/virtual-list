@@ -3,11 +3,16 @@ import { ComponentPublicInstance } from 'vue'
 export interface ItemBase {
   [key: string]: any
 }
+
+export interface Offset {
+  height: number
+}
 export interface ItemProps{
   index: number,
   transformY: number,
   offsetHeight: number,
-  nanoid: string
+  nanoid: string,
+  offset?: Offset,
 }
 export type SourceData = ItemProps & ItemBase
 export interface ReactiveData {

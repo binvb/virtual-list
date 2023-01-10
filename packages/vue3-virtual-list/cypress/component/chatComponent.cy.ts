@@ -47,6 +47,7 @@ describe('chat mode(dynamic) test', () => {
             })
         })
         for(let i = 0; i <= _randomNum; i += 1) {
+            cy.wait(2000)
             // 容器滚动到顶部
             cy.get(container).scrollTo(0, 0).then(() => {
                 // 检查函数是否已执行，并 restore 执行次数

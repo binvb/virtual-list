@@ -1,4 +1,4 @@
-import { SourceData, ReactiveData } from "./index.d"
+import { SourceData, ReactiveData, ItemProps } from "./index.d"
 
 // get closed top item
 function getCorrectTopIndex(dataList: SourceData[], top: number) {
@@ -39,9 +39,47 @@ function getViewPortOffsetHeight(data: ReactiveData) {
 }
 function getListHeight(data: ReactiveData) {
     const el = document.querySelector(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner`)
+
+    if(!el) {
+        return 0
+    }
     const offsetHeight = (el as HTMLElement).offsetHeight
 
     return offsetHeight || 0
+}
+
+function ifBottomPosition(data: ReactiveData) {
+    const viewPortOffsetHeight = getViewPortOffsetHeight(data)
+    const el = document.querySelectorAll(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner li`)
+
+    // if empty return true
+    if(!el || !el.length) {
+        return true
+    }
+    if(data.locationPosition + viewPortOffsetHeight >= data.listHeight) {
+        return true
+    }
+
+    return false
+}
+
+function getCurrentViewPortData(data: ReactiveData) {
+    const scrollTop = getScrollTop(data) // range[scrollTop, scrollTop + viewportOffsetHeight]
+    const viewPortOffset = getViewPortOffsetHeight(data)
+    const _data:ItemProps[] = []
+
+    data.currentData.forEach(item => {
+        if((item.transformY + item.offsetHeight > scrollTop) && (item.transformY < scrollTop + viewPortOffset)) {
+            _data.push(item)
+        }
+    })
+    return _data
+}
+
+function checkIfCurrentViewPortData(data: ReactiveData, key: string) {
+    const currentData = getCurrentViewPortData(data)
+
+    return !!(currentData.find(item => item.nanoid === key))
 }
 
 export default {
@@ -50,5 +88,8 @@ export default {
     getCorrectTopIndex,
     getScrollTop,
     getViewPortOffsetHeight,
-    getListHeight
+    ifBottomPosition,
+    getListHeight,
+    getCurrentViewPortData,
+    checkIfCurrentViewPortData
 }

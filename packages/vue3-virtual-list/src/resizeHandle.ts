@@ -15,6 +15,7 @@ function resizeHandle(data:ReactiveData) {
     }
     const scrollTop = utils.getScrollTop(data)
     const correctLocateItem = data.currentData.find(item => item.transformY >= data.locationPosition) || data.currentData[data.currentData.length - 1]
+    const ifBottomPosition = utils.ifBottomPosition(data)
 
     for(let i = 0; i < len; i += 1) {
         const _pre = sourceData[currentData[i].index! - 1]
@@ -26,11 +27,14 @@ function resizeHandle(data:ReactiveData) {
 
         if(currentData[i].offsetHeight !==  _elOffsetHeight) {
             let _offset = _elOffsetHeight - currentData[i].offsetHeight
-            // only above locate item resize need to be compenstion, exclude top position
-            if (scrollTop !== 0 && correctLocateItem?.index > currentData[i].index && !data.userScrolling) {
-                data.locationPosition += _offset
-                data.ajusting = true
+            // if bottom, need to wait for listheight rendered
+            // if above locate item resize need to be compenstion, exclude top position
+            if(ifBottomPosition) {
+                compensation(data, _offset)
                 ajustActionThrottle(data)
+            } else if (scrollTop !== 0 && correctLocateItem?.index > currentData[i].index && !data.userScrolling) {
+                compensation(data, _offset)
+                ajustAction(data.locationPosition, data)
             }
             data.listHeight += _offset
             currentData[i].offsetHeight = _elOffsetHeight
@@ -45,5 +49,9 @@ function resizeHandle(data:ReactiveData) {
     }
 }
 
+function compensation(data:ReactiveData, offset: number) {
+    data.locationPosition += offset
+    data.ajusting = true
+}
 
 export default resizeHandle

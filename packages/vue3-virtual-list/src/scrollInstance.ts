@@ -1,6 +1,5 @@
 import utils from './utils'
-import { ReactiveData, VirtualListComponent } from "./index.d"
-import { nextTick } from 'vue'
+import { ReactiveData } from "./index.d"
 
 // onScrollEnd is a debounce function
 export function scrollEvent(scrollDebounceFn: Function, data: ReactiveData) {
@@ -15,7 +14,10 @@ export function removeScrollEvent(data: ReactiveData) {
 
 function onUserScrolling(data:ReactiveData | undefined) {
     if(data) {
+        let currrentScrollTop = utils.getScrollTop(data)
+        
         data.userScrolling = true
+        data.locationPosition = currrentScrollTop
     }
 }
 function onScroll(data:ReactiveData | undefined, scrollDebounceFn?: Function) {
@@ -30,11 +32,6 @@ function onScroll(data:ReactiveData | undefined, scrollDebounceFn?: Function) {
 export function locatePosition(position: number, data: ReactiveData) {
     ajustAction(position, data)
     data.ajusting = true
-}
-
-export function scrollToBottom(data: ReactiveData) {
-    data.locationPosition = data.listHeight - utils.getViewPortOffsetHeight(data)
-    ajustAction(data.locationPosition, data)
 }
 
 export function ajustAction(position: number, data: ReactiveData) {
