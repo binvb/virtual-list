@@ -130,7 +130,7 @@ async function reset() {
 
 ### notices
 
-1、element must set height value(100px, 100%, flex, etc.) which was wrapping VirtualList;
+1、element must set height value(100px, 100%, flex, etc.) which was wrapping VirtualList;  
 2、for better performance, emit 'itemLoaded' function to cached offsetHeight when aysnc element(e.g. image) loaded, e.g.
 
 ```
