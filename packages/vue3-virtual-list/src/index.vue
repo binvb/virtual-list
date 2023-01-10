@@ -127,6 +127,9 @@ defineExpose<VirtualScrollExpose>({
 		setListHeight()
 		// check if chat mode(up direction && loading options)
 		if(props.direction === 'up' && props.loadingOptions) {
+			if(!_data.length) {
+				return
+			}
 			nextTick(() => {
 				locate(data.sourceData[data.sourceData.length - 1].index)
 			})
