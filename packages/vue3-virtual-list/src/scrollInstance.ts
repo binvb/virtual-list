@@ -1,5 +1,6 @@
 import utils from './utils'
 import { ReactiveData } from "./index.d"
+import { nextTick } from 'vue'
 
 // onScrollEnd is a debounce function
 export function scrollEvent(scrollDebounceFn: Function, data: ReactiveData) {
@@ -34,10 +35,23 @@ export function locatePosition(position: number, data: ReactiveData) {
     data.ajusting = true
 }
 
-export function ajustAction(position: number, data: ReactiveData) {
-    const component = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+export function ajustAction(position: number, data: ReactiveData, execCount:number = 0,) {
+    const el = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
 
-    if(component) {
-        component.scrollTo(0, position)
+    if(!el) {
+        return
+    }
+    const container = el.querySelector('.fishUI-virtual-list__inner')
+
+    execCount++
+    if(el) {
+        el.scrollTo(0, position)
+    }
+    if(container && data.listHeight > (container as HTMLElement).offsetHeight && execCount < 3) {
+        nextTick(() => {
+            ajustAction(position, data, execCount)
+        })
+    } else {
+        execCount = 0
     }
 }

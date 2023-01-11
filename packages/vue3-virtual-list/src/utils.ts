@@ -37,16 +37,6 @@ function getViewPortOffsetHeight(data: ReactiveData) {
     }
     return elOffsetHeight || 0
 }
-function getListHeight(data: ReactiveData) {
-    const el = document.querySelector(`.fishUI-virtual-list_${data.componentID} .fishUI-virtual-list__inner`)
-
-    if(!el) {
-        return 0
-    }
-    const offsetHeight = (el as HTMLElement).offsetHeight
-
-    return offsetHeight || 0
-}
 
 function ifBottomPosition(data: ReactiveData) {
     const viewPortOffsetHeight = getViewPortOffsetHeight(data)
@@ -89,7 +79,6 @@ export default {
     getScrollTop,
     getViewPortOffsetHeight,
     ifBottomPosition,
-    getListHeight,
     getCurrentViewPortData,
     checkIfCurrentViewPortData
 }

@@ -1,11 +1,8 @@
 import { ajustAction } from './scrollInstance'
 import { ReactiveData } from "./index.d"
 import utils from './utils'
-import throttle from 'lodash/throttle'
+import { nextTick } from 'vue'
 
-const ajustActionThrottle = throttle((data) => {
-    ajustAction(data.locationPosition, data)
-}, 100, {trailing: true, leading: false})
 function resizeHandle(data:ReactiveData) {
     const { currentData, sourceData, componentID } = data
     const len = currentData.length
@@ -31,7 +28,9 @@ function resizeHandle(data:ReactiveData) {
             // if above locate item resize need to be compenstion, exclude top position
             if(ifBottomPosition) {
                 compensation(data, _offset)
-                ajustActionThrottle(data)
+                nextTick(() => {
+                    ajustAction(data.locationPosition, data)
+                })
             } else if (scrollTop !== 0 && correctLocateItem?.index > currentData[i].index && !data.userScrolling) {
                 compensation(data, _offset)
                 ajustAction(data.locationPosition, data)

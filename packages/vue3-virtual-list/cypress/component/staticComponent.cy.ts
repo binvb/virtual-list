@@ -24,6 +24,18 @@ describe('test static item', () => {
         cy.get('li').should('have.length', 80)
         cy.compareSnapshot('setSourceData')
     })
+    it('scroll', () => {
+        cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getStaticMessage(1000)))
+        cy.get(container).scrollTo(0, 1000).trigger('wheel').then(() => {
+            cy.get('li').should('have.length', 80)
+        })
+        cy.get(container).scrollTo(0, 2800).trigger('wheel').then(() => {
+            cy.get('li').should('have.length', 80)
+        })
+        cy.get(container).scrollTo(0, 1500).trigger('wheel').then(() => {
+            cy.get('li').should('have.length', 80)
+        })
+    })
     it('locate', () => {
         // scrollTop should equal to located item's transformY
         cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await getStaticMessage(10000)))

@@ -1,4 +1,3 @@
-import observeHandle from './observeHandle'
 import { VirtualListComponent } from "./index.d"
 
 interface PatchResult {
@@ -58,6 +57,5 @@ function patch(currentIndex: number, screenNum: number, position: PositionIndex)
 }
 
 export default  {
-    interAction,
-    observeHandle
+    interAction
 }
