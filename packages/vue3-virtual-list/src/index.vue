@@ -36,7 +36,6 @@ const data = reactive<ReactiveData>({
 	listHeight: 0,
 	locationPosition: 0, // record user scrolling end position
 	userScrolling: false,  // conflict userScroll/program scroll(e.g. locate)
-	scrollingDirection: 'down'
 })
 // quick scroll end compensation
 const checkIfCorrectCurrentData = debounce(() => {
@@ -53,7 +52,7 @@ const checkIfCorrectCurrentData = debounce(() => {
 // IntersectionObserver throttle
 const intersectionObserverThrottle = throttle((entryIndex) => {
 	data.currentData = interSectionHandle.interAction(entryIndex, {data, observer: {resizeObserver, intersectionObserver}, props})
-}, 100, {trailing: false, leading: true})
+}, 100, {trailing: true, leading: false})
 // resizeObserver
 const resizeObserver = new ResizeObserver((entries) => {
 	for (const entry of entries) {
@@ -71,13 +70,8 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 		const currentIndex = entry.target.getAttribute('data-index')
 		const lastIndex = props.direction === 'up' ? 0 : data.sourceData[data.sourceData.length - 1].index
 
-		// scroll up
-		if(entry.intersectionRatio === 1 && data.scrollingDirection === 'up' && data.scrolling && !data.ajusting) {
+		if(entry.intersectionRatio === 1 && data.scrolling && !data.ajusting) {
 			intersectionObserverThrottle(currentIndex)
-		}
-		// scroll down
-		if(entry.intersectionRatio === 0 && data.scrollingDirection === 'down' && data.scrolling && !data.ajusting) {
-			intersectionObserverThrottle(Number(currentIndex) + 1)
 		}
 		// if it's last item and loading mode, should trigger loadingFn
 		if(entry.intersectionRatio > 0 && lastIndex === Number(currentIndex)) {
