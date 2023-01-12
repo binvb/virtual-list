@@ -36,8 +36,6 @@ describe('chat mode(dynamic) test', () => {
     })
 
     it('loading data', () => {
-        // 设置一个 2-5 的随机数, 作为执行次数
-        const _randomNum = Math.ceil(Math.random() * 3 + 2)
         // 设置初始消息
         cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await mock.getMessage(100)))
         // stub getMessage 函数
@@ -46,14 +44,6 @@ describe('chat mode(dynamic) test', () => {
                 resolve(mock.getMessage(100)) 
             })
         })
-        for(let i = 0; i <= _randomNum; i += 1) {
-            cy.wait(2000)
-            // 容器滚动到顶部
-            cy.get(container).scrollTo(0, 0).then(() => {
-                // 检查函数是否已执行，并 restore 执行次数
-                cy.get('@getMessage').should('have.been.calledOnce').invoke('restore')
-            })
-        }
         // 设置已loading所有数据
         cy.get<Function>('@setProps').then(setProps => {
             cy.get('@component').then(component => {

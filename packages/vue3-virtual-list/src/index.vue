@@ -35,7 +35,8 @@ const data = reactive<ReactiveData>({
 	componentID: new Date().getTime() + utils.getRandom().toString(), // unique id
 	listHeight: 0,
 	locationPosition: 0, // record user scrolling end position
-	userScrolling: false  // conflict userScroll/program scroll(e.g. locate)
+	userScrolling: false,  // conflict userScroll/program scroll(e.g. locate)
+	scrollingDirection: 'down'
 })
 // quick scroll end compensation
 const checkIfCorrectCurrentData = debounce(() => {
@@ -50,11 +51,11 @@ const checkIfCorrectCurrentData = debounce(() => {
 	}
 }, 100, {leading: false, trailing: true})
 // IntersectionObserver throttle
-const intersectionObserverThrottle = throttle((entry) => {
-	data.currentData = interSectionHandle.interAction(Number(entry.target.getAttribute('data-index')), {data, observer: {resizeObserver, intersectionObserver}, props})
-}, 100, {trailing: true, leading: false})
+const intersectionObserverThrottle = throttle((entryIndex) => {
+	data.currentData = interSectionHandle.interAction(entryIndex, {data, observer: {resizeObserver, intersectionObserver}, props})
+}, 100, {trailing: false, leading: true})
 // resizeObserver
-const resizeObserver = new ResizeObserver((entries, observer) => {
+const resizeObserver = new ResizeObserver((entries) => {
 	for (const entry of entries) {
 		let {height} = entry.contentRect
 
@@ -70,8 +71,13 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 		const currentIndex = entry.target.getAttribute('data-index')
 		const lastIndex = props.direction === 'up' ? 0 : data.sourceData[data.sourceData.length - 1].index
 
-		if(entry.intersectionRatio === 1 && data.scrolling && !data.ajusting) {
-			intersectionObserverThrottle(entry)
+		// scroll up
+		if(entry.intersectionRatio === 1 && data.scrollingDirection === 'up' && data.scrolling && !data.ajusting) {
+			intersectionObserverThrottle(currentIndex)
+		}
+		// scroll down
+		if(entry.intersectionRatio === 0 && data.scrollingDirection === 'down' && data.scrolling && !data.ajusting) {
+			intersectionObserverThrottle(Number(currentIndex) + 1)
 		}
 		// if it's last item and loading mode, should trigger loadingFn
 		if(entry.intersectionRatio > 0 && lastIndex === Number(currentIndex)) {

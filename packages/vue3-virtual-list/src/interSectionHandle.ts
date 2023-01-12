@@ -50,7 +50,7 @@ function patch(currentIndex: number, screenNum: number, position: PositionIndex)
         after: 0
     }
 
-    result.before = screenNum - (currentIndex - position.topIndex)
+    result.before = screenNum - (currentIndex - position.topIndex + 1)
     result.after = screenNum - (position.bottomIndex - currentIndex)
 
     return result

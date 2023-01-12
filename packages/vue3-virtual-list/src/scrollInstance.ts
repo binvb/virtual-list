@@ -3,25 +3,57 @@ import { ReactiveData } from "./index.d"
 import { nextTick } from 'vue'
 
 // onScrollEnd is a debounce function
+// wheel && up/down event only for record(current location, scroll direction, if user scrolling).
 export function scrollEvent(scrollDebounceFn: Function, data: ReactiveData) {
-    document.querySelector(`.fishUI-virtual-list_${data.componentID}`)!.addEventListener('wheel', onUserScrolling.bind(null, data, scrollDebounceFn))
-    document.querySelector(`.fishUI-virtual-list_${data.componentID}`)!.addEventListener('scroll', onScroll.bind(null, data, scrollDebounceFn))
+    const container = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+
+    if(container) {
+        container.addEventListener('wheel', onUserScrolling.bind(null, data, scrollDebounceFn))
+        container.addEventListener('scroll', onScroll.bind(null, data, scrollDebounceFn))
+        document.body.addEventListener('keydown', onKeyDown.bind(null, data))
+    }
 }
 
 export function removeScrollEvent(data: ReactiveData) {
-    document.querySelector(`.fishUI-virtual-list_${data.componentID}`)!.removeEventListener('wheel', onUserScrolling.bind(null, undefined, undefined))
-    document.querySelector(`.fishUI-virtual-list_${data.componentID}`)!.removeEventListener('scroll', onScroll.bind(null, undefined, undefined))
+    const container = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
+
+    if(container) {
+        container.removeEventListener('wheel', onUserScrolling.bind(null, undefined, undefined))
+        container.removeEventListener('scroll', onScroll.bind(null, undefined, undefined))
+        document.body.removeEventListener('keydown', onKeyDown.bind(null, data))
+    }
 }
 
 function onUserScrolling(data:ReactiveData | undefined) {
     if(data) {
-        let currrentScrollTop = utils.getScrollTop(data)
-        
+        const currrentScrollTop = utils.getScrollTop(data)
+        const event = arguments[arguments.length - 1]
+
         data.userScrolling = true
         data.locationPosition = currrentScrollTop
+        if(event && event.wheelDelta >= 0) {
+            data.scrollingDirection = 'up'
+        }
+        if(event && event.wheelDelta < 0) {
+            data.scrollingDirection = 'down'
+        }
     }
 }
-function onScroll(data:ReactiveData | undefined, scrollDebounceFn?: Function) {
+
+function onKeyDown(data: ReactiveData) {
+    const event = arguments[arguments.length - 1]
+
+    if(event && event.keyCode === 38) {
+        // up direction
+        data.scrollingDirection = 'up'
+    }
+    if(event && event.keyCode === 40) {
+        // down direction
+        data.scrollingDirection = 'down'
+    }
+}
+
+function onScroll(data:ReactiveData | undefined, scrollDebounceFn?: Function,) {
     if(data) {
         data.scrolling = true
     }

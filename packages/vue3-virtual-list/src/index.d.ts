@@ -25,6 +25,7 @@ export interface ReactiveData {
   listHeight: number, // list offsetheight
   locationPosition: number, // locate position
   userScrolling: boolean, // user scrolling
+  scrollingDirection: 'down' | 'up', // current scroll direction
 }
 
 export interface Observer {
