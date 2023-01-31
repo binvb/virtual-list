@@ -121,7 +121,7 @@ defineExpose<VirtualScrollExpose>({
 	update: (index, _data) => {
 		dataHandle.update(index, _data, data.sourceData)
 	},
-	setSourceData: (_data) => {
+	setSourceData: (_data, locateIndex) => {
 		data.sourceData = []
 		dataHandle.setSourceData(_data, {data, observer: {resizeObserver, intersectionObserver}, props})
 		setListHeight()
@@ -131,7 +131,11 @@ defineExpose<VirtualScrollExpose>({
 				return
 			}
 			nextTick(() => {
-				locate(data.sourceData[data.sourceData.length - 1].index)
+				locate(locateIndex && locateIndex >= 0 ? locateIndex : data.sourceData[data.sourceData.length - 1].index)
+			})
+		} else if(locateIndex && locateIndex >= 0) {
+			nextTick(() => {
+				locate(locateIndex)
 			})
 		}
 	},

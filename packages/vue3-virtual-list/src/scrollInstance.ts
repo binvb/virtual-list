@@ -45,6 +45,7 @@ export function locatePosition(position: number, data: ReactiveData) {
     data.ajusting = true
 }
 
+// execCount for already resize but container still not render yet
 export function ajustAction(position: number, data: ReactiveData, execCount:number = 0,) {
     const el = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
 
@@ -57,10 +58,10 @@ export function ajustAction(position: number, data: ReactiveData, execCount:numb
     if(el) {
         el.scrollTo(0, position)
     }
-    if(container && data.listHeight > (container as HTMLElement).offsetHeight && execCount < 3) {
-        nextTick(() => {
+    if(position + utils.getViewPortOffsetHeight(data) > (container as HTMLElement).offsetHeight && execCount < 3) {
+        setTimeout(() => {
             ajustAction(position, data, execCount)
-        })
+        }, 10)
     } else {
         execCount = 0
     }

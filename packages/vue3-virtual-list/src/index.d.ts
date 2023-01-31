@@ -37,7 +37,7 @@ export interface VirtualScrollExpose {
   del: (index: number | number[]) => void
   add: (index: number, insertData: ItemBase[]) => void
   update: (index: number, data: ItemBase) => void
-  setSourceData: (data: ItemBase[]) => void
+  setSourceData: (data: ItemBase[], locateIndex?: number) => void
   getData: () => ItemProps[],
   getCurrentViewPortData: () => ItemProps[]
 }

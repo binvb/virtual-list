@@ -64,7 +64,7 @@ you may need to understand [expose](https://vuejs.org/api/options-state.html#exp
 
 | name                   | arguments                        | description               |
 | ---------------------- | -------------------------------- | ------------------------- |
-| setSourceData          | data: any[]                      | set list data             |
+| setSourceData          | data: any[],locateIndex?: number | set list data             |
 | locate                 | index: number                    | locate at specify index   |
 | del                    | index: number \| number[]        | delete some item          |
 | add                    | index: number, insertData: any[] | add item/items            |
@@ -130,7 +130,7 @@ async function reset() {
 
 ### notices
 
-1、element must set height value(100px, 100%, flex, etc.) which was wrapping VirtualList;
+1、element must set height value(100px, 100%, flex, etc.) which was wrapping VirtualList;  
 2、for better performance, emit 'itemLoaded' function to cached offsetHeight when aysnc element(e.g. image) loaded, e.g.
 
 ```
