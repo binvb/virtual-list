@@ -46,6 +46,7 @@ export function locatePosition(position: number, data: ReactiveData) {
 }
 
 // execCount for already resize but container still not render yet
+// why 3 times limit? still need to figure render timming
 export function ajustAction(position: number, data: ReactiveData, execCount:number = 0,) {
     const el = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
 
@@ -59,9 +60,9 @@ export function ajustAction(position: number, data: ReactiveData, execCount:numb
         el.scrollTo(0, position)
     }
     if(position + utils.getViewPortOffsetHeight(data) > (container as HTMLElement).offsetHeight && execCount < 3) {
-        setTimeout(() => {
+        nextTick(() => {
             ajustAction(position, data, execCount)
-        }, 10)
+        })
     } else {
         execCount = 0
     }

@@ -162,7 +162,7 @@ function locate(index: number) {
 	}
 	data.userScrolling = false // program scrolling
 	// ajust row data
-	dataHandle.resetSourceDataBeforeLocate(data.sourceData, data.sourceData.length)
+	dataHandle.resetSourceDataBeforeLocate(data.sourceData, index + props.perPageItemNum)
 	dataHandle.resetCurrentData({data, observer: {resizeObserver, intersectionObserver}, props}, index - props.perPageItemNum)
 	const item = data.sourceData[index]
 	const position = item.transformY

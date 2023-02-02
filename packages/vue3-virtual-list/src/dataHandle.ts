@@ -1,19 +1,30 @@
 import { nanoid } from 'nanoid'
-import observeHandle from './observeHandle'
 import { SourceData, Props, ReactiveData, ItemBase, VirtualListComponent } from './index.d'
 import utils from './utils'
+import { nextTick } from 'vue'
 
 function resetSourceDataBeforeLocate(sourceData: SourceData[], endIndex:number) {
-    for(let i = 0; i <= endIndex; i += 1) {
-        if(!sourceData[i]) {
-            return
-        }
-        if(i === 0) {
-            sourceData[i].transformY = 0
-        } else {
-            sourceData[i].transformY = sourceData[i - 1].transformY! + sourceData[i - 1].offsetHeight!
-        }
+    let len = endIndex
+    const sourceLen = sourceData.length
+
+    if(len > sourceLen) {
+        len = sourceLen
     }
+    for(let i = 1; i < len; i += 1) {
+        const _pre =  sourceData[i - 1]
+
+        sourceData[i].transformY = _pre.transformY! + _pre.offsetHeight!
+    }
+    // delay excute behind data update
+    nextTick(() => {
+        if(len < sourceLen) {
+            for(let i = len; i < sourceLen; i += 1) {
+                const _pre =  sourceData[i - 1]
+
+                sourceData[i].transformY = _pre.transformY! + _pre.offsetHeight!
+            }
+        }
+    })
 }
 
 function itemBaseToItem(data: ItemBase[]): SourceData[] {
