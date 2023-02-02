@@ -168,7 +168,7 @@ function locate(index: number) {
 	const position = item.transformY
 
 	data.locationPosition = position
-	locatePosition(data.locationPosition, data)
+	locatePosition(data)
 	setListHeight()
 }
 

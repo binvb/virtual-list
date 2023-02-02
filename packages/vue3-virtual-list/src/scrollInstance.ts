@@ -40,14 +40,14 @@ function onScroll(data:ReactiveData | undefined, scrollDebounceFn?: Function,) {
     }
 }
 
-export function locatePosition(position: number, data: ReactiveData) {
-    ajustAction(position, data)
+export function locatePosition(data: ReactiveData) {
+    ajustAction(data)
     data.ajusting = true
 }
 
 // execCount for already resize but container still not render yet
 // why 3 times limit? still need to figure render timming
-export function ajustAction(position: number, data: ReactiveData, execCount:number = 0,) {
+export function ajustAction(data: ReactiveData, execCount:number = 0,) {
     const el = document.querySelector(`.fishUI-virtual-list_${data.componentID}`)
 
     if(!el) {
@@ -57,11 +57,11 @@ export function ajustAction(position: number, data: ReactiveData, execCount:numb
 
     execCount++
     if(el) {
-        el.scrollTo(0, position)
+        el.scrollTo(0, data.locationPosition)
     }
-    if(position + utils.getViewPortOffsetHeight(data) > (container as HTMLElement).offsetHeight && execCount < 3) {
+    if(data.locationPosition + utils.getViewPortOffsetHeight(data) > (container as HTMLElement).offsetHeight && execCount < 3) {
         nextTick(() => {
-            ajustAction(position, data, execCount)
+            ajustAction(data, execCount)
         })
     } else {
         execCount = 0

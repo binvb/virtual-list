@@ -1,6 +1,6 @@
 {
   "name": "@vb_he/vue-virtual-scroll",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "types": "./dist/main.d.ts",
   "main": "./dist/vue3-virtual-list.js",

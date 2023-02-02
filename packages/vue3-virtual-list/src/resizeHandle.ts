@@ -29,11 +29,11 @@ function resizeHandle(data:ReactiveData) {
             if(ifBottomPosition) {
                 compensation(data, _offset)
                 nextTick(() => {
-                    ajustAction(data.locationPosition, data)
+                    ajustAction(data)
                 })
             } else if (scrollTop !== 0 && correctLocateItem?.index > currentData[i].index && !data.userScrolling) {
                 compensation(data, _offset)
-                ajustAction(data.locationPosition, data)
+                ajustAction(data)
             }
             data.listHeight += _offset
             currentData[i].offsetHeight = _elOffsetHeight
