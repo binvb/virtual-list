@@ -53,6 +53,9 @@ const checkIfCorrectCurrentData = debounce(() => {
 const intersectionObserverThrottle = throttle((entryIndex) => {
 	data.currentData = interSectionHandle.interAction(entryIndex, {data, observer: {resizeObserver, intersectionObserver}, props})
 }, 100, {trailing: true, leading: false})
+const resizeObserverThrottle = throttle(() => {
+	resizeHandle(data)
+}, 1, {trailing: true, leading: true})
 // resizeObserver
 const resizeObserver = new ResizeObserver((entries) => {
 	for (const entry of entries) {
@@ -61,7 +64,7 @@ const resizeObserver = new ResizeObserver((entries) => {
 		if(!height) {
 			return false
 		}
-		resizeHandle(data)
+		resizeObserverThrottle()
 	}
 })
 // intersectionObserver
