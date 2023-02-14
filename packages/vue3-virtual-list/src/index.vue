@@ -244,8 +244,6 @@ function itemLoaded(item: SourceData) {
 .fishUI-virtual-list__inner>li {
 	width: 100%;
 	list-style: none;
-	contain: layout;
-	will-change: transform;
 }
 
 .fishUI-virtual-list__inner>ul {
