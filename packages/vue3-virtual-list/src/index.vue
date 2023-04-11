@@ -125,6 +125,7 @@ defineExpose<VirtualScrollExpose>({
 		dataHandle.update(index, _data, data.sourceData)
 	},
 	setSourceData: (_data, locateIndex) => {
+		data.sourceData = []
 		dataHandle.setSourceData(_data, {data, observer: {resizeObserver, intersectionObserver}, props})
 		setListHeight()
 		// check if chat mode(up direction && loading options)
