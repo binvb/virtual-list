@@ -49,6 +49,12 @@ const checkIfCorrectCurrentData = debounce(() => {
 		locate(correctIndex)
 	}
 }, 100, {leading: false, trailing: true})
+// observeHandle debounce
+const observeHandleDebounce = debounce((val, pre) => {
+	// unobserve first, avoid missing observe
+	observeHandle.unobserve(pre, {resizeObserver, intersectionObserver}, data)
+	observeHandle.observe(val, {resizeObserver, intersectionObserver}, data)
+}, 10)
 // IntersectionObserver throttle
 const intersectionObserverThrottle = throttle((entryIndex) => {
 	data.currentData = interSectionHandle.interAction(entryIndex, {data, observer: {resizeObserver, intersectionObserver}, props})
@@ -86,14 +92,12 @@ const intersectionObserver = new IntersectionObserver((entries) => {
 }, {threshold: [0, 1]})
 
 watch(() => data.currentData, (val, pre) => {
-	// unobserve first, avoid missing observe
-	observeHandle.unobserve(pre, {resizeObserver, intersectionObserver}, data)
-	observeHandle.observe(val, {resizeObserver, intersectionObserver}, data)
+	observeHandleDebounce(val, pre)
 	nextTick(() => {
 		// data change trigger resize handle
 		resizeHandle(data)
 	})
-})
+}, {deep: true})
 
 // life cycle
 onMounted(() => {
@@ -125,7 +129,7 @@ defineExpose<VirtualScrollExpose>({
 		dataHandle.update(index, _data, data.sourceData)
 	},
 	setSourceData: (_data, locateIndex) => {
-		data.sourceData = []
+		// data.sourceData = []
 		dataHandle.setSourceData(_data, {data, observer: {resizeObserver, intersectionObserver}, props})
 		setListHeight()
 		// check if chat mode(up direction && loading options)
@@ -134,9 +138,9 @@ defineExpose<VirtualScrollExpose>({
 				return
 			}
 			nextTick(() => {
-				locate(locateIndex && locateIndex >= 0 ? locateIndex : data.sourceData[data.sourceData.length - 1].index)
+				locate(locateIndex !== undefined && locateIndex >= 0 ? locateIndex : data.sourceData[data.sourceData.length - 1].index)
 			})
-		} else if(locateIndex && locateIndex >= 0) {
+		} else if(locateIndex !== undefined && locateIndex >= 0) {
 			nextTick(() => {
 				locate(locateIndex)
 			})

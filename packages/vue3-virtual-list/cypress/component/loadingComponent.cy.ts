@@ -13,7 +13,7 @@ const loadingOptions = {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(mock.getMessage(100)) 
-            }, 2000)
+            }, 1000)
         })
     },
     nomoredata: false
@@ -39,7 +39,6 @@ describe('loading mode test', () => {
     it('loading data', () => {
         cy.get<VirtualScrollExpose>('@exposeFn').invoke('setSourceData', mock.getMessage(100))
         cy.spy(mock, 'getMessage').as('getMessage')
-        cy.wait(1000)
         cy.get<VirtualScrollExpose>('@exposeFn').invoke('locate', 99)
         cy.get('@getMessage').should('have.been.called')
         cy.get<VirtualScrollExpose>('@exposeFn').then(exposeFn => {

@@ -10,7 +10,7 @@ const data = reactive({
   updateNum: 0,
   delNum: 0,
   addNum: 0,
-  size: 100000
+  size: 100
 })
 
 onMounted(async() => {

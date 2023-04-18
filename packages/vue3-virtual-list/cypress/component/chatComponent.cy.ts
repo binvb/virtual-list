@@ -57,10 +57,10 @@ describe('chat mode(dynamic) test', () => {
     })
     it('locate && get current viewport data', () => {
         cy.get<VirtualScrollExpose>('@exposeFn').then(async(exposeFn) => exposeFn.setSourceData(await mock.getMessage(100)))
-        cy.get<VirtualScrollExpose>('@exposeFn').invoke('locate', 0)
+        cy.get<VirtualScrollExpose>('@exposeFn').invoke('locate', 33)
         cy.then(() => {
             cy.get<VirtualScrollExpose>('@exposeFn').invoke('getCurrentViewPortData').then(data => {
-                cy.wrap(data[0]).its('index').should('eq', 100)
+                cy.wrap(data[0]).its('index').should('eq', 33)
             })
         })
     })
