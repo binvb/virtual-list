@@ -44,7 +44,7 @@ function sourceDataInitail(component: VirtualListComponent, newVal?: SourceData[
             component.data.sourceData[index].nanoid = nanoid()
         }
         component.data.sourceData[index].index = index
-        component.data.sourceData[index].offsetHeight = item.offsetHeight || component.props.height
+        component.data.sourceData[index].offsetHeight = component.props.height
         component.data.sourceData[index].transformY = _pre ? (_pre.transformY! + _pre.offsetHeight!) : component.props.height * index
         component.data.sourceData[index].offset = {height: 0}
     })
@@ -121,7 +121,7 @@ function resetCurrentData(component: VirtualListComponent, startIndex: number) {
     if(_startIndex < 0) {
         _startIndex = 0
     }
-
+    component.data.currentData = []
     for(let i = 0; i < len; i += 1) {
         if(sourceData[_startIndex + i]) {
             component.data.currentData.splice(i, 1, sourceData[_startIndex + i])
