@@ -27,9 +27,9 @@ function resetSourceDataBeforeLocate(sourceData: SourceData[], endIndex:number) 
     })
 }
 
-function itemBaseToItem(data: ItemBase[]): SourceData[] {
+function itemBaseToItem(data: ItemBase[], component: VirtualListComponent): SourceData[] {
     return data.map(item => {
-        return {index: 0, transformY: 0, nanoid: nanoid(), offsetHeight: 0, ...item}
+        return {index: 0, transformY: 0, nanoid: nanoid(), offsetHeight: component.props.height, ...item}
     })
 }
 
@@ -39,14 +39,17 @@ function sourceDataInitail(component: VirtualListComponent, newVal?: SourceData[
     _data.forEach((item, index) => {
         let _pre = component.data.sourceData[index - 1]
 
-        component.data.sourceData.splice(index, 1, item)
-        if(!component.data.sourceData[index].nanoid) {
-            component.data.sourceData[index].nanoid = nanoid()
+        // distinguish between modifying data on the original data and new data
+        if(newVal) {
+            component.data.sourceData.splice(index, 1, item)
+            if(!component.data.sourceData[index].nanoid) {
+                component.data.sourceData[index].nanoid = nanoid()
+            }
+            component.data.sourceData[index].offsetHeight = component.props.height
+            component.data.sourceData[index].offset = {height: 0}
         }
         component.data.sourceData[index].index = index
-        component.data.sourceData[index].offsetHeight = component.props.height
         component.data.sourceData[index].transformY = _pre ? (_pre.transformY! + _pre.offsetHeight!) : component.props.height * index
-        component.data.sourceData[index].offset = {height: 0}
     })
     // splice rest item
     if(newVal) {
@@ -78,7 +81,7 @@ function add(index: number, insertData: ItemBase[], component: VirtualListCompon
         ++_index
     }
     
-    component.data.sourceData.splice(_index, 0, ...itemBaseToItem(insertData))
+    component.data.sourceData.splice(_index, 0, ...itemBaseToItem(insertData, component))
     sourceDataInitail(component)
     resetCurrentData(component, getCorrectCurrentDataStartIndex(component.data, component.props))
 }
