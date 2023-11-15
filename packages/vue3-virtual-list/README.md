@@ -144,3 +144,7 @@ function imageLoaded() {
     <img @load="imageLoaded" :src="itemData.imgUrl" />
 </template>
 ```
+
+
+## changelog
+2023-11-15: Change the unique key to be determined through props, with a default value of true.  

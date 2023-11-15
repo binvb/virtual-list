@@ -18,13 +18,15 @@ interface Props {
 	perPageItemNum: number
 	height?: number
 	direction?: Direction
-	loadingOptions?: LoadingOptions
+	loadingOptions?: LoadingOptions,
+	uniqueKey?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	perPageItemNum: 20,
 	height: 100,
-	direction: 'down'
+	direction: 'down',
+	uniqueKey: true
 })
 const data = reactive<ReactiveData>({
 	sourceData: [],
@@ -216,7 +218,7 @@ function itemLoaded(item: SourceData) {
 			<div v-if="props.loadingOptions.nomoreData" data-testid="noMoreDataUp" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
 		</div>
 		<ul class="fishUI-virtual-list__inner" :style="{height: `${data.listHeight}px`}">
-			<template v-for="item in data.currentData" :key="item.nanoid">
+			<template v-for="item in data.currentData" :key="props.uniqueKey ? item.nanoid : undefined">
 				<li
 					:data-index="item.index"
 					:data-offsetHeight="item.offsetHeight"
