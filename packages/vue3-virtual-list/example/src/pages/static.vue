@@ -74,9 +74,10 @@ function getCurrentViewData() {
     <div style="width: 800px;height: 1000px;margin: 0 auto;border: 1px solid #000">
         <Virtual-list
         ref="virtualScroll"
-        :perPageItemNum="40"
+        :perPageItemNum="50"
         :scrollItem="StaticItem"
         :height="42"
+        :uniqueKey="false"
         ></Virtual-list>
     </div>
     </div>

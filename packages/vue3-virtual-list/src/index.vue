@@ -217,8 +217,25 @@ function itemLoaded(item: SourceData) {
 			<component :is="props.loadingOptions.loadingComponent || Loading" v-if="data.loading" data-testid="loadingUp"></component>
 			<div v-if="props.loadingOptions.nomoreData" data-testid="noMoreDataUp" style="text-align: center;">{{props.loadingOptions.nomoreDataText || 'no more data'}}</div>
 		</div>
-		<ul class="fishUI-virtual-list__inner" :style="{height: `${data.listHeight}px`}">
-			<template v-for="item in data.currentData" :key="props.uniqueKey ? item.nanoid : undefined">
+		<ul v-if="props.uniqueKey" class="fishUI-virtual-list__inner" :style="{height: `${data.listHeight}px`}">
+			<template v-for="item in data.currentData" :key="item.nanoid">
+				<li
+					:data-index="item.index"
+					:data-offsetHeight="item.offsetHeight"
+					:data-key="item.nanoid"
+					:style="{
+					position: 'absolute',
+					transform: `translateY(${item.transformY || 0}px)`,
+					height: item.offset && item.offset.height ? `${item.offset.height}px`: 'auto'
+					}"
+					data-testid="listItem"
+				>
+					<component @itemLoaded="itemLoaded(item)" :is="props.scrollItem" :itemData="item" />
+				</li>
+			</template>
+		</ul>
+		<ul v-if="!props.uniqueKey" class="fishUI-virtual-list__inner" :style="{height: `${data.listHeight}px`}">
+			<template v-for="item in data.currentData">
 				<li
 					:data-index="item.index"
 					:data-offsetHeight="item.offsetHeight"
